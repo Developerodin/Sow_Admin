@@ -31,12 +31,21 @@ export const Products = () => {
     navigate("/add_product");
   }
 
-  const rows =[
-    {Id:"1",Name:"News Paper",Category:"Normal Recycler",Price:"₹ 14",CreatedAt:"04/Oct/2023",
-    Action:<RemoveRedEyeIcon onClick={handelViewClick} style={{color:`${ThemColor.icon}`}}/>,
-    Delete:<DeleteIcon color='error' />
-  }
-  ]
+  const rows = [
+    { Id: "1", Name: "News Paper", Category: "Normal Recycler", Price: "₹ 14", CreatedAt: "04/Oct/2023", Action: <RemoveRedEyeIcon onClick={handelViewClick} style={{ color: `${ThemColor.icon}` }} />, Delete: <DeleteIcon color="error" /> },
+    { Id: "2", Name: "Sofa", Category: "Furniture", Price: "₹ 3000", CreatedAt: "18/Jul/2023", Action: <RemoveRedEyeIcon onClick={handelViewClick} style={{ color: `${ThemColor.icon}` }} />, Delete: <DeleteIcon color="error" /> },
+    { Id: "3", Name: "Laptop", Category: "Electronics", Price: "₹ 45000", CreatedAt: "22/Mar/2023", Action: <RemoveRedEyeIcon onClick={handelViewClick} style={{ color: `${ThemColor.icon}` }} />, Delete: <DeleteIcon color="error" /> },
+    { Id: "4", Name: "Coffee Maker", Category: "Appliances", Price: "₹ 2000", CreatedAt: "09/Sep/2023", Action: <RemoveRedEyeIcon onClick={handelViewClick} style={{ color: `${ThemColor.icon}` }} />, Delete: <DeleteIcon color="error" /> },
+    { Id: "5", Name: "Smartphone", Category: "Electronics", Price: "₹ 25000", CreatedAt: "11/Nov/2023", Action: <RemoveRedEyeIcon onClick={handelViewClick} style={{ color: `${ThemColor.icon}` }} />, Delete: <DeleteIcon color="error" /> },
+    { Id: "6", Name: "Tablet", Category: "Electronics", Price: "₹ 15000", CreatedAt: "03/Aug/2023", Action: <RemoveRedEyeIcon onClick={handelViewClick} style={{ color: `${ThemColor.icon}` }} />, Delete: <DeleteIcon color="error" /> },
+    { Id: "7", Name: "Chair", Category: "Furniture", Price: "₹ 1500", CreatedAt: "14/Feb/2023", Action: <RemoveRedEyeIcon onClick={handelViewClick} style={{ color: `${ThemColor.icon}` }} />, Delete: <DeleteIcon color="error" /> },
+    { Id: "8", Name: "Toaster", Category: "Appliances", Price: "₹ 1000", CreatedAt: "27/May/2023", Action: <RemoveRedEyeIcon onClick={handelViewClick} style={{ color: `${ThemColor.icon}` }} />, Delete: <DeleteIcon color="error" /> },
+    { Id: "9", Name: "Pen", Category: "Stationery", Price: "₹ 20", CreatedAt: "06/Jan/2023", Action: <RemoveRedEyeIcon onClick={handelViewClick} style={{ color: `${ThemColor.icon}` }} />, Delete: <DeleteIcon color="error" /> },
+    { Id: "10", Name: "TV", Category: "Electronics", Price: "₹ 35000", CreatedAt: "29/Apr/2023", Action: <RemoveRedEyeIcon onClick={handelViewClick} style={{ color: `${ThemColor.icon}` }} />, Delete: <DeleteIcon color="error" /> },
+    { Id: "11", Name: "Blender", Category: "Appliances", Price: "₹ 1200", CreatedAt: "17/Jun/2023", Action: <RemoveRedEyeIcon onClick={handelViewClick} style={{ color: `${ThemColor.icon}` }} />, Delete: <DeleteIcon color="error" /> },
+    { Id: "12", Name: "Book", Category: "Stationery", Price: "₹ 50", CreatedAt: "01/Dec/2023", Action: <RemoveRedEyeIcon onClick={handelViewClick} style={{ color: `${ThemColor.icon}` }} />, Delete: <DeleteIcon color="error" /> },
+  ];
+  
   return (
    <Box >
 

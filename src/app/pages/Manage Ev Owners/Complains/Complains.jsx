@@ -64,16 +64,81 @@ function getRandomUserName() {
   return names[Math.floor(Math.random() * names.length)];
 }
 
-const dummyComplaintData = [
+const rowsDumy = [
   {
     "User": getRandomUserName(),
     "Title": "Pickup not on time",
     "Date": "2023-09-24",
     "Status": <Button color='success' variant='contained'>Resolved</Button>
   },
- 
-  // Add more complaint objects as needed
+  {
+    "User": getRandomUserName(),
+    "Title": "Product damaged during delivery",
+    "Date": "2023-08-12",
+    "Status": <Button color='warning' variant='contained'>Pending</Button>
+  },
+  {
+    "User": getRandomUserName(),
+    "Title": "Incorrect item received",
+    "Date": "2023-10-03",
+    "Status": <Button color='success' variant='contained'>Resolved</Button>
+  },
+  {
+    "User": getRandomUserName(),
+    "Title": "Late delivery",
+    "Date": "2023-07-19",
+    "Status": <Button color='warning' variant='contained'>Pending</Button>
+  },
+  {
+    "User": getRandomUserName(),
+    "Title": "Missing items in order",
+    "Date": "2023-11-05",
+    "Status": <Button color='success' variant='contained'>Resolved</Button>
+  },
+  {
+    "User": getRandomUserName(),
+    "Title": "Billing discrepancy",
+    "Date": "2023-08-30",
+    "Status": <Button color='success' variant='contained'>Resolved</Button>
+  },
+  {
+    "User": getRandomUserName(),
+    "Title": "Delivery address issue",
+    "Date": "2023-09-08",
+    "Status": <Button color='warning' variant='contained'>Pending</Button>
+  },
+  {
+    "User": getRandomUserName(),
+    "Title": "Late response from support",
+    "Date": "2023-10-22",
+    "Status": <Button color='warning' variant='contained'>Pending</Button>
+  },
+  {
+    "User": getRandomUserName(),
+    "Title": "Wrong product shipped",
+    "Date": "2023-11-15",
+    "Status": <Button color='success' variant='contained'>Resolved</Button>
+  },
+  {
+    "User": getRandomUserName(),
+    "Title": "Payment issue",
+    "Date": "2023-09-05",
+    "Status": <Button color='success' variant='contained'>Resolved</Button>
+  },
+  {
+    "User": getRandomUserName(),
+    "Title": "Poor product quality",
+    "Date": "2023-08-07",
+    "Status": <Button color='success' variant='contained'>Resolved</Button>
+  },
+  {
+    "User": getRandomUserName(),
+    "Title": "Missing accessories",
+    "Date": "2023-10-28",
+    "Status": <Button color='warning' variant='contained'>Pending</Button>
+  },
 ];
+
 
 
 useEffect(()=>{
@@ -117,7 +182,7 @@ useEffect(()=>{
   return (
    <Box>
     {/* <AddIcon onClick={handleOpen}/> */}
-     <GenralTabel rows={dummyComplaintData} column={column}/>
+     <GenralTabel rows={rowsDumy} column={column}/>
 
      <Modal
         open={open}

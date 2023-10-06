@@ -29,13 +29,21 @@ export const Orders = () => {
     navigate("/orders_view");
   }
 
-  const rows =[
-    {Id:"1",Date:"01 / Oct / 2023",PName:"NewsPaper",Category:"Normal Recycler",Qty:"14",Price:"₹ 343",
-    status:<Button variant='contained' color='warning'>Pending</Button>,
-    Action:<RemoveRedEyeIcon onClick={handelViewClick} style={{color:`${ThemColor.icon}`}}/>,
-    Delete:<DeleteIcon color='error' />
-  }
-  ]
+  const rows = [
+    { Id: "1", Date: "01 / Oct / 2023", PName: "NewsPaper", Category: "Normal Recycler", Qty: "14", Price: "₹ 343", status: <Button variant='contained' color='warning'>Pending</Button>, Action: <RemoveRedEyeIcon onClick={handelViewClick} style={{ color: `${ThemColor.icon}` }} />, Delete: <DeleteIcon color='error' /> },
+    { Id: "2", Date: "15 / Jan / 2023", PName: "Book", Category: "Stationery", Qty: "5", Price: "₹ 50", status: <Button variant='contained' color='success'>Accepted</Button>, Action: <RemoveRedEyeIcon onClick={handelViewClick} style={{ color: `${ThemColor.icon}` }} />, Delete: <DeleteIcon color='error' /> },
+    { Id: "3", Date: "10 / Mar / 2023", PName: "Laptop", Category: "Electronics", Qty: "2", Price: "₹ 45000", status: <Button variant='contained' color='success'>Accepted</Button>, Action: <RemoveRedEyeIcon onClick={handelViewClick} style={{ color: `${ThemColor.icon}` }} />, Delete: <DeleteIcon color='error' /> },
+    { Id: "4", Date: "05 / Feb / 2023", PName: "Sofa", Category: "Furniture", Qty: "1", Price: "₹ 3000", status: <Button variant='contained' color='warning'>Pending</Button>, Action: <RemoveRedEyeIcon onClick={handelViewClick} style={{ color: `${ThemColor.icon}` }} />, Delete: <DeleteIcon color='error' /> },
+    { Id: "5", Date: "20 / Sep / 2023", PName: "Smartphone", Category: "Electronics", Qty: "8", Price: "₹ 25000", status: <Button variant='contained' color='success'>Accepted</Button>, Action: <RemoveRedEyeIcon onClick={handelViewClick} style={{ color: `${ThemColor.icon}` }} />, Delete: <DeleteIcon color='error' /> },
+    { Id: "6", Date: "12 / Apr / 2023", PName: "Tablet", Category: "Electronics", Qty: "3", Price: "₹ 15000", status: <Button variant='contained' color='success'>Accepted</Button>, Action: <RemoveRedEyeIcon onClick={handelViewClick} style={{ color: `${ThemColor.icon}` }} />, Delete: <DeleteIcon color='error' /> },
+    { Id: "7", Date: "08 / Jun / 2023", PName: "Chair", Category: "Furniture", Qty: "4", Price: "₹ 1500", status: <Button variant='contained' color='success'>Accepted</Button>, Action: <RemoveRedEyeIcon onClick={handelViewClick} style={{ color: `${ThemColor.icon}` }} />, Delete: <DeleteIcon color='error' /> },
+    { Id: "8", Date: "17 / Nov / 2023", PName: "Coffee Maker", Category: "Appliances", Qty: "6", Price: "₹ 2000", status: <Button variant='contained' color='warning'>Pending</Button>, Action: <RemoveRedEyeIcon onClick={handelViewClick} style={{ color: `${ThemColor.icon}` }} />, Delete: <DeleteIcon color='error' /> },
+    { Id: "9", Date: "22 / Dec / 2023", PName: "Pen", Category: "Stationery", Qty: "10", Price: "₹ 20", status: <Button variant='contained' color='success'>Accepted</Button>, Action: <RemoveRedEyeIcon onClick={handelViewClick} style={{ color: `${ThemColor.icon}` }} />, Delete: <DeleteIcon color='error' /> },
+    { Id: "10", Date: "13 / May / 2023", PName: "TV", Category: "Electronics", Qty: "1", Price: "₹ 35000", status: <Button variant='contained' color='success'>Accepted</Button>, Action: <RemoveRedEyeIcon onClick={handelViewClick} style={{ color: `${ThemColor.icon}` }} />, Delete: <DeleteIcon color='error' /> },
+    { Id: "11", Date: "04 / Aug / 2023", PName: "Blender", Category: "Appliances", Qty: "7", Price: "₹ 1200", status: <Button variant='contained' color='warning'>Pending</Button>, Action: <RemoveRedEyeIcon onClick={handelViewClick} style={{ color: `${ThemColor.icon}` }} />, Delete: <DeleteIcon color='error' /> },
+    { Id: "12", Date: "29 / Mar / 2023", PName: "Toaster", Category: "Appliances", Qty: "3", Price: "₹ 1000", status: <Button variant='contained' color='success'>Accepted</Button>, Action: <RemoveRedEyeIcon onClick={handelViewClick} style={{ color: `${ThemColor.icon}` }} />, Delete: <DeleteIcon color='error' /> },
+  ];
+  
   return (
    <Box >
 

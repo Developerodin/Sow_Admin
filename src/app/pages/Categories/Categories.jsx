@@ -31,12 +31,17 @@ export const Categories = () => {
   const handelAddCategorie=()=>{
     navigate("/add_categorie/")
   }
-  const rows =[
-    {Id:"1",Category:"Normal Recycler",TProducts:"14",CreatedAt:"04/Oct/2023",
-    Action:<EditIcon onClick={handelViewClick} style={{color:`${ThemColor.icon}`}}/>,
-    Delete:<DeleteIcon color='error' />
-  }
-  ]
+ 
+  const rows = [
+    { Id: "1", Category: "Normal Recycler", TProducts: "14", CreatedAt: "04/Oct/2023", Action: <EditIcon onClick={handelViewClick} style={{ color: `${ThemColor.icon}` }} />, Delete: <DeleteIcon color="error" /> },
+    { Id: "2", Category: "Plastic", TProducts: "7", CreatedAt: "18/Jul/2023", Action: <EditIcon onClick={handelViewClick} style={{ color: `${ThemColor.icon}` }} />, Delete: <DeleteIcon color="error" /> },
+    { Id: "3", Category: "Metal", TProducts: "10", CreatedAt: "22/Mar/2023", Action: <EditIcon onClick={handelViewClick} style={{ color: `${ThemColor.icon}` }} />, Delete: <DeleteIcon color="error" /> },
+    { Id: "4", Category: "Paper", TProducts: "3", CreatedAt: "09/Sep/2023", Action: <EditIcon onClick={handelViewClick} style={{ color: `${ThemColor.icon}` }} />, Delete: <DeleteIcon color="error" /> },
+    { Id: "5", Category: "Glass", TProducts: "8", CreatedAt: "11/Nov/2023", Action: <EditIcon onClick={handelViewClick} style={{ color: `${ThemColor.icon}` }} />, Delete: <DeleteIcon color="error" /> },
+    { Id: "6", Category: "Electronic", TProducts: "15", CreatedAt: "03/Aug/2023", Action: <EditIcon onClick={handelViewClick} style={{ color: `${ThemColor.icon}` }} />, Delete: <DeleteIcon color="error" /> },
+   
+  ];
+  
 
  
   return (
