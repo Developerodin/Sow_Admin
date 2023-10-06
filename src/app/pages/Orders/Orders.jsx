@@ -9,6 +9,8 @@ import Autocomplete from '@mui/material/Autocomplete';
 import { GenralTabel } from '../../TabelComponents/GenralTable';
 import DeleteIcon from '@mui/icons-material/Delete';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import { useNavigate } from 'react-router-dom';
+import { AddCircle } from '@mui/icons-material';
 const column = [
   { name: "Order Id" },
   { name: "Date" },
@@ -20,14 +22,20 @@ const column = [
   { name: "Action" },
   { name: "Delete" },
 ];
-const rows =[
-  {Id:"1",Date:"01 / Oct / 2023",PName:"NewsPaper",Category:"Normal Recycler",Qty:"14",Price:"₹ 343",
-  status:<Button variant='contained' color='warning'>Pending</Button>,
-  Action:<RemoveRedEyeIcon style={{color:`${ThemColor.icon}`}}/>,
-  Delete:<DeleteIcon color='error' />
-}
-]
+
 export const Orders = () => {
+  const navigate = useNavigate();
+  const handelViewClick=()=>{
+    navigate("/orders_view");
+  }
+
+  const rows =[
+    {Id:"1",Date:"01 / Oct / 2023",PName:"NewsPaper",Category:"Normal Recycler",Qty:"14",Price:"₹ 343",
+    status:<Button variant='contained' color='warning'>Pending</Button>,
+    Action:<RemoveRedEyeIcon onClick={handelViewClick} style={{color:`${ThemColor.icon}`}}/>,
+    Delete:<DeleteIcon color='error' />
+  }
+  ]
   return (
    <Box >
 
@@ -47,7 +55,7 @@ export const Orders = () => {
         renderInput={(params) => (
           <TextField
             {...params}
-            label="Search"
+            label="Search..."
             InputProps={{
               ...params.InputProps,
               type: 'search',
@@ -58,7 +66,7 @@ export const Orders = () => {
             </Box>
 
             <Box>
-              <Button variant='contained' style={{backgroundColor:`${ThemColor.buttons}`,marginRight:"5px"}}>Create new</Button>
+              <Button variant='contained' startIcon={<AddCircle />} style={{backgroundColor:`${ThemColor.buttons}`,marginRight:"15px"}}>Create new</Button>
               <Button variant='contained' style={{backgroundColor:`${ThemColor.buttons}`}}>
                 <TuneIcon />
               </Button>
@@ -68,7 +76,7 @@ export const Orders = () => {
         </CardContent>
        </Card>
 
-       <Box style={{marginTop:"30px"}}>
+       <Box style={{marginTop:"-2px"}}>
        
           <GenralTabel column={column} rows={rows} />
         

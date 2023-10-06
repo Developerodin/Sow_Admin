@@ -36,7 +36,8 @@ const SidebarMenuMain = () => {
                </div>
                <SidebarMenuItem
             to='/categories/'
-            icon='/media/icons/duotune/general/gen022.svg'
+            icon='/media/icons/duotune/general/gen019.svg'
+            
             title='Categories'
             fontIcon='bi-layers'
            
@@ -52,7 +53,7 @@ const SidebarMenuMain = () => {
 
 <SidebarMenuItem
             to='/orders/'
-            icon='/media/icons/duotune/general/gen022.svg'
+            icon='/media/icons/duotune/abstract/abs048.svg'
             title='Orders'
             fontIcon='bi-layers'
            
@@ -167,19 +168,7 @@ const SidebarMenuMain = () => {
           
             )
           }
-  
-      
-  {
-            userPermisson.CompanyPayouts && (
-              <SidebarMenuItem
-      to='/billing/companypayouts/'
-      icon='/media/icons/duotune/text/txt002.svg'
-      title='Company Payouts'
-      fontIcon='bi-layers'
-    />
-          
-            )
-          }
+
   
   
   {

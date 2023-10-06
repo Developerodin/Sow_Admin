@@ -54,7 +54,6 @@ const Complains = () => {
   };
 const column=[
   {name:"User"},
-  {name:"Comapny Name"},
   {name:"Title"},
   {name:"Date"},
   {name:"Status"},
@@ -68,74 +67,11 @@ function getRandomUserName() {
 const dummyComplaintData = [
   {
     "User": getRandomUserName(),
-    "Company Name": "Chargesol",
-    "Title": "Charging Issue 1",
+    "Title": "Pickup not on time",
     "Date": "2023-09-24",
     "Status": <Button color='success' variant='contained'>Resolved</Button>
   },
-  {
-    "User": getRandomUserName(),
-    "Company Name": "Chargesol",
-    "Title": "Charging Issue 2",
-    "Date": "2023-09-23",
-    "Status": <Button color='warning' variant='contained'>In Progress</Button>
-  },
-  {
-    "User": getRandomUserName(),
-    "Company Name": "Chargesol",
-    "Title": "Charging Issue 3",
-    "Date": "2023-09-22",
-    "Status": <Button color='error' variant='contained'>Pending</Button>
-  },
-  {
-    "User": getRandomUserName(),
-    "Company Name": "Chargesol",
-    "Title": "Charging Issue 4",
-    "Date": "2023-09-21",
-    "Status": <Button color='success' variant='contained'>Resolved</Button>
-  },
-  {
-    "User": getRandomUserName(),
-    "Company Name": "Chargesol",
-    "Title": "Charging Issue 5",
-    "Date": "2023-09-20",
-    "Status": <Button color='error' variant='contained'>Pending</Button>
-  },
-  {
-    "User": getRandomUserName(),
-    "Company Name": "Chargesol",
-    "Title": "Charging Issue 6",
-    "Date": "2023-09-19",
-    "Status": <Button color='success' variant='contained'>Resolved</Button>
-  },
-  {
-    "User": getRandomUserName(),
-    "Company Name": "Chargesol",
-    "Title": "Charging Issue 7",
-    "Date": "2023-09-18",
-    "Status": <Button color='warning' variant='contained'>In Progress</Button>
-  },
-  {
-    "User": getRandomUserName(),
-    "Company Name": "Chargesol",
-    "Title": "Charging Issue 8",
-    "Date": "2023-09-17",
-    "Status": <Button color='error' variant='contained'>Pending</Button>
-  },
-  {
-    "User": getRandomUserName(),
-    "Company Name": "Chargesol",
-    "Title": "Charging Issue 9",
-    "Date": "2023-09-16",
-    "Status": <Button color='success' variant='contained'>Resolved</Button>
-  },
-  {
-    "User": getRandomUserName(),
-    "Company Name": "Chargesol",
-    "Title": "Charging Issue 10",
-    "Date": "2023-09-15",
-    "Status": <Button color='warning' variant='contained'>In Progress</Button>
-  }
+ 
   // Add more complaint objects as needed
 ];
 

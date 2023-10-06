@@ -8,6 +8,8 @@ import Autocomplete from '@mui/material/Autocomplete';
 import { GenralTabel } from '../../TabelComponents/GenralTable';
 import DeleteIcon from '@mui/icons-material/Delete';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import { useNavigate } from 'react-router-dom';
+import { AddCircle } from '@mui/icons-material';
 const column = [
   { name: "ID" },
   { name: "Name" },
@@ -17,13 +19,24 @@ const column = [
   { name: "Action" },
   { name: "Delete" },
 ];
-const rows =[
-  {Id:"1",Name:"News Paper",Category:"Normal Recycler",Price:"₹ 14",CreatedAt:"04/Oct/2023",
-  Action:<RemoveRedEyeIcon style={{color:`${ThemColor.icon}`}}/>,
-  Delete:<DeleteIcon color='error' />
-}
-]
+
 export const Products = () => {
+
+  const navigate = useNavigate();
+  const handelViewClick=()=>{
+    navigate("/product_view");
+  }
+
+  const handelAddNew=()=>{
+    navigate("/add_product");
+  }
+
+  const rows =[
+    {Id:"1",Name:"News Paper",Category:"Normal Recycler",Price:"₹ 14",CreatedAt:"04/Oct/2023",
+    Action:<RemoveRedEyeIcon onClick={handelViewClick} style={{color:`${ThemColor.icon}`}}/>,
+    Delete:<DeleteIcon color='error' />
+  }
+  ]
   return (
    <Box >
 
@@ -43,7 +56,7 @@ export const Products = () => {
         renderInput={(params) => (
           <TextField
             {...params}
-            label="Search product"
+            label="Search..."
             InputProps={{
               ...params.InputProps,
               type: 'search',
@@ -54,7 +67,15 @@ export const Products = () => {
             </Box>
 
             <Box>
-              <Button variant='contained' style={{backgroundColor:`${ThemColor.buttons}`,marginRight:"5px"}}>Create new</Button>
+            <Button
+          variant="contained"
+          style={{backgroundColor:`${ThemColor.buttons}`,marginRight:"15px"}}
+          startIcon={<AddCircle />}
+          onClick={handelAddNew}
+        >
+          Add Product
+        </Button>
+             
               <Button variant='contained' style={{backgroundColor:`${ThemColor.buttons}`}}>
                 <TuneIcon />
               </Button>
@@ -64,7 +85,7 @@ export const Products = () => {
         </CardContent>
        </Card>
 
-       <Box style={{marginTop:"30px"}}>
+       <Box style={{marginTop:"-2px"}}>
        
           <GenralTabel column={column} rows={rows} />
         

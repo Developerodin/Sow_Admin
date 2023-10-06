@@ -9,7 +9,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
 import { Box, Button } from '@mui/material';
-
+import TablePagination from '@mui/material/TablePagination';
 import axios from "axios";
 import { errorMonitor } from 'events';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -66,20 +66,30 @@ const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
 export const GenralTabel = (props) => {
 const {rows,column}=props;
+const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
   return (
     <div>
     
    
 
-       <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+       <TableContainer component={Paper} >
+      <Table sx={{ minWidth: 650 }} stickyHeader aria-label="sticky table">
         <TableHead>
         <TableRow>
             {column.map((el,index)=>{
                return(
                   
-                    <TableCell key={index+123} align="center" sx={{fontWeight:"600"}}>{el.name.toUpperCase()}</TableCell>
+                    <TableCell key={index+123} align="center" sx={{fontWeight:"bold"}}>{el.name}</TableCell>
                     
                )
                })}
@@ -88,7 +98,7 @@ const {rows,column}=props;
           
         </TableHead>
         <TableBody>
-        {rows.map((el,index)=>{
+        {rows .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((el,index)=>{
          let data={};
          let data2=[];
          for(let i=0;i<Object.keys(el).length;i++)
@@ -103,7 +113,7 @@ const {rows,column}=props;
          
                return(
                   <>
-                  <TableRow key={index+1234}>
+                  <TableRow key={index+1234} tabIndex={-1}>
                      {data2.map((els,index)=>{
                         return <TableCell key={index+13} align="center">{els}</TableCell>;
                      })}
@@ -117,7 +127,21 @@ const {rows,column}=props;
          
         </TableBody>
       </Table>
+      
     </TableContainer>
+    <div>
+    <TablePagination
+        rowsPerPageOptions={[10, 20, 30]}
+        component="div"
+        count={rows.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+        
+      />
+    </div>
+    
 
     {/* <hr/>
     { valid ?   Data.map((el)=>{

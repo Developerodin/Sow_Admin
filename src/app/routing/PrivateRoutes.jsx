@@ -60,6 +60,11 @@ import DiscountCouponsMain from '../pages/Billing & Payments/Discount Coupons/Di
 import { Products } from '../pages/Products/Products'
 import { Orders } from '../pages/Orders/Orders'
 import { Categories } from '../pages/Categories/Categories'
+import { CategoriesView } from '../pages/Categories/CategoriesView'
+import { ProductView } from '../pages/Products/ProductView'
+import { OrderView } from '../pages/Orders/OrderView'
+import { CategoriesCreate } from '../pages/Categories/CategoriesCreate'
+import { ProductAdd } from '../pages/Products/ProductAdd'
 
 
 
@@ -126,6 +131,50 @@ const PrivateRoutes = () => {
           element={
             <SuspensedView>
               <Categories />
+            </SuspensedView>
+          }
+        />
+
+<Route
+          path='categories_view/*'
+          element={
+            <SuspensedView>
+              <CategoriesView />
+            </SuspensedView>
+          }
+        />
+        <Route
+          path='product_view/*'
+          element={
+            <SuspensedView>
+              <ProductView />
+            </SuspensedView>
+          }
+        />
+
+<Route
+          path='orders_view/*'
+          element={
+            <SuspensedView>
+              <OrderView />
+            </SuspensedView>
+          }
+        />
+
+<Route
+          path='add_categorie/*'
+          element={
+            <SuspensedView>
+              <CategoriesCreate />
+            </SuspensedView>
+          }
+        />
+
+<Route
+          path='add_product/*'
+          element={
+            <SuspensedView>
+              <ProductAdd />
             </SuspensedView>
           }
         />

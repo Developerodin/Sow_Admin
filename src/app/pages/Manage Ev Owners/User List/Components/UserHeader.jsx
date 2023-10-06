@@ -31,9 +31,9 @@ const UserHeader = ({setUpdate,handleSearchInputChange,searchInput,handelActiveF
 
 
 <Box sx={{display:{xs:"none",md:"flex",lg:"flex",xl:"flex"},justifyContent:"space-between"}} >
-<Button onClick={handelAllUsers}  sx={{backgroundColor:"grey","&:hover": { backgroundColor: "orange"},marginRight:2}} variant="contained" >All</Button>
-<Button onClick={handelActiveFilter}  sx={{backgroundColor:"grey","&:hover": { backgroundColor: "green"},marginRight:2}} variant="contained" >Active</Button>
-<Button onClick={handelInActiveFilter}  sx={{backgroundColor:"grey","&:hover": { backgroundColor: "#E21818"},marginRight:2}} variant="contained" >InActive</Button>
+<Button onClick={handelAllUsers}   sx={{"&:hover": { backgroundColor: "orange"},marginRight:2}} variant="contained" >All</Button>
+<Button onClick={handelActiveFilter} color='success'   sx={{marginRight:2}} variant="contained" >Active</Button>
+<Button onClick={handelInActiveFilter} color='error'  sx={{marginRight:2}} variant="contained" >InActive</Button>
 </Box>
 
             
@@ -72,7 +72,7 @@ const UserHeader = ({setUpdate,handleSearchInputChange,searchInput,handelActiveF
                  </IconButton> */}
            
                  <Box sx={{ marginLeft:"10px", display:'flex', alignItems:"center"}}>
-            <Typography sx={{color:"gray",marginTop:"5px",display:{xs:"none",sm:"none",md:"none",lg:"none",xl:"block"}}}variant="subtitle1" component="h6">Add EV Owner</Typography>
+            <Typography sx={{color:"gray",marginTop:"5px",display:{xs:"none",sm:"none",md:"none",lg:"none",xl:"block"}}}variant="subtitle1" component="h6">Add user</Typography>
             <IconButton  ><AddUser setUpdate={setUpdate}/></IconButton>
            
             </Box>

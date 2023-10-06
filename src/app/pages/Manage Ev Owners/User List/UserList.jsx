@@ -79,13 +79,13 @@ const UserList = () => {
     {name:"Email"},
     {name:"Phone"},
     
-    {name:"Charge Duration"},
+    // {name:"Charge Duration"},
     {name:"Status"},
     {name:"Wallet"},
     
-    {name:"Vehicles"},
+    // {name:"Vehicles"},
     {name:"Active"},
-    {name:"Add Vehicle"},
+    // {name:"Add Vehicle"},
     {name:"Update"},
     {name:"Delete"}
   ]
@@ -157,12 +157,12 @@ const UserList = () => {
           "Name":item.name,
           "Email":item.email,
           "Phone":item.phone_number,
-          "Charge Duration":"100 hrs",
+         
           "Status":item.status ? <Button color='success' variant="contained" >Active</Button> : <Button color='error' variant="contained">Inactive</Button>,
           "Wallet":<Button sx={{color:"black"}}onClick={()=>handelWalletClick(item._id,item)}><AccountBalanceWalletIcon/></Button>,
-          "Vehicles":"tata Ev4",
+      
           "Active":<Switch checked={item.status}  onChange={(e)=>handleSwitchChange(e,item._id)} />,
-          "Icon":<AddVehicle/>,
+     
           // "Functional":<Switch checked={item.functional}  onChange={(e)=>handleSwitchChange(e,item._id)} />,
           
         Update: <BorderColorIcon onClick={() => handleUpdateCustomerOpen(item._id)} />,

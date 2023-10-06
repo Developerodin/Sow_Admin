@@ -9,6 +9,9 @@ import Autocomplete from '@mui/material/Autocomplete';
 import { GenralTabel } from '../../TabelComponents/GenralTable';
 import DeleteIcon from '@mui/icons-material/Delete';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import { useNavigate } from 'react-router-dom';
+import EditIcon from '@mui/icons-material/Edit';
+import { AddCircle } from '@mui/icons-material';
 const column = [
   { name: "ID" },
   { name: "Category Name" },
@@ -17,13 +20,25 @@ const column = [
   { name: "Action" },
   { name: "Delete" },
 ];
-const rows =[
-  {Id:"1",Category:"Normal Recycler",TProducts:"14",CreatedAt:"04/Oct/2023",
-  Action:<RemoveRedEyeIcon style={{color:`${ThemColor.icon}`}}/>,
-  Delete:<DeleteIcon color='error' />
-}
-]
+
 export const Categories = () => {
+  const navigate = useNavigate();
+
+  const handelViewClick=()=>{
+    navigate("/categories_view");
+  }
+
+  const handelAddCategorie=()=>{
+    navigate("/add_categorie/")
+  }
+  const rows =[
+    {Id:"1",Category:"Normal Recycler",TProducts:"14",CreatedAt:"04/Oct/2023",
+    Action:<EditIcon onClick={handelViewClick} style={{color:`${ThemColor.icon}`}}/>,
+    Delete:<DeleteIcon color='error' />
+  }
+  ]
+
+ 
   return (
    <Box >
 
@@ -31,7 +46,7 @@ export const Categories = () => {
         <CardContent>
           <Box style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
             <Box>
-            <Typography variant='h5' style={{fontWeight:600,letterSpacing:2}}>Categories</Typography>
+            <Typography variant='h5' style={{fontWeight:600,letterSpacing:3}}>Categories</Typography>
             </Box>
 
             <Box style={{width:"50%",hieght:"50px"}}>
@@ -43,7 +58,7 @@ export const Categories = () => {
         renderInput={(params) => (
           <TextField
             {...params}
-            label="Search"
+            label="Search..."
             InputProps={{
               ...params.InputProps,
               type: 'search',
@@ -54,7 +69,7 @@ export const Categories = () => {
             </Box>
 
             <Box>
-              <Button variant='contained' style={{backgroundColor:`${ThemColor.buttons}`,marginRight:"5px"}}>Create new</Button>
+              <Button variant='contained' startIcon={<AddCircle />} onClick={handelAddCategorie} style={{backgroundColor:`${ThemColor.buttons}`,marginRight:"15px"}}>Create new</Button>
               <Button variant='contained' style={{backgroundColor:`${ThemColor.buttons}`}}>
                 <TuneIcon />
               </Button>
@@ -64,7 +79,7 @@ export const Categories = () => {
         </CardContent>
        </Card>
 
-       <Box style={{marginTop:"30px"}}>
+       <Box style={{marginTop:"-2px"}}>
        
           <GenralTabel column={column} rows={rows} />
         
