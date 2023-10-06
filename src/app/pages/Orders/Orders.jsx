@@ -59,7 +59,7 @@ export const Orders = () => {
         freeSolo
         id="free-solo-2-demo"
         disableClearable
-        options={top100Films.map((option) => option.title)}
+        options={rows.map((option) => option.PName)}
         renderInput={(params) => (
           <TextField
             {...params}
