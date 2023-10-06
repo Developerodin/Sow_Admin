@@ -22,10 +22,15 @@ export const CategoriesCreate = () => {
             <Typography variant='h5' style={{letterSpacing:4}}>ADD NEW CATEGORIE</Typography>
             </Box>
     
-            <Box style={{marginTop:"50px"}}>
+            <Box style={{marginTop:"20px"}}>
             <Stack spacing={4}>
+            <Box style={{width:"300px",height:"150px"}}>
+    <img style={{height:"100%",width:"100%",borderRadius:"20px"}} src="https://www.century21albania.com/vendor/core/images/default-image.jpg" alt="img" />
+
+    </Box>
+            <TextField  type='file'   variant="outlined" />
               <TextField   label="Name" variant="outlined" />
-              <TextField  type='file'   variant="outlined" />
+             
               <TextareaAutosize minRows={15}  label="Description" variant="outlined"/>
             </Stack>
             </Box>
