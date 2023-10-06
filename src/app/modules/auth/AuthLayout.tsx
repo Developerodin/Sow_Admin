@@ -80,7 +80,7 @@ const AuthLayout = () => {
           {/* end::Title */}
 
           {/* begin::Text */}
-          <div className='text-white fs-base text-center'>
+          {/* <div className='text-white fs-base text-center'>
           We aim to provide an integrated platform,{' '}
             <a href='#' className='opacity-75-hover text-warning fw-bold me-1'>
             that builds a vast network
@@ -91,7 +91,7 @@ const AuthLayout = () => {
             Become a part of the largest EV Community in the country
             </a>
             which aims to have <br /> a network of 1,00,000 chargers and over 5 Million EV drivers
-          </div>
+          </div> */}
           {/* end::Text */}
         </div>
         {/* end::Content */}
