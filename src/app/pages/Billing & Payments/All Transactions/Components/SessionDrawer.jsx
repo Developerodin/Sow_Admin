@@ -90,7 +90,7 @@ export const SessionDrawer=(props)=>{
       
         <Box sx={{padding:"5px"}}>
             <Box sx={{display:"flex",justifyContent:"space-between",backgroundColor:"#f4f5f7",padding:"10px",borderRadius:"10px"}}>
-            <Typography sx={{color:"crimson"}} variant="h6" component="h6">Charging Details</Typography>
+            <Typography sx={{color:"crimson"}} variant="h6" component="h6"> Details</Typography>
          
             </Box>
 
@@ -141,10 +141,7 @@ export const SessionDrawer=(props)=>{
             <Typography sx={{color:"gray",fontWeight:"bold"}}variant="subtitle1" component="h2">Total Cost</Typography>
             <Typography sx={{color:"black"}}variant="subtitle1" component="h2">52.16</Typography>
             </Box>
-            <Box sx={{display:"flex",justifyContent:"space-between"}}>
-            <Typography sx={{color:"gray",fontWeight:"bold"}}variant="subtitle1" component="h2">Charging cost</Typography>
-          <Typography sx={{color:"black"}}variant="subtitle1" component="h2">44.2</Typography>
-            </Box>
+           
             <Box sx={{display:"flex",justifyContent:"space-between",marginTop:"10px"}}>
             <Typography sx={{color:"gray",fontWeight:"bold"}}variant="subtitle1" component="h2">CGST</Typography>
           <Typography sx={{color:"black"}}variant="subtitle1" component="h2">3.98</Typography>
