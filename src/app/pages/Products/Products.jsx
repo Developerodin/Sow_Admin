@@ -1,5 +1,5 @@
 import { Box, Button, Card, CardContent, CardHeader, Typography } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { ThemColor } from '../../Them/ThemColor'
 import TuneIcon from '@mui/icons-material/Tune';
 import TextField from '@mui/material/TextField';
@@ -10,11 +10,14 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { useNavigate } from 'react-router-dom';
 import { AddCircle } from '@mui/icons-material';
+import { Base_url } from '../../Config/BaseUrl';
+import axios from 'axios';
+import EditIcon from '@mui/icons-material/Edit';
 const column = [
-  { name: "ID" },
   { name: "Name" },
   {name: "Category"},
   {name: "Price"},
+  {name:"Stock Quantity"},
   { name: "Created At" },
   { name: "Action" },
   { name: "Delete" },
@@ -23,6 +26,9 @@ const column = [
 export const Products = () => {
 
   const navigate = useNavigate();
+  const [rows,setrows] = useState([])
+  const [productData,setproductData] = useState([])
+  const[update,setupdate] = useState(0)
   const handelViewClick=()=>{
     navigate("/product_view");
   }
@@ -31,20 +37,47 @@ export const Products = () => {
     navigate("/add_product");
   }
 
-  const rows = [
-    { Id: "1", Name: "News Paper", Category: "Normal Recycler", Price: "₹ 14", CreatedAt: "04/Oct/2023", Action: <RemoveRedEyeIcon onClick={handelViewClick} style={{ color: `${ThemColor.icon}` }} />, Delete: <DeleteIcon color="error" /> },
-    { Id: "2", Name: "Sofa", Category: "Furniture", Price: "₹ 3000", CreatedAt: "18/Jul/2023", Action: <RemoveRedEyeIcon onClick={handelViewClick} style={{ color: `${ThemColor.icon}` }} />, Delete: <DeleteIcon color="error" /> },
-    { Id: "3", Name: "Laptop", Category: "Electronics", Price: "₹ 45000", CreatedAt: "22/Mar/2023", Action: <RemoveRedEyeIcon onClick={handelViewClick} style={{ color: `${ThemColor.icon}` }} />, Delete: <DeleteIcon color="error" /> },
-    { Id: "4", Name: "Coffee Maker", Category: "Appliances", Price: "₹ 2000", CreatedAt: "09/Sep/2023", Action: <RemoveRedEyeIcon onClick={handelViewClick} style={{ color: `${ThemColor.icon}` }} />, Delete: <DeleteIcon color="error" /> },
-    { Id: "5", Name: "Smartphone", Category: "Electronics", Price: "₹ 25000", CreatedAt: "11/Nov/2023", Action: <RemoveRedEyeIcon onClick={handelViewClick} style={{ color: `${ThemColor.icon}` }} />, Delete: <DeleteIcon color="error" /> },
-    { Id: "6", Name: "Tablet", Category: "Electronics", Price: "₹ 15000", CreatedAt: "03/Aug/2023", Action: <RemoveRedEyeIcon onClick={handelViewClick} style={{ color: `${ThemColor.icon}` }} />, Delete: <DeleteIcon color="error" /> },
-    { Id: "7", Name: "Chair", Category: "Furniture", Price: "₹ 1500", CreatedAt: "14/Feb/2023", Action: <RemoveRedEyeIcon onClick={handelViewClick} style={{ color: `${ThemColor.icon}` }} />, Delete: <DeleteIcon color="error" /> },
-    { Id: "8", Name: "Toaster", Category: "Appliances", Price: "₹ 1000", CreatedAt: "27/May/2023", Action: <RemoveRedEyeIcon onClick={handelViewClick} style={{ color: `${ThemColor.icon}` }} />, Delete: <DeleteIcon color="error" /> },
-    { Id: "9", Name: "Pen", Category: "Stationery", Price: "₹ 20", CreatedAt: "06/Jan/2023", Action: <RemoveRedEyeIcon onClick={handelViewClick} style={{ color: `${ThemColor.icon}` }} />, Delete: <DeleteIcon color="error" /> },
-    { Id: "10", Name: "TV", Category: "Electronics", Price: "₹ 35000", CreatedAt: "29/Apr/2023", Action: <RemoveRedEyeIcon onClick={handelViewClick} style={{ color: `${ThemColor.icon}` }} />, Delete: <DeleteIcon color="error" /> },
-    { Id: "11", Name: "Blender", Category: "Appliances", Price: "₹ 1200", CreatedAt: "17/Jun/2023", Action: <RemoveRedEyeIcon onClick={handelViewClick} style={{ color: `${ThemColor.icon}` }} />, Delete: <DeleteIcon color="error" /> },
-    { Id: "12", Name: "Book", Category: "Stationery", Price: "₹ 50", CreatedAt: "01/Dec/2023", Action: <RemoveRedEyeIcon onClick={handelViewClick} style={{ color: `${ThemColor.icon}` }} />, Delete: <DeleteIcon color="error" /> },
-  ];
+  const fetchProducts = async () => {
+    try {
+      const response = await axios.get(`${Base_url}api/product`);
+
+      if (response.status === 200) {
+        const fetchedProduct = response.data;
+        setproductData(fetchedProduct);
+        const FormatedData = fetchedProduct.map((el,index)=>({
+          "Name":el.name,
+          "Category": el.category ? el.category.name : "no category assigned",
+          "Price":el.price,
+          "stock":el.stockQuantity,
+          "CreatedAt":el.createdAt,
+          "Status": el.status ? <Button color='success' variant="contained" >Active</Button> : <Button color='error' variant="contained">Inactive</Button>,
+          "Action":<EditIcon onClick={()=>handelViewClick(el._id)} style={{ color: `${ThemColor.icon}` }} />,
+          "Delete":<DeleteIcon color="error" onClick={()=>deleteProducts(el._id)} />
+        }))
+        setrows(FormatedData)
+      } else {
+        console.error('Error fetching categories:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error:', error.message);
+    }
+  };
+
+  const deleteProducts = async(ID) => {
+    try{
+      const res = await axios.delete(`${Base_url}api/product/${ID}`);
+      console.log(res)
+      setupdate((prev)=>prev+1)
+    }
+    catch(err){
+      console.log("Error",err)
+    }
+  }
+
+
+  useEffect(()=>{
+    fetchProducts()
+  },[update])
   
   return (
    <Box >

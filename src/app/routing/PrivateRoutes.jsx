@@ -136,7 +136,7 @@ const PrivateRoutes = () => {
         />
 
 <Route
-          path='categories_view/*'
+          path='categories_view/:id'
           element={
             <SuspensedView>
               <CategoriesView />

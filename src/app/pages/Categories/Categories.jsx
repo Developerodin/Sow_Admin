@@ -1,6 +1,6 @@
 
 import { Box, Button, Card, CardContent, CardHeader, Typography } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { ThemColor } from '../../Them/ThemColor'
 import TuneIcon from '@mui/icons-material/Tune';
 import TextField from '@mui/material/TextField';
@@ -12,9 +12,11 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { useNavigate } from 'react-router-dom';
 import EditIcon from '@mui/icons-material/Edit';
 import { AddCircle } from '@mui/icons-material';
+import { Base_url } from '../../Config/BaseUrl';
+import axios from 'axios';
 const column = [
-  { name: "ID" },
   { name: "Category Name" },
+  { name: "Description" },
   {name: "Total Products"},
   { name: "Created At" },
   { name: "Action" },
@@ -23,26 +25,56 @@ const column = [
 
 export const Categories = () => {
   const navigate = useNavigate();
-
-  const handelViewClick=()=>{
-    navigate("/categories_view");
+  const [categories, setCategories] = useState([]);
+  const [rows,setrows] = useState([])
+  const [update,setupdate] = useState([])
+  const handelViewClick=(id)=>{
+    navigate(`/categories_view/${id}`);
   }
 
   const handelAddCategorie=()=>{
     navigate("/add_categorie/")
   }
  
-  const rows = [
-    { Id: "1", Category: "Normal Recycler", TProducts: "14", CreatedAt: "04/Oct/2023", Action: <EditIcon onClick={handelViewClick} style={{ color: `${ThemColor.icon}` }} />, Delete: <DeleteIcon color="error" /> },
-    { Id: "2", Category: "Plastic", TProducts: "7", CreatedAt: "18/Jul/2023", Action: <EditIcon onClick={handelViewClick} style={{ color: `${ThemColor.icon}` }} />, Delete: <DeleteIcon color="error" /> },
-    { Id: "3", Category: "Metal", TProducts: "10", CreatedAt: "22/Mar/2023", Action: <EditIcon onClick={handelViewClick} style={{ color: `${ThemColor.icon}` }} />, Delete: <DeleteIcon color="error" /> },
-    { Id: "4", Category: "Paper", TProducts: "3", CreatedAt: "09/Sep/2023", Action: <EditIcon onClick={handelViewClick} style={{ color: `${ThemColor.icon}` }} />, Delete: <DeleteIcon color="error" /> },
-    { Id: "5", Category: "Glass", TProducts: "8", CreatedAt: "11/Nov/2023", Action: <EditIcon onClick={handelViewClick} style={{ color: `${ThemColor.icon}` }} />, Delete: <DeleteIcon color="error" /> },
-    { Id: "6", Category: "Electronic", TProducts: "15", CreatedAt: "03/Aug/2023", Action: <EditIcon onClick={handelViewClick} style={{ color: `${ThemColor.icon}` }} />, Delete: <DeleteIcon color="error" /> },
-   
-  ];
-  
+  const fetchCategories = async () => {
+    try {
+      const response = await axios.get(`${Base_url}api/category`);
 
+      if (response.status === 200) {
+        const fetchedCategories = response.data;
+        setCategories(fetchedCategories);
+        const FormatedData = fetchedCategories.map((el,index)=>({
+          "Category Name":el.name,
+          "description":el.description,
+          "Products":"0",
+          "CreatedAt":el.createdAt,
+          "Action":<EditIcon onClick={()=>handelViewClick(el._id)} style={{ color: `${ThemColor.icon}` }} />,
+          "Delete":<DeleteIcon color="error" onClick={()=>deleteCategory(el._id)} />
+        }))
+        setrows(FormatedData)
+      } else {
+        console.error('Error fetching categories:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error:', error.message);
+    }
+  };
+
+  const deleteCategory = async(ID) => {
+    try{
+      const res = await axios.delete(`${Base_url}api/category/${ID}`);
+      console.log(res)
+      setupdate((prev)=>prev+1)
+    }
+    catch(err){
+      console.log("Error",err)
+    }
+  }
+
+
+  useEffect(()=>{
+    fetchCategories()
+  },[update])
  
   return (
    <Box >
@@ -50,11 +82,11 @@ export const Categories = () => {
        <Card>
         <CardContent>
           <Box style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-            <Box>
-            <Typography variant='h5' style={{fontWeight:600,letterSpacing:3}}>Categories</Typography>
-            </Box>
+            {/* <Box>
+            <Typography variant='h6' style={{fontWeight:400,letterSpacing:2}}>Categories</Typography>
+            </Box> */}
 
-            <Box style={{width:"50%",hieght:"50px"}}>
+            <Box style={{width:"30%",hieght:"50px"}}>
             <Autocomplete
         freeSolo
         id="free-solo-2-demo"
