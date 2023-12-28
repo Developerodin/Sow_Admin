@@ -1,3 +1,4 @@
+
 import { Box, Button, Card, CardContent, CardHeader, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { ThemColor } from '../../Them/ThemColor'
@@ -9,59 +10,45 @@ import { GenralTabel } from '../../TabelComponents/GenralTable';
 import DeleteIcon from '@mui/icons-material/Delete';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { useNavigate } from 'react-router-dom';
+import EditIcon from '@mui/icons-material/Edit';
 import { AddCircle } from '@mui/icons-material';
 import { Base_url } from '../../Config/BaseUrl';
 import axios from 'axios';
-import EditIcon from '@mui/icons-material/Edit';
 const column = [
-  {name:"Product"},
-  { name: "Name" },
-  {name: "Category"},
-  {name: "Price"},
-  {name:"Stock Quantity"},
+  { name: "Category Name" },
+  { name: "Description" },
+  {name: "Total Products"},
   { name: "Created At" },
-  {name:"Status"},
   { name: "Action" },
   { name: "Delete" },
 ];
-
-export const Products = () => {
-
-  const navigate = useNavigate();
+export const Users = () => {
+    const navigate = useNavigate();
+  const [categories, setCategories] = useState([]);
   const [rows,setrows] = useState([])
-  const [productData,setproductData] = useState([])
-  const[update,setupdate] = useState(0)
-  const handelViewClick=()=>{
-    navigate("/product_view");
+  const [update,setupdate] = useState([])
+  const handelViewClick=(id)=>{
+    navigate(`/categories_view/${id}`);
   }
 
-  const handelAddNew=()=>{
-    navigate("/add_product");
+  const handelAddUser=()=>{
+    navigate("/users_add/")
   }
-
-  const fetchProducts = async () => {
+ 
+  const fetchUser = async () => {
     try {
-      const response = await axios.get(`${Base_url}api/product`);
+      const response = await axios.get(`${Base_url}api/category`);
 
       if (response.status === 200) {
-        const fetchedProduct = response.data;
-        setproductData(fetchedProduct);
-        const FormatedData = fetchedProduct.map((el,index)=>({
-          "Image": el.images && (
-            <img
-              src={`${Base_url}api/${el.images[0].path}`}
-              alt="Metronic"
-              style={{height:"50px",width:"50px"}}
-            />
-          ),
-          "Name":el.name,
-          "Category": el.category ? el.category.name : "no category assigned",
-          "Price":el.price,
-          "stock":el.stockQuantity,
+        const fetchedCategories = response.data;
+        setCategories(fetchedCategories);
+        const FormatedData = fetchedCategories.map((el,index)=>({
+          "Category Name":el.name,
+          "description":el.description,
+          "Products":"0",
           "CreatedAt":el.createdAt,
-          "Status": el.status ? <Button color='success' variant="contained" >Active</Button> : <Button color='error' variant="contained">Inactive</Button>,
           "Action":<EditIcon onClick={()=>handelViewClick(el._id)} style={{ color: `${ThemColor.icon}` }} />,
-          "Delete":<DeleteIcon color="error" onClick={()=>deleteProducts(el._id)} />
+          "Delete":<DeleteIcon color="error" onClick={()=>deleteUser(el._id)} />
         }))
         setrows(FormatedData)
       } else {
@@ -72,9 +59,9 @@ export const Products = () => {
     }
   };
 
-  const deleteProducts = async(ID) => {
+  const deleteUser = async(ID) => {
     try{
-      const res = await axios.delete(`${Base_url}api/product/${ID}`);
+      const res = await axios.delete(`${Base_url}api/category/${ID}`);
       console.log(res)
       setupdate((prev)=>prev+1)
     }
@@ -85,23 +72,24 @@ export const Products = () => {
 
 
   useEffect(()=>{
-    fetchProducts()
+    fetchUser()
   },[update])
-  
   return (
-   <Box >
+    <Box >
 
        <Card>
         <CardContent>
           <Box style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-            
+            {/* <Box>
+            <Typography variant='h6' style={{fontWeight:400,letterSpacing:2}}>Categories</Typography>
+            </Box> */}
 
             <Box style={{width:"30%",hieght:"50px"}}>
             <Autocomplete
         freeSolo
         id="free-solo-2-demo"
         disableClearable
-        options={rows.map((option) => option.Name)}
+        options={rows.map((option) => option.Category)}
         renderInput={(params) => (
           <TextField
             {...params}
@@ -116,15 +104,7 @@ export const Products = () => {
             </Box>
 
             <Box>
-            <Button
-          variant="contained"
-          style={{backgroundColor:`${ThemColor.buttons}`,marginRight:"15px"}}
-          startIcon={<AddCircle />}
-          onClick={handelAddNew}
-        >
-          Add Product
-        </Button>
-             
+              <Button variant='contained' startIcon={<AddCircle />} onClick={handelAddUser} style={{backgroundColor:`${ThemColor.buttons}`,marginRight:"15px"}}>Create new</Button>
               <Button variant='contained' style={{backgroundColor:`${ThemColor.buttons}`}}>
                 <TuneIcon />
               </Button>
@@ -142,4 +122,3 @@ export const Products = () => {
    </Box>
   )
 }
-

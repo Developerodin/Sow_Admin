@@ -65,6 +65,10 @@ import { ProductView } from '../pages/Products/ProductView'
 import { OrderView } from '../pages/Orders/OrderView'
 import { CategoriesCreate } from '../pages/Categories/CategoriesCreate'
 import { ProductAdd } from '../pages/Products/ProductAdd'
+import { Users } from '../pages/ManageUsers/Users'
+import { B2BUsers } from '../pages/ManageB2BUsers/B2BUsers'
+import { UsersAdd } from '../pages/ManageUsers/UsersAdd'
+import { B2BUserAdd } from '../pages/ManageB2BUsers/B2BUserAdd'
 
 
 
@@ -175,6 +179,41 @@ const PrivateRoutes = () => {
           element={
             <SuspensedView>
               <ProductAdd />
+            </SuspensedView>
+          }
+        />
+
+<Route
+          path='users/*'
+          element={
+            <SuspensedView>
+              <Users />
+            </SuspensedView>
+          }
+        />
+
+<Route
+          path='users_add/*'
+          element={
+            <SuspensedView>
+              <UsersAdd />
+            </SuspensedView>
+          }
+        />
+
+<Route
+          path='b2b_users/*'
+          element={
+            <SuspensedView>
+              <B2BUsers />
+            </SuspensedView>
+          }
+        />
+        <Route
+          path='b2b_users_add/*'
+          element={
+            <SuspensedView>
+              <B2BUserAdd />
             </SuspensedView>
           }
         />
@@ -369,8 +408,7 @@ const PrivateRoutes = () => {
 
 
 
-{
-    userPermisson && userPermisson.Overview && (
+
             <Route
           path='manage-cpos/overview/*'
           element={
@@ -379,14 +417,10 @@ const PrivateRoutes = () => {
             </SuspensedView>
           }
         />
-        
-          )
-        }
+
 
           
 
-{
-          userPermisson.Cpos && (
             <Route
           path='manage-cpos/cpos/*'
           element={
@@ -395,12 +429,9 @@ const PrivateRoutes = () => {
             </SuspensedView>
           }
         />
-        
-          )
-        }
 
-{
-          userPermisson.Cpos && (
+
+
             <Route
           path='roaming_agreements/'
           element={
@@ -409,14 +440,11 @@ const PrivateRoutes = () => {
             </SuspensedView>
           }
         />
-        
-          )
-        }
+
         
 
 {/* ======================================================================================= */}
-{
-          userPermisson.Chargers && (
+
             <Route
             path='manage-cpos/chargers/*'
             element={
@@ -425,14 +453,10 @@ const PrivateRoutes = () => {
               </SuspensedView>
             }
           />
-        
-          )
-        }
+
 {/* ======================================================================================= */}
         
 
-{
-          userPermisson.ChargingStations && (
             <Route
           path='manage-cpos/charging-stations/*'
           element={
@@ -441,16 +465,10 @@ const PrivateRoutes = () => {
             </SuspensedView>
           }
         />
-        
-          )
-        }
 
 
-        
-         
 
-         {
-          userPermisson.StationLogs && (
+
             <Route
             path='manage-cpos/station-logs/*'
             element={
@@ -459,14 +477,8 @@ const PrivateRoutes = () => {
               </SuspensedView>
             }
           />
-        
-          )
-        }
+ 
 
-       
-
-{
-          userPermisson.ChargerMap && (
             <Route
             path='manage-cpos/charger-map/*'
             element={
@@ -475,9 +487,7 @@ const PrivateRoutes = () => {
               </SuspensedView>
             }
           />
-        
-          )
-        }
+
 
        
 
@@ -499,8 +509,7 @@ const PrivateRoutes = () => {
 
 
 
-{
-          userPermisson.EVOwnersOverView && (
+
             <Route
             path='evowners/overview/*'
             element={
@@ -510,17 +519,9 @@ const PrivateRoutes = () => {
             }
           />
         
-          )
-        }
+       
 
 
-
-
-
-
-
-{
-          userPermisson.UserList && (
             <Route
             path='evowners/userlist/*'
             element={
@@ -529,18 +530,8 @@ const PrivateRoutes = () => {
               </SuspensedView>
             }
           />
-        
-          )
-        }
+     
 
-
-
-
-
-
-
-{
-          userPermisson.Complains && (
             <Route
             path='evowners/complains/*'
             element={
@@ -550,22 +541,8 @@ const PrivateRoutes = () => {
             }
           />
         
-          )
-        }
+   
 
-
-
-
-
-
-
-
-
-
-
-
-{
-          userPermisson.BillingOverview && (
             <Route
             path='billing/overview/*'
             element={
@@ -574,14 +551,8 @@ const PrivateRoutes = () => {
               </SuspensedView>
             }
           />
-        
-          )
-        }
 
 
-
-{
-          userPermisson.BillingOverview && (
             <Route
             path='billing/roaming_recon/*'
             element={
@@ -590,9 +561,6 @@ const PrivateRoutes = () => {
               </SuspensedView>
             }
           />
-        
-          )
-        }
 
 
 
@@ -615,8 +583,6 @@ const PrivateRoutes = () => {
           }
         />
 
-{
-          userPermisson.AllTransactions && (
             <Route
           path='billing/alltransaction/*'
           element={
@@ -625,15 +591,8 @@ const PrivateRoutes = () => {
             </SuspensedView>
           }
         />
-        
-          )
-        }
-
-        
 
 
-{
-          userPermisson.CompanyPayouts && (
             <Route
             path='billing/companypayouts/*'
             element={
@@ -643,15 +602,8 @@ const PrivateRoutes = () => {
             }
           />
         
-          )
-        }
 
 
-
-
-
-{
-          userPermisson.DiscountCoupons && (
             <Route
           path='billing/discountCoupons/*'
           element={
@@ -661,14 +613,7 @@ const PrivateRoutes = () => {
           }
         />
         
-          )
-        }
 
-
-
-
-{
-          userPermisson.AdminManagment && (
             <Route
             path='settings/adminmanagment/*'
             element={
@@ -677,14 +622,8 @@ const PrivateRoutes = () => {
               </SuspensedView>
             }
           />
-        
-          )
-        }
 
 
-
-{
-          userPermisson.PrivateChat && (
             <Route
           path='chats/private-chat/*'
           element={
@@ -693,9 +632,7 @@ const PrivateRoutes = () => {
             </SuspensedView>
           }
         />
-        
-          )
-        }
+ 
 
 
 
@@ -708,9 +645,6 @@ const PrivateRoutes = () => {
           }
         />
 
-
-{
-          userPermisson.AccessManagment && (
             <Route
             path='settings/accessmanagment/*'
             element={
@@ -719,14 +653,8 @@ const PrivateRoutes = () => {
               </SuspensedView>
             }
           />
-        
-          )
-        }
 
 
-
-{
-          userPermisson.SystemMasters && (
             <Route
             path='settings/system-masters/*'
             element={
@@ -735,9 +663,6 @@ const PrivateRoutes = () => {
               </SuspensedView>
             }
           />
-        
-          )
-        }
 
 
 

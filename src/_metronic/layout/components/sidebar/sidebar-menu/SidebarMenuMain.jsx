@@ -82,18 +82,23 @@ const SidebarMenuMain = () => {
             )
           } */}
   
-  {
-            userPermisson.UserList && (
-              <SidebarMenuItem
-            to='/evowners/userlist/'
+  <SidebarMenuItem
+            to='/b2b_users'
             icon='/media/icons/duotune/communication/com013.svg'
-            title='UserList'
+            title='B2B User'
+            fontIcon='bi-layers'
+           
+          />
+ 
+              <SidebarMenuItem
+            to='/users'
+            icon='/media/icons/duotune/communication/com013.svg'
+            title='User'
             fontIcon='bi-layers'
            
           />
           
-            )
-          }
+         
            
   
   
