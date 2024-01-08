@@ -8,7 +8,7 @@ import SVG from 'react-inlinesvg'
 type Props = {
   to: string
   title: string
-  icon?: string
+  icon?: any
   fontIcon?: string
   hasBullet?: boolean
 }
@@ -29,7 +29,11 @@ const SidebarMenuItem: FC<Props & WithChildren> = ({
   const [isHovered, setIsHovered] = useState(false);
 
   const linkStyle = {
-    color: isActive ? '#fff' : isHovered ? 'teal' : 'black',
+    color: isActive ? '#fff' : isHovered ? 'orange' : '#fff',
+    fontSize:"18px",
+    fontWeight:"bold",
+    marginTop:"3px",
+    marginLeft:"3px",
   };
 
   let iconStyle = {
@@ -37,7 +41,7 @@ const SidebarMenuItem: FC<Props & WithChildren> = ({
   };
 
   return (
-    <div className={`menu-item ${isActive ? 'active' : ''}`}>
+    <div className={`menu-item ${isActive ? 'active' : ''}`} style={{marginTop:"20px"}}>
     <Link
       className={clsx('menu-link without-sub', { active: isActive })}
       to={to}
@@ -50,11 +54,12 @@ const SidebarMenuItem: FC<Props & WithChildren> = ({
           <span className="bullet bullet-dot"></span>
         </span>
       )}
-      {icon && app?.sidebar?.default?.menu?.iconType === 'svg' && (
+      {icon  && (
         <span className="menu-icon">
           {/* <KTSVG path={icon} className="svg-icon-2" /> */}
-          <span className={`svg-icon svg-icon-2`}>
-      <SVG src={icon} className={"mh-50px"} style={iconStyle} />
+          <span >
+      {/* <SVG src={icon} className={"mh-50px"} style={iconStyle} /> */}
+      {icon}
     </span>
         </span>
       )}

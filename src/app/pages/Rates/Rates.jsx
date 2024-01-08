@@ -8,7 +8,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { InfoCard } from '../../../Components/InfoCard';
 import Grid from "@mui/material/Grid";
-import { OrdersCard } from '../../../Components/OrdersCard';
+import { RatesCard } from '../../../Components/RatesCard';
 
 const orangeTheme = createTheme({
   palette: {
@@ -50,7 +50,7 @@ function a11yProps(index) {
     'aria-controls': `simple-tabpanel-${index}`,
   };
 }
-export const Orders = () => {
+export const Rates = () => {
 
   const [value, setValue] = React.useState(0);
   const [searchInput, setSearchInput] = React.useState('');
@@ -87,14 +87,15 @@ export const Orders = () => {
           <Box style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
             <Box>
             <Typography style={{fontSize:"40px",fontWeight:600,fontFamily:"sans-serif"}} >
-             Orders
+            
+            Rates
             </Typography>
             </Box>
-           
-{/* 
+{/*            
+
             <Box>
-              
-              <Button variant="contained" style={{marginLeft:"20px",background:"#FF8604"}} startIcon={<AddIcon />} >Add Order</Button>
+              <Button variant="outlined" style={{backgroundColor:"#FF86041A",color:"#FF8604",borderColor:"#FF8604"}}>Requests</Button>
+              <Button variant="contained" style={{marginLeft:"20px",background:"#FF8604"}} startIcon={<AddIcon />} >Add Vendor</Button>
             </Box> */}
           </Box>
              
@@ -105,9 +106,8 @@ export const Orders = () => {
         indicatorColor="primary"
        
         >
-          <Tab label="Incoming Orders" {...a11yProps(0)}  style={{fontSize:"16px",fontWeight:600,color:`${value === 0 ? "#EE731B" : "#555555"}`,marginRight:"10px",borderRadius:"10px",marginBottom:"10px"}}/>
-          <Tab label="Assigned" {...a11yProps(1)} style={{fontSize:"16px",fontWeight:600,color:`${value === 1 ? "#EE731B" : "#555555"}`,marginRight:"10px",borderRadius:"10px",marginBottom:"10px"}} />
-         
+          <Tab label="Retail Rates" {...a11yProps(0)}  style={{fontSize:"16px",fontWeight:600,color:`${value === 0 ? "#EE731B" : "#555555"}`,marginRight:"10px",borderRadius:"10px",marginBottom:"10px"}}/>
+
         </Tabs>
         </ThemeProvider>
       </Box>
@@ -142,17 +142,24 @@ export const Orders = () => {
 
          <Grid container spacing={2}>
                 <Grid item xs={3}>
-                <OrdersCard name={"Ankit Dixit"} value={"45,000"} phone={"9251466357"} address={"Plot Number 116, Lane Number 4, Rathore Nagar, Vaishali Nagar, 302039"}/>
+                <RatesCard name={"Electronics"}/>
                 </Grid>
 
               </Grid>
         
       </CustomTabPanel>
 
-      <CustomTabPanel value={value} index={1}>
+      {/* <CustomTabPanel value={value} index={1}>
         Item Two
       </CustomTabPanel>
 
+      <CustomTabPanel value={value} index={2}>
+        Item Three
+      </CustomTabPanel>
+
+      <CustomTabPanel value={value} index={3}>
+        Item four
+      </CustomTabPanel> */}
 
     </Box>
     

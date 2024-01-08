@@ -22,7 +22,7 @@ const SidebarLogo = () => {
         {config.layoutType === 'dark-sidebar' ? (
           <img
             alt='Logo'
-            src={toAbsoluteUrl('/media/logos/Logo_1.png')}
+            src={toAbsoluteUrl('/media/logos/Logo_2.png')}
             className='h-55px app-sidebar-logo-default'
           />
         ) : (

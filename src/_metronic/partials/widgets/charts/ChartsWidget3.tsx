@@ -41,9 +41,9 @@ const ChartsWidget3: React.FC<Props> = ({className}) => {
       {/* begin::Header */}
       <div className='card-header border-0 pt-5'>
         <h3 className='card-title align-items-start flex-column'>
-          <span className='card-label fw-bold fs-3 mb-1'>Monthly Revenue</span>
+          <span className='card-label fw-bold fs-3 mb-1'>Total Sales</span>
 
-          <span className='text-muted fw-semibold fs-7'>in thousands</span>
+          {/* <span className='text-muted fw-semibold fs-7'>in thousands</span> */}
         </h3>
 
         {/* begin::Toolbar */}

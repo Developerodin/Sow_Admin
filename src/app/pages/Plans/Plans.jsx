@@ -9,6 +9,7 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import { InfoCard } from '../../../Components/InfoCard';
 import Grid from "@mui/material/Grid";
 import { OrdersCard } from '../../../Components/OrdersCard';
+import { PlansCard } from '../../../Components/PlansCard';
 
 const orangeTheme = createTheme({
   palette: {
@@ -50,7 +51,7 @@ function a11yProps(index) {
     'aria-controls': `simple-tabpanel-${index}`,
   };
 }
-export const Orders = () => {
+export const Plans = () => {
 
   const [value, setValue] = React.useState(0);
   const [searchInput, setSearchInput] = React.useState('');
@@ -87,29 +88,20 @@ export const Orders = () => {
           <Box style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
             <Box>
             <Typography style={{fontSize:"40px",fontWeight:600,fontFamily:"sans-serif"}} >
-             Orders
+             Plans
             </Typography>
             </Box>
            
-{/* 
+
             <Box>
               
-              <Button variant="contained" style={{marginLeft:"20px",background:"#FF8604"}} startIcon={<AddIcon />} >Add Order</Button>
-            </Box> */}
+              <Button variant="contained" style={{marginLeft:"20px",background:"#FF8604"}} startIcon={<AddIcon />} >Create Plan</Button>
+            </Box>
           </Box>
              
 
           <Box sx={{ borderBottom: 1, borderColor: 'divider',marginTop:"20px" }}>
-      <ThemeProvider theme={orangeTheme}>
-        <Tabs value={value} onChange={handleChangetabs} aria-label="basic tabs example" textColor="primary"
-        indicatorColor="primary"
-       
-        >
-          <Tab label="Incoming Orders" {...a11yProps(0)}  style={{fontSize:"16px",fontWeight:600,color:`${value === 0 ? "#EE731B" : "#555555"}`,marginRight:"10px",borderRadius:"10px",marginBottom:"10px"}}/>
-          <Tab label="Assigned" {...a11yProps(1)} style={{fontSize:"16px",fontWeight:600,color:`${value === 1 ? "#EE731B" : "#555555"}`,marginRight:"10px",borderRadius:"10px",marginBottom:"10px"}} />
-         
-        </Tabs>
-        </ThemeProvider>
+     
       </Box>
 
       <Box sx={{display:"flex",marginTop:"20px",justifyContent:"left",alignItems:"center"}}>
@@ -134,24 +126,26 @@ export const Orders = () => {
 
           <Box sx={{ width: '100%',marginTop:"20px",height:"70vh",overflow:"auto" }}>
       
-
-      
-
-      <CustomTabPanel value={value} index={0}>
-       
-
-         <Grid container spacing={2}>
+          <Grid container spacing={2} >
                 <Grid item xs={3}>
-                <OrdersCard name={"Ankit Dixit"} value={"45,000"} phone={"9251466357"} address={"Plot Number 116, Lane Number 4, Rathore Nagar, Vaishali Nagar, 302039"}/>
+                <PlansCard />
+                </Grid>
+
+                <Grid item xs={3}>
+                <PlansCard />
+                </Grid>
+
+
+                <Grid item xs={3}>
+                <PlansCard />
+                </Grid>
+
+
+                <Grid item xs={3}>
+                <PlansCard />
                 </Grid>
 
               </Grid>
-        
-      </CustomTabPanel>
-
-      <CustomTabPanel value={value} index={1}>
-        Item Two
-      </CustomTabPanel>
 
 
     </Box>
