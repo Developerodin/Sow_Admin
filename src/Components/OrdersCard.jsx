@@ -4,7 +4,7 @@ import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import FmdGoodIcon from '@mui/icons-material/FmdGood';
 import { Box, Button, Typography } from '@mui/material';
 
-export const OrdersCard = ({name,phone,address,value}) => {
+export const OrdersCard = ({name,phone,address,value,Fun}) => {
   return (
     <Box sx={{width:"330px",height:"376px",border:"0.5px dashed grey",borderRadius:"5px",padding:"20px"}}>
     <Box sx={{display:"flex",justifyContent:"left",alignItems:"center"}}>
@@ -41,7 +41,7 @@ export const OrdersCard = ({name,phone,address,value}) => {
     </Box>
 
     <Box sx={{display:"flex",justifyContent:"center",alignItems:"center",marginTop:"25px"}}>
-      <Button variant='contained' size='large' expand sx={{backgroundColor:"black"}}>Assign Order</Button>
+      <Button variant='contained' size='large' onClick={()=>Fun()} expand sx={{backgroundColor:"black"}}>Assign Order</Button>
     </Box>
 
 </Box>

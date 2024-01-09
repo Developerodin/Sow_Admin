@@ -3,7 +3,9 @@ import React from 'react'
 import AddIcon from '@mui/icons-material/Add';
 import { ChartsWidget3 } from '../../../_metronic/partials/widgets';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { useNavigate } from 'react-router-dom';
 export const Sales = () => {
+  const navigate = useNavigate()
   const tableStyle = {
     width: '100%',
     borderCollapse: 'collapse',
@@ -15,6 +17,9 @@ const thTdStyle = {
     padding: '8px',
 };
 
+const handelCreateInvoice = ()=>{
+  navigate("create-invoice/")
+}
 
   return (
     <Box >
@@ -31,7 +36,7 @@ const thTdStyle = {
 
             <Box>
               
-              <Button variant="contained" style={{marginLeft:"20px",background:"#FF8604"}} startIcon={<AddIcon />} >Create Invoice</Button>
+              <Button variant="contained" style={{marginLeft:"20px",background:"#FF8604"}} onClick={handelCreateInvoice} startIcon={<AddIcon />} >Create Invoice</Button>
             </Box>
           </Box>
 

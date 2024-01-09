@@ -19,6 +19,9 @@ import { Sales } from '../pages/Sales/Sales'
 import { Plans } from '../pages/Plans/Plans'
 import { Accounts } from '../pages/Accounts/Accounts'
 import { Users } from '../pages/Users/Users'
+import { ViewCategories } from '../pages/Categories/ViewCategories'
+import { CreateInvoice } from '../pages/Sales/CreateInvoice'
+import { AddVendors } from '../pages/Vendors/AddVendors'
 
 
 
@@ -52,6 +55,15 @@ const PrivateRoutes = () => {
         />
 
 <Route
+          path='vendors/add/*'
+          element={
+            <SuspensedView>
+              <AddVendors />
+            </SuspensedView>
+          }
+        />
+
+<Route
           path='rates/*'
           element={
             <SuspensedView>
@@ -79,10 +91,27 @@ const PrivateRoutes = () => {
         />
 
 <Route
+          path='categories/view-categorie/:id'
+          element={
+            <SuspensedView>
+              <ViewCategories />
+            </SuspensedView>
+          }
+        />
+
+<Route
           path='sales/*'
           element={
             <SuspensedView>
               <Sales />
+            </SuspensedView>
+          }
+        />
+        <Route
+          path='sales/create-invoice/*'
+          element={
+            <SuspensedView>
+              <CreateInvoice />
             </SuspensedView>
           }
         />

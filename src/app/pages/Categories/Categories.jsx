@@ -10,6 +10,20 @@ import { InfoCard } from '../../../Components/InfoCard';
 import Grid from "@mui/material/Grid";
 import { CategoriesCard } from '../../../Components/CategoriesCard';
 import { SubCategoriesCard } from '../../../Components/SubCategoriesCard';
+import { useNavigate } from 'react-router-dom';
+import Modal from '@mui/material/Modal';
+import CloseIcon from '@mui/icons-material/Close';
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  borderRadius:"10px",
+  boxShadow: 24,
+  p: 2,
+};
 
 const orangeTheme = createTheme({
   palette: {
@@ -52,7 +66,10 @@ function a11yProps(index) {
   };
 }
 export const Categories = () => {
-
+  const navigate = useNavigate()
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   const [value, setValue] = React.useState(0);
   const [searchInput, setSearchInput] = React.useState('');
 
@@ -78,6 +95,11 @@ export const Categories = () => {
     // setFilterRows(rows);
   };
 
+  const handelView =(id) =>{
+     navigate(`view-categorie/${id}`)
+  }
+
+
   return (
     <Box >
 
@@ -94,7 +116,7 @@ export const Categories = () => {
        
         >
           <Tab label="Categories" {...a11yProps(0)}  style={{fontSize:"16px",fontWeight:600,color:`${value === 0 ? "#EE731B" : "#555555"}`,marginRight:"10px",borderRadius:"10px",marginBottom:"10px"}}/>
-          <Tab label="Sub-Categories" {...a11yProps(1)} style={{fontSize:"16px",fontWeight:600,color:`${value === 1 ? "#EE731B" : "#555555"}`,marginRight:"10px",borderRadius:"10px",marginBottom:"10px"}} />
+          {/* <Tab label="Sub-Categories" {...a11yProps(1)} style={{fontSize:"16px",fontWeight:600,color:`${value === 1 ? "#EE731B" : "#555555"}`,marginRight:"10px",borderRadius:"10px",marginBottom:"10px"}} /> */}
          
         </Tabs>
         </ThemeProvider>
@@ -134,7 +156,7 @@ export const Categories = () => {
 
               <Box>
               
-              <Button variant="contained" style={{marginLeft:"20px",background:"#FF8604"}} startIcon={<AddIcon />} >Add Category</Button>
+              <Button variant="contained" style={{marginLeft:"20px",background:"#FF8604"}} onClick={handleOpen} startIcon={<AddIcon />} >Add Category</Button>
             </Box>
             </Box>
 
@@ -146,9 +168,9 @@ export const Categories = () => {
         
       </CustomTabPanel>
 
-      <CustomTabPanel value={value} index={1}>
+      {/* <CustomTabPanel value={value} index={1}>
       <Box sx={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:"20px"}}>
-            {/* <TextField fullWidth label="Search" /> */}
+         
             <Box sx={{display:"flex",justifyContent:"left",alignItems:"center"}}>
             <TextField
           label="Search"
@@ -182,7 +204,7 @@ export const Categories = () => {
               </Grid>
 
         
-      </CustomTabPanel>
+      </CustomTabPanel> */}
 
      
 
@@ -191,7 +213,31 @@ export const Categories = () => {
         </CardContent>
        </Card>
 
-       
+       <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+
+          <Box style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+          <Typography id="modal-modal-title" variant="h4" component="h2">
+          Add Category
+          </Typography>
+
+            <CloseIcon onClick={handleClose}/>
+          </Box>
+           
+          
+
+          <TextField fullWidth label="Enter Name Of Category" sx={{marginTop:"30px"}}></TextField>
+          
+          <Box sx={{display:"flex",justifyContent:"right",alignItems:"center",marginTop:"15px"}}>
+      <Button variant='contained' size='small' expand sx={{backgroundColor:"black"}} >Submit</Button>
+    </Box>
+        </Box>
+      </Modal>
    </Box>
   )
 }

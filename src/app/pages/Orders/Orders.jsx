@@ -9,7 +9,21 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import { InfoCard } from '../../../Components/InfoCard';
 import Grid from "@mui/material/Grid";
 import { OrdersCard } from '../../../Components/OrdersCard';
-
+import Modal from '@mui/material/Modal';
+import CloseIcon from '@mui/icons-material/Close';
+import { useNavigate } from 'react-router-dom';
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width:"40%",
+  height:"80%",
+  bgcolor: 'background.paper',
+  borderRadius:"10px",
+  boxShadow: 24,
+  p: 2,
+};
 const orangeTheme = createTheme({
   palette: {
     primary: {
@@ -51,10 +65,23 @@ function a11yProps(index) {
   };
 }
 export const Orders = () => {
+  const navigate = useNavigate()
+  const tableStyle = {
+    width: '100%',
+    borderCollapse: 'collapse',
+};
 
+const thTdStyle = {
+   fontSize:"16px",
+    textAlign: 'center',
+    padding: '8px',
+};
   const [value, setValue] = React.useState(0);
   const [searchInput, setSearchInput] = React.useState('');
-
+  
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -142,7 +169,7 @@ export const Orders = () => {
 
          <Grid container spacing={2}>
                 <Grid item xs={3}>
-                <OrdersCard name={"Ankit Dixit"} value={"45,000"} phone={"9251466357"} address={"Plot Number 116, Lane Number 4, Rathore Nagar, Vaishali Nagar, 302039"}/>
+                <OrdersCard Fun={handleOpen} name={"Ankit Dixit"} value={"45,000"} phone={"9251466357"} address={"Plot Number 116, Lane Number 4, Rathore Nagar, Vaishali Nagar, 302039"}/>
                 </Grid>
 
               </Grid>
@@ -158,6 +185,81 @@ export const Orders = () => {
     
         </CardContent>
        </Card>
+
+
+       <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+
+          <Box style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:"20px"}}>
+          
+            
+            <TextField
+          label="Search"
+          id="outlined-start-adornment"
+          size='small'
+          sx={{  width: '250px' }}
+          InputProps={{
+            startAdornment: <InputAdornment position="start"><SearchIcon/></InputAdornment>,
+          }}
+          value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+        />
+
+
+
+            <CloseIcon onClick={handleClose} sx={{marginTop:"-20px",fontSize:"23px"}}/>
+          </Box>
+           
+          
+          <Box sx={{marginTop:"20px"}}>
+           <table style={tableStyle}>
+                <thead>
+                    <tr>
+                        <th style={{ ...thTdStyle }}>Name</th>
+                        <th style={thTdStyle}>Contect no</th>
+                        <th style={thTdStyle}>Action</th>
+                        
+                    </tr>
+                </thead>
+                <tbody >
+                    <tr>
+                        <td style={thTdStyle}>Ankit dixit</td>
+                        <td style={thTdStyle}>9251466357</td>
+                        <td style={thTdStyle}>
+                            <Button variant='outlined' sx={{color:"black",borderColor:"black"}}>Assign Order</Button>
+                        </td>
+                        
+                    </tr>
+                  
+                    <tr>
+                        <td style={thTdStyle}>Ankit dixit</td>
+                        <td style={thTdStyle}>9251466357</td>
+                        <td style={thTdStyle}>
+                            <Button variant='outlined' sx={{color:"black",borderColor:"black"}}>Assign Order</Button>
+                        </td>
+                        
+                    </tr>
+
+                    <tr>
+                        <td style={thTdStyle}>Ankit dixit</td>
+                        <td style={thTdStyle}>9251466357</td>
+                        <td style={thTdStyle}>
+                            <Button variant='outlined' sx={{color:"black",borderColor:"black"}}>Assign Order</Button>
+                        </td>
+                        
+                    </tr>
+                </tbody>
+            </table>
+           </Box>
+          
+         
+        </Box>
+      </Modal>
 
        
    </Box>
