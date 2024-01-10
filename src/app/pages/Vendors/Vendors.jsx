@@ -1,5 +1,5 @@
 import { Box, Button, Card, CardContent, Tab,InputAdornment, Tabs, Typography, TextField } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import AddIcon from '@mui/icons-material/Add';
 import PropTypes from 'prop-types';
 import { createTheme } from "@mui/material/styles";
@@ -9,6 +9,9 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import { InfoCard } from '../../../Components/InfoCard';
 import Grid from "@mui/material/Grid";
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { Base_url } from '../../Config/BaseUrl';
+import { toAbsoluteUrl } from '../../../_metronic/helpers';
 
 const orangeTheme = createTheme({
   palette: {
@@ -54,7 +57,12 @@ export const Vendors = () => {
  const navigate = useNavigate()
   const [value, setValue] = React.useState(0);
   const [searchInput, setSearchInput] = React.useState('');
-
+  const [AllVendorsData,setVendorsData] = useState([])
+  const [update,setupdate] = useState(0)
+  const [CollectorsData,setCollectorsData] = useState([]);
+  const [WholesalersData,setWholesalersData] = useState([]);
+  const [MediatorsData,setMediatorsData] = useState([]);
+  const [FactoryData,setFactoryData] = useState([]);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -80,6 +88,62 @@ export const Vendors = () => {
   const handelAddVendors =()=>[
     navigate("add")
   ]
+
+  const fetchB2BUser = async () => {
+    try {
+      const response = await axios.get(`${Base_url}api/b2b`);
+
+      if (response.status === 200) {
+        const fetchedB2BUsers = response.data;
+        // setCategories(fetchedCategories);
+
+        console.log("Fetch users == >",fetchedB2BUsers)
+        
+        setVendorsData(fetchedB2BUsers)
+        const MediatorsData= fetchedB2BUsers.filter((el)=>{
+          return el.registerAs === "Mediators"
+        })
+
+        const WholesalersData= fetchedB2BUsers.filter((el)=>{
+          return el.registerAs === "Wholesalers"
+        })
+
+        const FactoryData= fetchedB2BUsers.filter((el)=>{
+          return el.registerAs === "Factory"
+        })
+
+        const CollectorsData= fetchedB2BUsers.filter((el)=>{
+          return el.registerAs === "Collectors"
+        })
+         
+        setMediatorsData(MediatorsData);
+        setWholesalersData(WholesalersData);
+        setFactoryData(FactoryData);
+        setCollectorsData(CollectorsData);
+
+      } else {
+        console.error('Error fetching categories:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error:', error.message);
+    }
+  };
+
+  const deleteUser = async(ID) => {
+    try{
+      const res = await axios.delete(`${Base_url}api/category/${ID}`);
+      console.log(res)
+      setupdate((prev)=>prev+1)
+    }
+    catch(err){
+      console.log("Error",err)
+    }
+  }
+
+
+  useEffect(()=>{
+    fetchB2BUser()
+  },[update])
 
   return (
     <Box >
@@ -146,22 +210,22 @@ export const Vendors = () => {
        
 
          <Grid container spacing={2}>
-                <Grid item xs={3}>
-                <InfoCard name={"Ankit Dixit"} phone={"9251466357"} address={"Plot Number 116, Lane Number 4, Rathore Nagar, Vaishali Nagar, 302039"}/>
-                </Grid>
+                
 
-                <Grid item xs={3}>
-                <InfoCard name={"Ankit Dixit"} phone={"9251466357"} address={"Plot Number 116, Lane Number 4, Rathore Nagar, Vaishali Nagar, 302039"}/>
-                </Grid>
-
-
-                <Grid item xs={3}>
-                <InfoCard name={"Ankit Dixit"} phone={"9251466357"} address={"Plot Number 116, Lane Number 4, Rathore Nagar, Vaishali Nagar, 302039"}/>
-                </Grid>
-
-                <Grid item xs={3}>
-                <InfoCard name={"Ankit Dixit"} phone={"9251466357"} address={"Plot Number 116, Lane Number 4, Rathore Nagar, Vaishali Nagar, 302039"}/>
-                </Grid>
+               {
+                CollectorsData && CollectorsData.length > 0  ? CollectorsData.map((el,index)=>{
+                  return <Grid key={index} item xs={12} sm={6} md={4} lg={3}>
+                  <InfoCard  Data={el}/>
+                  </Grid>
+                })
+                :
+                <Grid  item xs={12} style={{textAlign:"center"}}>
+                    <div style={{textAlign:"center",height:"300px"}}>
+             <img src={toAbsoluteUrl('/media/illustrations/dozzy-1/5-dark.png')} style={{height:"90%"}}  alt='' />
+            <h2>No Collectors Data Found</h2>
+            </div>
+                  </Grid>
+               }
 
                
 
@@ -174,15 +238,89 @@ export const Vendors = () => {
       </CustomTabPanel>
 
       <CustomTabPanel value={value} index={1}>
-        Item Two
+      <Grid container spacing={2}>
+                
+
+                {
+                 WholesalersData && WholesalersData.length > 0 ? WholesalersData.map((el,index)=>{
+                   return <Grid key={index} item xs={12} sm={6} md={4} lg={3}>
+                   <InfoCard  Data={el}/>
+                   </Grid>
+                 })
+                 :
+                <Grid  item xs={12} style={{textAlign:"center"}}>
+                    <div style={{textAlign:"center",height:"300px"}}>
+             <img src={toAbsoluteUrl('/media/illustrations/dozzy-1/5-dark.png')} style={{height:"90%"}}  alt='' />
+            <h2>No Wholesalers Data Found</h2>
+            </div>
+                  </Grid>
+                }
+ 
+                
+ 
+                
+ 
+ 
+               
+               </Grid>
       </CustomTabPanel>
 
       <CustomTabPanel value={value} index={2}>
-        Item Three
+      <Grid container spacing={2}>
+                
+
+                {
+                 MediatorsData && MediatorsData.length > 0 ? MediatorsData.map((el,index)=>{
+                   return <Grid key={index} item xs={12} sm={6} md={4} lg={3}>
+                   <InfoCard  Data={el}/>
+                   </Grid>
+                 })
+                 :
+                 
+                 <Grid  item xs={12} style={{textAlign:"center"}}>
+                     <div style={{textAlign:"center",height:"300px"}}>
+              <img src={toAbsoluteUrl('/media/illustrations/dozzy-1/5-dark.png')} style={{height:"90%"}}  alt='' />
+             <h2>No Mediators Data Found</h2>
+             </div>
+                   </Grid>
+                }
+ 
+                
+ 
+                
+ 
+ 
+               
+               </Grid>
       </CustomTabPanel>
 
       <CustomTabPanel value={value} index={3}>
-        Item four
+      <Grid container spacing={2}>
+                
+
+                {
+                 FactoryData && FactoryData.length > 0 ? FactoryData.map((el,index)=>{
+                   return <Grid key={index} item xs={12} sm={6} md={4} lg={3}>
+                   <InfoCard  Data={el}/>
+                   </Grid>
+                 })
+                 :
+                 
+                 <Grid  item xs={12} style={{textAlign:"center"}}>
+                     <div style={{textAlign:"center",height:"300px"}}>
+              <img src={toAbsoluteUrl('/media/illustrations/dozzy-1/5-dark.png')} style={{height:"90%"}}  alt='' />
+             <h2>No Factory Data Found</h2>
+             </div>
+                   </Grid>
+                }
+ 
+                
+ 
+                
+ 
+ 
+               
+               </Grid>
       </CustomTabPanel>
 
     </Box>

@@ -22,6 +22,7 @@ import { Users } from '../pages/Users/Users'
 import { ViewCategories } from '../pages/Categories/ViewCategories'
 import { CreateInvoice } from '../pages/Sales/CreateInvoice'
 import { AddVendors } from '../pages/Vendors/AddVendors'
+import { VendorsView } from '../pages/Vendors/VendorsView'
 
 
 
@@ -59,6 +60,14 @@ const PrivateRoutes = () => {
           element={
             <SuspensedView>
               <AddVendors />
+            </SuspensedView>
+          }
+        />
+        <Route
+          path='vendors/view/:id'
+          element={
+            <SuspensedView>
+              <VendorsView />
             </SuspensedView>
           }
         />
