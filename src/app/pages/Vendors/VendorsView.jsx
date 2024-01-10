@@ -17,12 +17,52 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Drawer from '@mui/material/Drawer';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Modal, TextField, Typography } from "@mui/material";
 import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import PhotoSizeSelectActualIcon from '@mui/icons-material/PhotoSizeSelectActual';
+import CloseIcon from '@mui/icons-material/Close';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
+import DeleteIcon from '@mui/icons-material/Delete';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    borderRadius:"10px",
+    boxShadow: 24,
+    p: 2,
+  };
 export const VendorsView = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const [open2, setOpen2] = React.useState(false);
+  const handleOpen2 = () => setOpen2(true);
+  const handleClose2 = () => {
+    setOpen2(false);
+    setSubCategoryData({
+        name:"",
+        price:"",
+        unit:""
+      })
+};
+
+  const [open3, setOpen3] = React.useState(false);
+  const handleOpen3 = () => setOpen3(true);
+  const handleClose3 = () => {
+    setOpen3(false);
+    setSubCategoryData({
+        name:"",
+        price:"",
+        unit:""
+      })
+};
   const tableStyle = {
     width: '100%',
     borderCollapse: 'collapse',
@@ -33,6 +73,12 @@ const thTdStyle = {
     textAlign: 'center',
     padding: '8px',
 };
+
+const thTdStyle2 = {
+    fontSize:"16px",
+     textAlign: 'left',
+     padding: '8px',
+ };
 
   const Data = [
     {
@@ -167,32 +213,72 @@ const thTdStyle = {
   });
   const [ProfileData, setProfileData] = useState(null);
   const [teacherData, setTeacherData] = useState(null);
-  const [ userData, setUserData] = useState(null)
+  const [ userData, setUserData] = useState(null);
+  const [update,setupdate] = useState(0);
+  const [subCategoryData,setSubCategoryData] = useState({
+    name:"",
+    price:"",
+    unit:""
+  });
+  const [subCategoryIndex,setSubCategoryIndex] = useState("")
+  const [CategoryEditData,setCategoryEditData] = useState("")
+
   const handelChatClick = () => {
     navigate("chats/");
   };
-  const fetchData = async () => {
-    try {
-      const response = await axios.get(`${Base_url}api/b2b/${id}`);
-
-      if (response.status === 200) {
-        console.log("DAta =====>",response.data);
-        setUserData(response.data);
-      } else {
-        console.error('Error fetching data:', response.data.message);
-      }
-    } catch (error) {
-      console.error('Error fetching data:', error.message);
-    }
+  const handleCategoryEditOpen = ()=>{
+    setCategoryEditData(userData.category)
+    handleOpen();
+  }
+  const handleSubCategoryInputChange = (e) => {
+    const { name, value } = e.target;
+    setSubCategoryData(prevData => ({
+      ...prevData,
+      [name]: value
+    }));
   };
-  useEffect(() => {
-    const ProfileDataFilter = Data.filter((el) => {
-      return el.id === parseInt(id);
-    });
-    // console.log("Data =>",ProfileDataFilter)
-    setProfileData(Data[0]);
-    fetchData();
-  }, []);
+
+  const handleCategoryInputChange = (e) => {
+    setCategoryEditData(e.target.value);
+  };
+
+  const handelCategoryEditSubmit = ()=>{
+    const CategoryData ={
+        category: CategoryEditData
+    }
+    updateCategory(userData._id,CategoryData);
+    setCategoryEditData("")
+    handleClose();
+
+  }
+
+  const handelSubCategoryEdit=(el,index)=>{
+    setSubCategoryData(el)
+    setSubCategoryIndex(index)
+    handleOpen2();
+  }
+  
+  const handelSubCategoryEditSubmit = ()=>{
+  
+        updateSubcategoryByIndex(userData._id,subCategoryIndex,subCategoryData);
+        handleClose2();
+  
+  
+    
+    
+  }
+
+  const handelSubCategoryAddSubmit = ()=>{
+
+    addSubcategory(userData._id,subCategoryData);
+    handleClose3();
+    setSubCategoryData({
+        name:"",
+        price:"",
+        unit:""
+      })
+
+}
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -204,15 +290,130 @@ const thTdStyle = {
 
   const list = (anchor) => (
     <Box
-      sx={{ width:450,padding:"20px" }}
+      sx={{ width:550,padding:"20px" }}
       role="presentation"
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
 
-<div style={{height:"30px",backgroundColor:"orange",borderRadius:"20px",display:"flex",justifyContent:"center",alignItems:"center"}}>
-                    <p style={{color:"#fff",marginTop:"10px"}}> Documents </p>
-                   </div>
+          <div style={{height:"30px",backgroundColor:"orange",borderRadius:"20px",display:"flex",justifyContent:"center",alignItems:"center"}}>
+                    <p style={{color:"#fff",marginTop:"10px"}}> Adhar Card Details </p>
+            </div>
+
+           <div>
+           <div style={{marginTop:"20px"}}>
+           
+           <table style={tableStyle}>
+                   <thead>
+                       <tr>
+                           <th style={{ ...thTdStyle }}>Name</th>
+                           <th style={thTdStyle}>Addhar Number</th>
+                           <th style={thTdStyle}>Address</th>
+                           <th style={thTdStyle}></th>
+                       </tr>
+                   </thead>
+                   <tbody >
+                       {
+                           userData && userData.adharData  ? 
+                             <tr>
+                               <td style={thTdStyle}>{userData.adharData.Name}</td>
+                               <td style={thTdStyle}> {userData.adharData.AdhharNo}</td>
+                               <td style={thTdStyle}>{userData.adharData.Address}</td>
+                               <td style={thTdStyle}>
+                                 <MoreVertIcon/>
+                               </td>
+                           </tr>
+                          
+                           :
+                           <h2>No Addhar Data Yet</h2>
+                       }
+                      
+                     
+                      
+                   </tbody>
+               </table>
+   
+           </div>
+
+           <div style={{display:"flex",justifyContent:"left",alignItems:"center",marginTop:"20px",padding:"10px"}}>
+            <div style={{marginRight:"20px"}}>
+                <span>Front</span>
+                <div style={{width:"100px",height:"100px",border:"1px solid grey",display:"flex",justifyContent:"center",alignItems:"center",borderRadius:"20px"}}>
+            <PhotoSizeSelectActualIcon sx={{fontSize:"40px"}}/>
+            </div>
+            </div>
+            
+
+            <div>
+                <span>Back</span>
+                <div style={{width:"100px",height:"100px",border:"1px solid grey",display:"flex",justifyContent:"center",alignItems:"center",borderRadius:"20px"}}>
+            <PhotoSizeSelectActualIcon sx={{fontSize:"40px"}}/>
+            </div>
+            </div>
+
+           </div>
+            </div>   
+
+            <div style={{height:"30px",backgroundColor:"orange",borderRadius:"20px",display:"flex",justifyContent:"center",alignItems:"center",marginTop:"20px"}}>
+                    <p style={{color:"#fff",marginTop:"10px"}}> Pan Card Details </p>
+            </div>  
+
+            <div>
+           <div style={{marginTop:"20px"}}>
+           
+           <table style={tableStyle}>
+                   <thead>
+                       <tr>
+                           <th style={{ ...thTdStyle2 }}>Pan Card</th>
+                           
+                           <th style={thTdStyle2}></th>
+                       </tr>
+                   </thead>
+                   <tbody >
+                       {
+                           userData && userData.panNo  ? 
+                             <tr>
+                               <td style={thTdStyle2}>{userData.panNo}</td>
+                              
+                               <td style={thTdStyle2}>
+                                 <MoreVertIcon/>
+                               </td>
+                           </tr>
+                          
+                           :
+                           <h2>No Pan Card Data Yet</h2>
+                       }
+                      
+                     
+                      
+                   </tbody>
+               </table>
+   
+           </div>
+
+           <div style={{display:"flex",justifyContent:"left",alignItems:"center",marginTop:"20px",padding:"10px"}}>
+            <div style={{marginRight:"20px"}}>
+                <span>Front</span>
+                <div style={{width:"100px",height:"100px",border:"1px solid grey",display:"flex",justifyContent:"center",alignItems:"center",borderRadius:"20px"}}>
+            <PhotoSizeSelectActualIcon sx={{fontSize:"40px"}}/>
+            </div>
+            </div>
+            
+
+            <div>
+                <span>Back</span>
+                <div style={{width:"100px",height:"100px",border:"1px solid grey",display:"flex",justifyContent:"center",alignItems:"center",borderRadius:"20px"}}>
+            <PhotoSizeSelectActualIcon sx={{fontSize:"40px"}}/>
+            </div>
+            </div>
+
+           </div>
+            </div>   
+
+
+    <div>
+
+    </div>
     </Box>
   );
 
@@ -228,11 +429,13 @@ const thTdStyle = {
     <Box
       sx={{ width:550,padding:"20px" }}
       role="presentation"
-      onClick={toggleDrawer2(anchor, false)}
-      onKeyDown={toggleDrawer2(anchor, false)}
+      
     >
         <div>
-
+             
+             <div style={{textAlign:"right",marginBottom:"20px"}}>
+               <Button onClick={handleCategoryEditOpen} variant="outlined" style={{backgroundColor:"#FF86041A",color:"#FF8604",borderColor:"#FF8604"}}>Edit Categorie</Button>
+             </div>
      
         <div style={{height:"30px",backgroundColor:"orange",borderRadius:"20px",display:"flex",justifyContent:"center",alignItems:"center"}}>
                     <p style={{color:"#fff",marginTop:"10px"}}>Categories </p>
@@ -258,13 +461,17 @@ const thTdStyle = {
 
         <div style={{marginTop:"20px"}}>
            
+        <div style={{textAlign:"right",marginBottom:"20px"}}>
+               <Button onClick={handleOpen3} variant="outlined" style={{backgroundColor:"#FF86041A",color:"#FF8604",borderColor:"#FF8604"}}>Add Sub Categorie</Button>
+             </div>
         <table style={tableStyle}>
                 <thead>
                     <tr>
                         <th style={{ ...thTdStyle }}>Name</th>
                         <th style={thTdStyle}>Price</th>
                         <th style={thTdStyle}>Unit</th>
-                        <th style={thTdStyle}></th>
+                        <th style={thTdStyle}>Edit</th>
+                        <th style={thTdStyle}>Delete</th>
                     </tr>
                 </thead>
                 <tbody >
@@ -276,7 +483,10 @@ const thTdStyle = {
                             <td style={thTdStyle}>₹ {el.price}</td>
                             <td style={thTdStyle}>{el.unit}</td>
                             <td style={thTdStyle}>
-                              <MoreVertIcon/>
+                              <BorderColorIcon onClick = {()=>handelSubCategoryEdit(el,index)}/>
+                            </td>
+                            <td style={thTdStyle}>
+                              <DeleteIcon sx={{color:"crimson"}} onClick={()=>deleteSubcategoryByIndex(userData._id,index)}/>
                             </td>
                         </tr>
                         })
@@ -314,10 +524,89 @@ const thTdStyle = {
      
     </Box>
   );
+
+  // Function to add a subcategory
+const addSubcategory = async (userId, subcategoryData) => {
+    console.log("Add Subcategory ========>")
+    try {
+      const response = await axios.post(`${Base_url}api/b2b/${userId}/subcategories`, subcategoryData);
+      setupdate((prev)=>prev+1)
+      return response.data;
+    } catch (error) {
+      console.error('Error adding subcategory:', error);
+      throw error;
+    }
+  };
+  
+  // Function to update a subcategory by index
+  const updateSubcategoryByIndex = async (userId, subcategoryIndex, subcategoryData) => {
+    console.log("Update Subcategory ========>")
+    try {
+      const response = await axios.patch(`${Base_url}api/b2b/${userId}/subcategories/${subcategoryIndex}`, subcategoryData);
+      setupdate((prev)=>prev+1)
+      return response.data;
+    } catch (error) {
+      console.error('Error updating subcategory:', error);
+      throw error;
+    }
+  };
+  
+  // Function to delete a subcategory by index
+  const deleteSubcategoryByIndex = async (userId, subcategoryIndex) => {
+    try {
+      const response = await axios.delete(`${Base_url}api/b2b/${userId}/subcategories/${subcategoryIndex}`);
+      setupdate((prev)=>prev+1)
+      return response.data;
+    } catch (error) {
+      console.error('Error deleting subcategory:', error);
+      throw error;
+    }
+  };
+  
+  // Function to update the category
+  const updateCategory = async (userId, categoryData) => {
+    try {
+      const response = await axios.patch(`${Base_url}api/b2b/${userId}/category`, categoryData);
+      setupdate((prev)=>prev+1)
+      return response.data;
+    } catch (error) {
+      console.error('Error updating category:', error);
+      throw error;
+    }
+  };
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(`${Base_url}api/b2b/${id}`);
+
+      if (response.status === 200) {
+        console.log("DAta =====>",response.data);
+        setUserData(response.data);
+      } else {
+        console.error('Error fetching data:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error.message);
+    }
+  };
+  const handelBack = ()=>{
+   window.history.back();
+  }
+  useEffect(() => {
+    const ProfileDataFilter = Data.filter((el) => {
+      return el.id === parseInt(id);
+    });
+    // console.log("Data =>",ProfileDataFilter)
+    setProfileData(Data[0]);
+    fetchData();
+  }, [update]);
   return (
     <>
       <div className="card mb-5 mb-xl-10">
         <div className="card-body pt-9 pb-0">
+        <div onClick={handelBack} style={{backgroundColor:"#7265bd",width:"35px",height:"35px",display:"flex",justifyContent:"center",alignItems:"center",borderRadius:"10px",marginBottom:"15px"}}>
+                <ArrowBackIosIcon style={{fontSize:"20px",color:"#fff"}}/>
+            </div>
           <div className="d-flex flex-wrap flex-sm-nowrap mb-3">
             <div className="me-7 mb-4">
               <div className="symbol symbol-100px symbol-lg-160px symbol-fixed position-relative">
@@ -622,7 +911,8 @@ const thTdStyle = {
         </div>
       </div>
 
-      <Drawer
+<div>
+<Drawer
             anchor={`right`}
             open={state[`right`]}
             onClose={toggleDrawer(`right`, false)}
@@ -645,6 +935,128 @@ const thTdStyle = {
           >
             {list3(`right`)}
           </Drawer>
+</div>
+
+<Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+
+          <Box style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+          <Typography id="modal-modal-title" variant="h4" component="h2">
+          Edit Category
+          </Typography>
+
+            <CloseIcon onClick={handleClose}/>
+          </Box>
+           
+          
+
+          <TextField
+        fullWidth
+        label="Enter Name Of Category"
+        sx={{ marginTop: "30px" }}
+        value={CategoryEditData}
+        onChange={handleCategoryInputChange}
+      />
+          
+          <Box sx={{display:"flex",justifyContent:"right",alignItems:"center",marginTop:"15px"}}>
+      <Button variant='contained' size='small' expand sx={{backgroundColor:"black"}} onClick={handelCategoryEditSubmit} >Submit</Button>
+    </Box>
+        </Box>
+      </Modal>
+
+      <Modal
+        open={open2}
+        onClose={handleClose2}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+
+          <Box style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+          <Typography id="modal-modal-title" variant="h4" component="h2">
+          Edit Sub Category
+          </Typography>
+
+            <CloseIcon onClick={handleClose2}/>
+          </Box>
+           
+          <TextField
+        fullWidth
+        label="Enter Name Of Sub Category"
+        sx={{ marginTop: "30px" }}
+        name="name"
+        value={subCategoryData.name}
+        onChange={handleSubCategoryInputChange}
+      />
+      <TextField
+        sx={{ marginTop: "30px" }}
+        label="Price"
+        name="price"
+        value={subCategoryData.price}
+        onChange={handleSubCategoryInputChange}
+      />
+      <TextField
+        sx={{ marginTop: "30px" }}
+        label="Unit"
+        name="unit"
+        value={subCategoryData.unit}
+        onChange={handleSubCategoryInputChange}
+      />
+          <Box sx={{display:"flex",justifyContent:"right",alignItems:"center",marginTop:"15px"}}>
+      <Button variant='contained' size='small' expand sx={{backgroundColor:"black"}} onClick={()=>handelSubCategoryEditSubmit()}>Submit</Button>
+    </Box>
+        </Box>
+      </Modal>
+
+      <Modal
+        open={open3}
+        onClose={handleClose3}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+
+          <Box style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+          <Typography id="modal-modal-title" variant="h4" component="h2">
+          Add Sub Category
+          </Typography>
+
+            <CloseIcon onClick={handleClose3}/>
+          </Box>
+           
+          <TextField
+        fullWidth
+        label="Enter Name Of Sub Category"
+        sx={{ marginTop: "30px" }}
+        name="name"
+        value={subCategoryData.name}
+        onChange={handleSubCategoryInputChange}
+      />
+      <TextField
+        sx={{ marginTop: "30px" }}
+        label="Price"
+        name="price"
+        value={subCategoryData.price}
+        onChange={handleSubCategoryInputChange}
+      />
+      <TextField
+        sx={{ marginTop: "30px" }}
+        label="Unit"
+        name="unit"
+        value={subCategoryData.unit}
+        onChange={handleSubCategoryInputChange}
+      />
+          <Box sx={{display:"flex",justifyContent:"right",alignItems:"center",marginTop:"15px"}}>
+      <Button variant='contained' size='small' expand sx={{backgroundColor:"black"}} onClick={()=>handelSubCategoryAddSubmit()}>Submit</Button>
+    </Box>
+        </Box>
+      </Modal>
+      
     </>
   );
 };
