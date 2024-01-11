@@ -1,5 +1,5 @@
 import { Box, Button, Card, CardContent, Tab,InputAdornment, Tabs, Typography, TextField } from '@mui/material'
-import React from 'react'
+import React, { useEffect,useState } from 'react'
 import AddIcon from '@mui/icons-material/Add';
 import PropTypes from 'prop-types';
 import { createTheme } from "@mui/material/styles";
@@ -13,6 +13,8 @@ import { SubCategoriesCard } from '../../../Components/SubCategoriesCard';
 import { useNavigate } from 'react-router-dom';
 import Modal from '@mui/material/Modal';
 import CloseIcon from '@mui/icons-material/Close';
+import axios from 'axios';
+import { Base_url } from '../../Config/BaseUrl';
 const style = {
   position: 'absolute',
   top: '50%',
@@ -67,14 +69,43 @@ function a11yProps(index) {
 }
 export const Categories = () => {
   const navigate = useNavigate()
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-  const [value, setValue] = React.useState(0);
-  const [searchInput, setSearchInput] = React.useState('');
-
+  const handleClose = () =>{
+    setOpen(false);
+    setCategoryAddData({
+      name: '',
+      description: '',
+    })
+  } 
+  const [open2, setOpen2] = useState(false);
+  const handleOpen2 = () => setOpen2(true);
+  const handleClose2 = () =>{
+    setOpen2(false);
+    setCategoryAddData({
+      name: '',
+      description: '',
+    })
+  } 
+  const [value, setValue] = useState(0);
+  const [searchInput, setSearchInput] = useState('');
+  const [update, setUpdate] = useState([]);
+  const [CategoriesData, setCategoriesData] = useState([]);
+  const [categoryAddData, setCategoryAddData] = useState({
+    name: '',
+    description: '',
+  });
+  const [ActiveCategory,setActiveCategory] = useState("");
   const handleChange = (event, newValue) => {
     setValue(newValue);
+  };
+
+  const handleCategoryInputChange = (event) => {
+    const { name, value } = event.target;
+    setCategoryAddData({
+      ...categoryAddData,
+      [name]: value,
+    });
   };
   const handleChangetabs = (event, newValue) => {
     setValue(newValue);
@@ -99,7 +130,86 @@ export const Categories = () => {
      navigate(`view-categorie/${id}`)
   }
 
+  const createCategory = async (name, description) => {
+    try {
+      const response = await axios.post(`${Base_url}api/category`, { name, description });
+      setUpdate((prev) =>prev+1)
+      return response.data;
+    } catch (error) {
+      throw error.response.data;
+    }
+  };
+  
+  // Function to get all categories
+  const getCategories = async () => {
+    try {
+      const response = await axios.get(`${Base_url}api/category`);
+      setCategoriesData(response.data);
+      console.log("Categories all", response.data)
+      return response.data;
+    } catch (error) {
+      throw error.response.data;
+    }
+  };
+  
+  // Function to get a category by ID
+  const getCategoryById = async (id) => {
+    try {
+      const response = await axios.get(`${Base_url}api/category/${id}`);
+      setUpdate((prev) =>prev+1)
+      return response.data;
+    } catch (error) {
+      throw error.response.data;
+    }
+  };
+  
+  // Function to update a category
+  const updateCategory = async (id, name, description) => {
+    try {
+      const response = await axios.put(`${Base_url}api/category/${id}`, { name, description });
+      setUpdate((prev) =>prev+1)
+      return response.data;
+    } catch (error) {
+      throw error.response.data;
+    }
+  };
+  
+  // Function to delete a category
+   const deleteCategory = async (id) => {
+    try {
+      const response = await axios.delete(`${Base_url}api/category/${id}`);
+      setUpdate((prev) =>prev+1)
+      return response.data;
+    } catch (error) {
+      throw error.response.data;
+    }
+  };
+  
+  const handelCategorySubmit = ()=>{
+    createCategory(categoryAddData.name, categoryAddData.description);
+    handleClose();
+    setCategoryAddData({
+      name: '',
+      description: '',
+    })
+  }
 
+  const handelEditCategorySubmit = ()=>{
+    updateCategory(ActiveCategory,categoryAddData.name, categoryAddData.description);
+    handleClose2();
+    
+  }
+
+  const handelEditCategoryOpen =(data)=>{
+    setActiveCategory(data._id);
+    setCategoryAddData(data)
+    handleOpen2();
+
+  }
+
+  useEffect(()=>{
+    getCategories()
+  },[update])
   return (
     <Box >
 
@@ -161,9 +271,14 @@ export const Categories = () => {
             </Box>
 
          <Grid container spacing={2}>
-                <Grid item xs={3}>
-                <CategoriesCard Data ={{subCatNo:20,name:"Electronics"}} />
-                </Grid>
+          {
+            CategoriesData && CategoriesData.map((el,index)=>{
+              return <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
+              <CategoriesCard Data ={el} fun={(id)=>deleteCategory(id)} funEdit={()=>handelEditCategoryOpen(el)} />
+              </Grid>
+            })
+          }
+                
               </Grid>
         
       </CustomTabPanel>
@@ -230,11 +345,67 @@ export const Categories = () => {
           </Box>
            
           
+          <TextField
+        fullWidth
+        label="Enter Name Of Category"
+        name="name"
+        value={categoryAddData.name}
+        onChange={handleCategoryInputChange}
+        sx={{ marginTop: "30px" }}
+      />
 
-          <TextField fullWidth label="Enter Name Of Category" sx={{marginTop:"30px"}}></TextField>
+      <TextField
+        fullWidth
+        label="Enter Description"
+        name="description"
+        value={categoryAddData.description}
+        onChange={handleCategoryInputChange}
+        sx={{ marginTop: "20px" }}
+      />
           
           <Box sx={{display:"flex",justifyContent:"right",alignItems:"center",marginTop:"15px"}}>
-      <Button variant='contained' size='small' expand sx={{backgroundColor:"black"}} >Submit</Button>
+      <Button variant='contained' size='small' expand sx={{backgroundColor:"black"}} onClick={handelCategorySubmit} >Submit</Button>
+    </Box>
+        </Box>
+      </Modal>
+
+      <Modal
+        open={open2}
+        onClose={handleClose2}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+
+          <Box style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+          <Typography id="modal-modal-title" variant="h4" component="h2">
+          Edit Category
+          </Typography>
+
+            <CloseIcon onClick={handleClose2}/>
+          </Box>
+           
+          
+          <TextField
+        fullWidth
+        label="Enter Name Of Category"
+        name="name"
+        value={categoryAddData.name}
+        onChange={handleCategoryInputChange}
+        sx={{ marginTop: "30px" }}
+      />
+
+      <TextField
+        fullWidth
+        label="Enter Description"
+        name="description"
+        value={categoryAddData.description}
+        onChange={handleCategoryInputChange}
+        sx={{ marginTop: "20px" }}
+      />
+          
+          <Box sx={{display:"flex",justifyContent:"right",alignItems:"center",marginTop:"15px"}}>
+      <Button variant='contained' size='small' expand sx={{backgroundColor:"black"}} onClick={handelEditCategorySubmit} >Submit</Button>
     </Box>
         </Box>
       </Modal>
