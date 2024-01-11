@@ -46,6 +46,15 @@ const SidebarMenuMain = () => {
         fontIcon="bi-layers"
       />
 
+<SidebarMenuItem
+        to="/b2b_orders"
+        icon={
+          <ShoppingCartIcon style={{ color: "orange", fontSize: "25px" }} />
+        }
+        title="Vendors Orders"
+        fontIcon="bi-layers"
+      />
+
       <SidebarMenuItem
         to="/categories"
         icon={<CategoryIcon style={{ color: "orange", fontSize: "25px" }} />}

@@ -23,6 +23,8 @@ import { ViewCategories } from '../pages/Categories/ViewCategories'
 import { CreateInvoice } from '../pages/Sales/CreateInvoice'
 import { AddVendors } from '../pages/Vendors/AddVendors'
 import { VendorsView } from '../pages/Vendors/VendorsView'
+import { B2BOrders } from '../pages/Orders/B2BOrders'
+import { AddB2BOrder } from '../pages/Orders/AddB2BOrder'
 
 
 
@@ -86,6 +88,22 @@ const PrivateRoutes = () => {
           element={
             <SuspensedView>
               <Orders />
+            </SuspensedView>
+          }
+        />
+        <Route
+          path='b2b_orders/*'
+          element={
+            <SuspensedView>
+              <B2BOrders />
+            </SuspensedView>
+          }
+        />
+        <Route
+          path='b2b_orders/add/*'
+          element={
+            <SuspensedView>
+              <AddB2BOrder />
             </SuspensedView>
           }
         />

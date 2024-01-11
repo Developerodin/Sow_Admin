@@ -1,5 +1,5 @@
 import { Box, Button, Card, CardContent, Tab,InputAdornment, Tabs, Typography, TextField } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import AddIcon from '@mui/icons-material/Add';
 import PropTypes from 'prop-types';
 import { createTheme } from "@mui/material/styles";
@@ -14,6 +14,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useNavigate } from 'react-router-dom';
 import { Base_url } from '../../Config/BaseUrl';
 import axios from 'axios';
+import { B2BOrdersCard } from '../../../Components/B2BOrderCard';
 const style = {
   position: 'absolute',
   top: '50%',
@@ -66,7 +67,7 @@ function a11yProps(index) {
     'aria-controls': `simple-tabpanel-${index}`,
   };
 }
-export const Orders = () => {
+export const B2BOrders = () => {
   const navigate = useNavigate()
   const tableStyle = {
     width: '100%',
@@ -78,12 +79,14 @@ const thTdStyle = {
     textAlign: 'center',
     padding: '8px',
 };
-  const [value, setValue] = React.useState(0);
-  const [searchInput, setSearchInput] = React.useState('');
+  const [value, setValue] = useState(0);
+  const [searchInput, setSearchInput] = useState('');
   
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [OrdersData,setOrderData] = useState([]);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -119,6 +122,8 @@ const thTdStyle = {
  const getOrders = async () => {
     try {
       const response = await axios.get(`${Base_url}api/b2b_orders`);
+      console.log(response.data);
+      setOrderData(response.data)
       return response.data;
     } catch (error) {
       throw error.response.data;
@@ -155,6 +160,14 @@ const thTdStyle = {
     }
   };
 
+  const handelOrderClick = ()=>{
+    navigate("add")
+  }
+
+  useEffect(()=>{
+    getOrders();
+  },[])
+
   return (
     <Box >
 
@@ -165,15 +178,15 @@ const thTdStyle = {
           <Box style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
             <Box>
             <Typography style={{fontSize:"40px",fontWeight:600,fontFamily:"sans-serif"}} >
-             Orders
+             Vendors Orders
             </Typography>
             </Box>
            
-{/* 
+
             <Box>
               
-              <Button variant="contained" style={{marginLeft:"20px",background:"#FF8604"}} startIcon={<AddIcon />} >Add Order</Button>
-            </Box> */}
+              <Button variant="contained" style={{marginLeft:"20px",background:"#FF8604"}} startIcon={<AddIcon />} onClick={handelOrderClick} >Add Order</Button>
+            </Box>
           </Box>
              
 
@@ -183,8 +196,8 @@ const thTdStyle = {
         indicatorColor="primary"
        
         >
-          <Tab label="Incoming Orders" {...a11yProps(0)}  style={{fontSize:"16px",fontWeight:600,color:`${value === 0 ? "#EE731B" : "#555555"}`,marginRight:"10px",borderRadius:"10px",marginBottom:"10px"}}/>
-          <Tab label="Assigned" {...a11yProps(1)} style={{fontSize:"16px",fontWeight:600,color:`${value === 1 ? "#EE731B" : "#555555"}`,marginRight:"10px",borderRadius:"10px",marginBottom:"10px"}} />
+          <Tab label="Orders" {...a11yProps(0)}  style={{fontSize:"16px",fontWeight:600,color:`${value === 0 ? "#EE731B" : "#555555"}`,marginRight:"10px",borderRadius:"10px",marginBottom:"10px"}}/>
+          <Tab label="Completed" {...a11yProps(1)} style={{fontSize:"16px",fontWeight:600,color:`${value === 1 ? "#EE731B" : "#555555"}`,marginRight:"10px",borderRadius:"10px",marginBottom:"10px"}} />
          
         </Tabs>
         </ThemeProvider>
@@ -219,9 +232,14 @@ const thTdStyle = {
        
 
          <Grid container spacing={2}>
-                <Grid item xs={3}>
-                <OrdersCard Fun={handleOpen} name={"Ankit Dixit"} value={"45,000"} phone={"9251466357"} address={"Plot Number 116, Lane Number 4, Rathore Nagar, Vaishali Nagar, 302039"}/>
-                </Grid>
+            {
+                OrdersData && OrdersData.map((el,index)=>{
+                   return <Grid item xs={3} key={index}>
+                    <B2BOrdersCard Fun={handleOpen} name={"Ankit Dixit"} value={"45,000"} phone={"9251466357"} address={"Plot Number 116, Lane Number 4, Rathore Nagar, Vaishali Nagar, 302039"}/>
+                    </Grid>
+                })
+            }
+                
 
               </Grid>
         
