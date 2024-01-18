@@ -1,5 +1,5 @@
 import { Box, Button, Card, CardContent, Tab,InputAdornment, Tabs, Typography, TextField } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import AddIcon from '@mui/icons-material/Add';
 import PropTypes from 'prop-types';
 import { createTheme } from "@mui/material/styles";
@@ -9,6 +9,8 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import { InfoCard } from '../../../Components/InfoCard';
 import Grid from "@mui/material/Grid";
 import { RatesCard } from '../../../Components/RatesCard';
+import axios from 'axios';
+import { Base_url } from '../../Config/BaseUrl';
 
 const orangeTheme = createTheme({
   palette: {
@@ -52,9 +54,10 @@ function a11yProps(index) {
 }
 export const Rates = () => {
 
-  const [value, setValue] = React.useState(0);
-  const [searchInput, setSearchInput] = React.useState('');
-
+  const [value, setValue] = useState(0);
+  const [searchInput, setSearchInput] = useState('');
+  const [CategoriesData, setCategoriesData] = useState([]);
+  const [SubCatogryData, setSubCatogryData] = useState([]);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -76,7 +79,39 @@ export const Rates = () => {
     setSearchInput('');
     // setFilterRows(rows);
   };
+  const getCategories = async () => {
+    try {
+      const response = await axios.get(`${Base_url}api/category`);
+      const allSubcategories = extractSubcategories(response.data);
+      console.log("Sub category data ====>", allSubcategories);
+      setCategoriesData(response.data);
+      setSubCatogryData(allSubcategories)
+      console.log("Categories all", response.data)
+      return response.data;
+    } catch (error) {
+      throw error.response.data;
+    }
+  };
+ 
 
+  const extractSubcategories = (categories) => {
+    const allSubcategories = [];
+  
+    categories.forEach(category => {
+      const subCategory = category.sub_category; // Adjust this based on your actual subcategory field
+  
+      if (subCategory && Array.isArray(subCategory)) {
+        allSubcategories.push(...subCategory);
+      }
+    });
+  
+    return allSubcategories;
+  };
+
+
+  useEffect(()=>{
+    getCategories()
+  },[])
   return (
     <Box >
 
@@ -141,9 +176,14 @@ export const Rates = () => {
        
 
          <Grid container spacing={2}>
-                <Grid item xs={3}>
-                <RatesCard name={"Electronics"}/>
-                </Grid>
+          {
+            SubCatogryData && SubCatogryData.map((el,index)=>{
+              return  <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
+              <RatesCard  Data={el}/>
+              </Grid>
+            })
+          }
+               
 
               </Grid>
         

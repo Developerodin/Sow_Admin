@@ -1,5 +1,5 @@
 import { Box, Button, Card, CardContent, Tab,InputAdornment, Tabs, Typography, TextField } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import AddIcon from '@mui/icons-material/Add';
 import PropTypes from 'prop-types';
 import { createTheme } from "@mui/material/styles";
@@ -10,6 +10,22 @@ import { InfoCard } from '../../../Components/InfoCard';
 import Grid from "@mui/material/Grid";
 import { OrdersCard } from '../../../Components/OrdersCard';
 import { UserCard } from '../../../Components/UserCard';
+import { useNavigate } from 'react-router-dom';
+import { Base_url } from '../../Config/BaseUrl';
+import Modal from '@mui/material/Modal';
+import axios from 'axios';
+import CloseIcon from '@mui/icons-material/Close';
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  minWidth:"500px",
+  bgcolor: 'background.paper',
+  borderRadius:"10px",
+  boxShadow: 24,
+  p: 2,
+};
 
 const orangeTheme = createTheme({
   palette: {
@@ -53,9 +69,19 @@ function a11yProps(index) {
 }
 export const Users = () => {
 
-  const [value, setValue] = React.useState(0);
-  const [searchInput, setSearchInput] = React.useState('');
-
+  const [value, setValue] = useState(0);
+  const [searchInput, setSearchInput] = useState('');
+  const [AllUsersData,setUsersData] = useState([])
+  const [update,setupdate] = useState(0);
+  const [open, setOpen] = useState(false);
+  const [OrdersData,setOrderData] = useState([]);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => {
+    setOpen(false);
+    setSelectedUserData(null)
+  }
+  const [SelectedUserData,setSelectedUserData] = useState(null);
+const navigate = useNavigate()
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -78,6 +104,50 @@ export const Users = () => {
     // setFilterRows(rows);
   };
 
+  const handelAddUsers = () =>{
+    navigate("users_add")
+  }
+
+  const fetchUser = async () => {
+    try {
+      const response = await axios.get(`${Base_url}api/users`);
+
+      if (response.status === 200) {
+        const fetchedUsers = response.data;
+        // setCategories(fetchedCategories);
+
+        console.log("Fetch users == >",fetchedUsers)
+        
+        setUsersData(fetchedUsers)
+
+      } else {
+        console.error('Error fetching users:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error:', error.message);
+    }
+  };
+
+  const deleteUser = async(ID) => {
+    try{
+      const res = await axios.delete(`${Base_url}api/users/${ID}`);
+      console.log(res)
+      setupdate((prev)=>prev+1)
+    }
+    catch(err){
+      console.log("Error",err)
+    }
+  }
+
+  const handelViewUserClick = (data)=>{
+    setSelectedUserData(data);
+    handleOpen()
+  }
+
+  useEffect(()=>{
+    fetchUser()
+  },[])
+
   return (
     <Box >
 
@@ -95,7 +165,7 @@ export const Users = () => {
 
             <Box>
               <Button variant="contained" style={{backgroundColor:"black"}}>Departments</Button>
-              <Button variant="contained" style={{marginLeft:"20px",background:"#FF8604"}} startIcon={<AddIcon />} >Add User</Button>
+              <Button variant="contained" style={{marginLeft:"20px",background:"#FF8604"}} startIcon={<AddIcon />} onClick={handelAddUsers} >Add User</Button>
             </Box>
           </Box>
              
@@ -121,9 +191,14 @@ export const Users = () => {
          
          <Box sx={{marginTop:"50px"}}>
          <Grid container spacing={2}>
-                <Grid item xs={3}>
-                <UserCard/>
-                </Grid>
+          {
+            AllUsersData && AllUsersData.map((el,index)=>{
+              return <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
+              <UserCard Data={el} fun={()=>handelViewUserClick(el)}/>
+              </Grid>
+            })
+          }
+                
 
               </Grid>
 
@@ -133,7 +208,124 @@ export const Users = () => {
         </CardContent>
        </Card>
 
-       
+       <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+
+{SelectedUserData && 
+<Box>
+<Box style={{display:"flex",justifyContent:"right",alignItems:"center",marginTop:"20px"}}>
+            <CloseIcon onClick={handleClose} sx={{marginTop:"-20px",fontSize:"23px"}}/>
+          </Box>
+
+
+<Box sx={{marginTop:"20px"}}>
+
+<Box sx={{display:"flex",justifyContent:"left",alignItems:"center"}}>
+      <Box>
+      <Typography sx={{fontSize:"16px",fontWeight:"bold"}}>Status :</Typography>
+      </Box>
+      <Box sx={{marginLeft:"10px"}}>
+        <Typography sx={{fontSize:"15px"}}>{SelectedUserData.status ? "Active" : "In Active"}</Typography>
+      </Box>
+    </Box>
+
+    <Box sx={{display:"flex",justifyContent:"left",alignItems:"center",marginTop:"15px"}}>
+      <Box>
+      <Typography sx={{fontSize:"16px",fontWeight:"bold"}}>Name :</Typography>
+      </Box>
+      <Box sx={{marginLeft:"10px"}}>
+        <Typography sx={{fontSize:"15px"}}>{SelectedUserData.name}</Typography>
+      </Box>
+    </Box>
+
+    <Box sx={{display:"flex",justifyContent:"left",alignItems:"center",marginTop:"15px"}}>
+      <Box>
+      <Typography sx={{fontSize:"16px",fontWeight:"bold"}}>Mobile :</Typography>
+      </Box>
+      <Box sx={{marginLeft:"10px"}}>
+        <Typography sx={{fontSize:"15px"}}>{SelectedUserData.mobile}</Typography>
+      </Box>
+    </Box>
+
+    <Box sx={{display:"flex",justifyContent:"left",alignItems:"center",marginTop:"15px"}}>
+      <Box>
+      <Typography sx={{fontSize:"16px",fontWeight:"bold"}}>Email :</Typography>
+      </Box>
+      <Box sx={{marginLeft:"10px"}}>
+        <Typography sx={{fontSize:"15px"}}>{SelectedUserData.email}</Typography>
+      </Box>
+    </Box>
+
+
+    <Box sx={{display:"flex",justifyContent:"left",alignItems:"center",marginTop:"15px"}}>
+      <Box>
+      <Typography sx={{fontSize:"16px",fontWeight:"bold"}}>Gender :</Typography>
+      </Box>
+      <Box sx={{marginLeft:"10px"}}>
+        <Typography sx={{fontSize:"15px"}}>{SelectedUserData.gender}</Typography>
+      </Box>
+    </Box>
+
+    <Box sx={{display:"flex",justifyContent:"left",alignItems:"center",marginTop:"15px"}}>
+      <Box>
+      <Typography sx={{fontSize:"16px",fontWeight:"bold"}}>Date of birth :</Typography>
+      </Box>
+      <Box sx={{marginLeft:"10px"}}>
+        <Typography sx={{fontSize:"15px"}}>{SelectedUserData.dob}</Typography>
+      </Box>
+    </Box>
+
+    <Box sx={{display:"flex",justifyContent:"left",alignItems:"center",marginTop:"15px"}}>
+      <Box>
+      <Typography sx={{fontSize:"16px",fontWeight:"bold"}}>Address :</Typography>
+      </Box>
+      <Box sx={{marginLeft:"10px"}}>
+        <Typography sx={{fontSize:"15px"}}>{SelectedUserData.Address}</Typography>
+      </Box>
+    </Box>
+
+    <Box sx={{display:"flex",justifyContent:"left",alignItems:"center",marginTop:"15px"}}>
+      <Box>
+      <Typography sx={{fontSize:"16px",fontWeight:"bold"}}>City :</Typography>
+      </Box>
+      <Box sx={{marginLeft:"10px"}}>
+        <Typography sx={{fontSize:"15px"}}>{SelectedUserData.city}</Typography>
+      </Box>
+    </Box>
+
+    <Box sx={{display:"flex",justifyContent:"left",alignItems:"center",marginTop:"15px"}}>
+      <Box>
+      <Typography sx={{fontSize:"16px",fontWeight:"bold"}}>Country :</Typography>
+      </Box>
+      <Box sx={{marginLeft:"10px"}}>
+        <Typography sx={{fontSize:"15px"}}>{SelectedUserData.country}</Typography>
+      </Box>
+    </Box>
+
+    <Box sx={{display:"flex",justifyContent:"left",alignItems:"center",marginTop:"15px"}}>
+      <Box>
+      <Typography sx={{fontSize:"16px",fontWeight:"bold"}}>createdAt :</Typography>
+      </Box>
+      <Box sx={{marginLeft:"10px"}}>
+        <Typography sx={{fontSize:"15px"}}>{SelectedUserData.createdAt}</Typography>
+      </Box>
+    </Box>
+
+ 
+</Box>
+
+</Box>
+}
+          
+          
+         
+        </Box>
+      </Modal>
    </Box>
   )
 }

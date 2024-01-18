@@ -20,8 +20,8 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width:"40%",
-  height:"80%",
+  minWidth:"500px",
+  
   bgcolor: 'background.paper',
   borderRadius:"10px",
   boxShadow: 24,
@@ -85,7 +85,11 @@ const thTdStyle = {
   const [open, setOpen] = useState(false);
   const [OrdersData,setOrderData] = useState([]);
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    setSelectedOrderData(null)
+  }
+  const [SelectedOrderData,setSelectedOrderData] = useState(null);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -164,6 +168,11 @@ const thTdStyle = {
     navigate("add")
   }
 
+  const handelViewOrderClick = (data)=>{
+    setSelectedOrderData(data);
+    handleOpen()
+  }
+
   useEffect(()=>{
     getOrders();
   },[])
@@ -234,8 +243,8 @@ const thTdStyle = {
          <Grid container spacing={2}>
             {
                 OrdersData && OrdersData.map((el,index)=>{
-                   return <Grid item xs={3} key={index}>
-                    <B2BOrdersCard Fun={handleOpen} name={"Ankit Dixit"} value={"45,000"} phone={"9251466357"} address={"Plot Number 116, Lane Number 4, Rathore Nagar, Vaishali Nagar, 302039"}/>
+                   return <Grid item xs={12} sm={6} md={6} lg={3} key={index}>
+                    <B2BOrdersCard Fun={()=>handelViewOrderClick(el)} Data={el}/>
                     </Grid>
                 })
             }
@@ -264,67 +273,96 @@ const thTdStyle = {
       >
         <Box sx={style}>
 
-          <Box style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:"20px"}}>
-          
-            
-            <TextField
-          label="Search"
-          id="outlined-start-adornment"
-          size='small'
-          sx={{  width: '250px' }}
-          InputProps={{
-            startAdornment: <InputAdornment position="start"><SearchIcon/></InputAdornment>,
-          }}
-          value={searchInput}
-              onChange={(e) => setSearchInput(e.target.value)}
-        />
-
-
-
+{SelectedOrderData && 
+<Box>
+<Box style={{display:"flex",justifyContent:"right",alignItems:"center",marginTop:"20px"}}>
             <CloseIcon onClick={handleClose} sx={{marginTop:"-20px",fontSize:"23px"}}/>
           </Box>
-           
-          
-          <Box sx={{marginTop:"20px"}}>
-           <table style={tableStyle}>
-                <thead>
-                    <tr>
-                        <th style={{ ...thTdStyle }}>Name</th>
-                        <th style={thTdStyle}>Contect no</th>
-                        <th style={thTdStyle}>Action</th>
-                        
-                    </tr>
-                </thead>
-                <tbody >
-                    <tr>
-                        <td style={thTdStyle}>Ankit dixit</td>
-                        <td style={thTdStyle}>9251466357</td>
-                        <td style={thTdStyle}>
-                            <Button variant='outlined' sx={{color:"black",borderColor:"black"}}>Assign Order</Button>
-                        </td>
-                        
-                    </tr>
-                  
-                    <tr>
-                        <td style={thTdStyle}>Ankit dixit</td>
-                        <td style={thTdStyle}>9251466357</td>
-                        <td style={thTdStyle}>
-                            <Button variant='outlined' sx={{color:"black",borderColor:"black"}}>Assign Order</Button>
-                        </td>
-                        
-                    </tr>
 
-                    <tr>
-                        <td style={thTdStyle}>Ankit dixit</td>
-                        <td style={thTdStyle}>9251466357</td>
-                        <td style={thTdStyle}>
-                            <Button variant='outlined' sx={{color:"black",borderColor:"black"}}>Assign Order</Button>
-                        </td>
-                        
-                    </tr>
-                </tbody>
-            </table>
-           </Box>
+
+<Box sx={{marginTop:"20px"}}>
+
+<Box sx={{display:"flex",justifyContent:"left",alignItems:"center",marginTop:"15px"}}>
+      <Box >
+      <Typography sx={{fontSize:"16px",fontWeight:"bold"}}>{SelectedOrderData.from.registerAs} :</Typography>
+      </Box>
+      <Box sx={{marginLeft:"10px"}}>
+        <Typography sx={{fontSize:"16px",fontWeight:"bold"}}>{SelectedOrderData.to.registerAs}</Typography>
+      </Box>
+    </Box>
+
+<Box sx={{display:"flex",justifyContent:"left",alignItems:"center",marginTop:"15px"}}>
+      <Box >
+      <Typography sx={{fontSize:"16px",fontWeight:"bold"}}>status :</Typography>
+      </Box>
+      <Box sx={{marginLeft:"10px",width:"130px",padding:"5px",textAlign:"center",borderRadius:"10px",bgcolor:"green"}}>
+        <Typography sx={{fontSize:"14px",color:"#fff"}}>{SelectedOrderData.status}</Typography>
+      </Box>
+    </Box>
+<Box sx={{display:"flex",justifyContent:"left",alignItems:"center",marginTop:"15px"}}>
+      <Box >
+      <Typography sx={{fontSize:"16px",fontWeight:"bold"}}>Date :</Typography>
+      </Box>
+      <Box sx={{marginLeft:"10px"}}>
+        <Typography sx={{fontSize:"15px"}}>{SelectedOrderData.orderDate}</Typography>
+      </Box>
+    </Box>
+
+  <Box sx={{display:"flex",justifyContent:"left",alignItems:"center",marginTop:"15px"}}>
+      <Box>
+      <Typography sx={{fontSize:"16px",fontWeight:"bold"}}>From :</Typography>
+      </Box>
+      <Box sx={{marginLeft:"10px"}}>
+        <Typography sx={{fontSize:"15px",color:"blue",cursor:"pointer"}}>{SelectedOrderData.from.name}</Typography>
+      </Box>
+    </Box>
+
+    <Box sx={{display:"flex",justifyContent:"left",alignItems:"center",marginTop:"15px"}}>
+      <Box>
+      <Typography sx={{fontSize:"16px",fontWeight:"bold"}}>To :</Typography>
+      </Box>
+      <Box sx={{marginLeft:"10px"}}>
+        <Typography sx={{fontSize:"15px",color:"blue",cursor:"pointer"}}>{SelectedOrderData.to.name}</Typography>
+      </Box>
+    </Box>
+
+    <Box sx={{display:"flex",justifyContent:"left",alignItems:"center",marginTop:"15px"}}>
+      <Box>
+      <Typography sx={{fontSize:"16px",fontWeight:"bold"}}>Category :</Typography>
+      </Box>
+      <Box sx={{marginLeft:"10px"}}>
+        <Typography sx={{fontSize:"15px"}}>{SelectedOrderData.details.category}</Typography>
+      </Box>
+    </Box>
+
+    <Box sx={{display:"flex",justifyContent:"left",alignItems:"center",marginTop:"15px"}}>
+      <Box>
+      <Typography sx={{fontSize:"16px",fontWeight:"bold"}}>Sub Category :</Typography>
+      </Box>
+      <Box sx={{marginLeft:"10px"}}>
+        <Typography sx={{fontSize:"15px"}}>{SelectedOrderData.details.sub_category}</Typography>
+      </Box>
+    </Box>
+
+    <Box sx={{display:"flex",justifyContent:"left",alignItems:"center",marginTop:"15px"}}>
+      <Box>
+      <Typography sx={{fontSize:"16px",fontWeight:"bold"}}>Quantity :</Typography>
+      </Box>
+      <Box sx={{marginLeft:"10px"}}>
+        <Typography sx={{fontSize:"15px"}}>{SelectedOrderData.details.quantity} Kg</Typography>
+      </Box>
+    </Box>
+
+ 
+</Box>
+<Box sx={{marginTop:"20px"}}> 
+<div style={{height:"30px",backgroundColor:"orange",borderRadius:"20px",display:"flex",justifyContent:"center",alignItems:"center"}}>
+                    <p style={{color:"#fff",marginTop:"10px",fontSize:"18px"}}> Total Amount : ₹ {SelectedOrderData.totalAmount} </p>
+                   </div>
+</Box>
+</Box>
+}
+          
           
          
         </Box>

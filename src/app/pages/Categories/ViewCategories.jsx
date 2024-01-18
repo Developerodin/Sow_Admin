@@ -357,7 +357,7 @@ export const ViewCategories = () => {
           Edit Sub Category
           </Typography>
 
-            <CloseIcon onClick={handleClose}/>
+            <CloseIcon onClick={handleClose2}/>
           </Box>
            
           <TextField

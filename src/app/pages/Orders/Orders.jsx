@@ -1,5 +1,5 @@
 import { Box, Button, Card, CardContent, Tab,InputAdornment, Tabs, Typography, TextField } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import AddIcon from '@mui/icons-material/Add';
 import PropTypes from 'prop-types';
 import { createTheme } from "@mui/material/styles";
@@ -78,10 +78,10 @@ const thTdStyle = {
     textAlign: 'center',
     padding: '8px',
 };
-  const [value, setValue] = React.useState(0);
-  const [searchInput, setSearchInput] = React.useState('');
-  
-  const [open, setOpen] = React.useState(false);
+  const [value, setValue] = useState(0);
+  const [searchInput, setSearchInput] = useState('');
+  const [orders, setOrders] = useState([]);
+  const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const handleChange = (event, newValue) => {
@@ -116,12 +116,13 @@ const thTdStyle = {
   };
   
   // Function to get all B2B orders
- const getOrders = async () => {
+  const fetchOrders = async () => {
     try {
-      const response = await axios.get(`${Base_url}api/b2b_orders`);
-      return response.data;
+      const response = await axios.get(`${Base_url}api/orders`); // Adjust the endpoint accordingly
+      console.log("Orders data =>", response.data);
+      setOrders(response.data);
     } catch (error) {
-      throw error.response.data;
+      console.error('Error fetching orders:', error);
     }
   };
   
@@ -155,6 +156,14 @@ const thTdStyle = {
     }
   };
 
+  const handelAddorder = ()=>{
+    navigate("add")
+  }
+
+  useEffect(()=>{
+    fetchOrders()
+  },[])
+
   return (
     <Box >
 
@@ -169,11 +178,11 @@ const thTdStyle = {
             </Typography>
             </Box>
            
-{/* 
+
             <Box>
               
-              <Button variant="contained" style={{marginLeft:"20px",background:"#FF8604"}} startIcon={<AddIcon />} >Add Order</Button>
-            </Box> */}
+              <Button variant="contained" style={{marginLeft:"20px",background:"#FF8604"}} startIcon={<AddIcon />} onClick={handelAddorder} >Add Order</Button>
+            </Box>
           </Box>
              
 
@@ -219,9 +228,14 @@ const thTdStyle = {
        
 
          <Grid container spacing={2}>
-                <Grid item xs={3}>
-                <OrdersCard Fun={handleOpen} name={"Ankit Dixit"} value={"45,000"} phone={"9251466357"} address={"Plot Number 116, Lane Number 4, Rathore Nagar, Vaishali Nagar, 302039"}/>
-                </Grid>
+          {
+            orders && orders.map((el,index)=>{
+              return  <Grid item xs={12} sm={6} md={6} lg={3} key={index}>
+              <OrdersCard Fun={handleOpen} name={"Ankit Dixit"} value={"45,000"} phone={"9251466357"} address={"Plot Number 116, Lane Number 4, Rathore Nagar, Vaishali Nagar, 302039"} Data={el}/>
+              </Grid>
+            })
+          }
+               
 
               </Grid>
         
