@@ -243,7 +243,7 @@ export const Vendors = () => {
 
                 {
                  WholesalersData && WholesalersData.length > 0 ? WholesalersData.map((el,index)=>{
-                   return <Grid key={index} item xs={12} sm={6} md={4} lg={3}>
+                   return <Grid key={index} item xs={13} sm={7} md={5} lg={4}>
                    <InfoCard  Data={el}/>
                    </Grid>
                  })

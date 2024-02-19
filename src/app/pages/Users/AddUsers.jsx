@@ -191,8 +191,8 @@ import {
                   onClick={handelGoBack}
                   style={{ marginRight: "20px", color: `${ThemColor.buttons}` }}
                 />
-                <Typography variant="h6" style={{ letterSpacing: 1 }}>
-                  Add new user
+                <Typography variant="h6" color="black" component="h2" gutterBottom style={{ fontWeight: 'bold'  }}>
+                  Add New User
                 </Typography>
               </Box>
   
@@ -203,7 +203,7 @@ import {
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "left",
-                      marginBottom: "10px",
+                      marginBottom: "10px", 
                     }}
                   >
                     <div
@@ -306,7 +306,7 @@ import {
               </Box>
               
   
-              <Box style={{ marginTop: "20px" }}>
+              <Box style={{ marginTop: "20px"  }}>
                 
                 <Grid container spacing={2}>
                 
@@ -319,6 +319,7 @@ import {
                       onChange={handleInputChange}
                       fullWidth
                       required
+                      sx={{ mb: 2}}
                     />
                   </Grid>
 
