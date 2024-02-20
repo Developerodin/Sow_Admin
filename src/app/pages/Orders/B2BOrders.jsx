@@ -67,7 +67,7 @@ function a11yProps(index) {
     'aria-controls': `simple-tabpanel-${index}`,
   };
 }
-export const B2BOrders = () => {
+export const B2BOrders = ( ) => {
   const navigate = useNavigate()
   const tableStyle = {
     width: '100%',
@@ -168,10 +168,16 @@ const thTdStyle = {
     navigate("add")
   }
 
-  const handelViewOrderClick = (data)=>{
-    setSelectedOrderData(data);
-    handleOpen()
-  }
+
+  const handleViewOrderClick = (orderId) => {
+    navigate(`/b2b_orders/view/${orderId}`);
+  };
+
+  
+  // const handelViewOrderClick = (data)=>{
+  //   setSelectedOrderData(data);
+  //   handleOpen()
+  // }
 
   useEffect(()=>{
     getOrders();
@@ -237,22 +243,15 @@ const thTdStyle = {
 
       
 
-      <CustomTabPanel value={value} index={0}>
-       
-
-         <Grid container spacing={2}>
-            {
-                OrdersData && OrdersData.map((el,index)=>{
-                   return <Grid item xs={12} sm={6} md={6} lg={3} key={index}>
-                    <B2BOrdersCard Fun={()=>handelViewOrderClick(el)} Data={el}/>
-                    </Grid>
-                })
-            }
-                
-
+          <CustomTabPanel value={value} index={0}>
+              <Grid container spacing={2}>
+                {OrdersData && OrdersData.map((el, index) => (
+                  <Grid item xs={12} sm={6} md={6} lg={3} key={index}>
+                    <B2BOrdersCard Fun={() => handleViewOrderClick(el._id)} Data={el} />
+                  </Grid>
+                ))}
               </Grid>
-        
-      </CustomTabPanel>
+            </CustomTabPanel>
 
       <CustomTabPanel value={value} index={1}>
         Item Two

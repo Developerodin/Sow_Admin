@@ -29,6 +29,9 @@ import { AddUsers } from '../pages/Users/AddUsers'
 import { AddOrder } from '../pages/Orders/AddOrders'
 
 
+import { ViewB2bOrder } from '../pages/Orders/ViewB2bOrder.jsx'
+
+
 
 
 
@@ -114,6 +117,14 @@ const PrivateRoutes = () => {
           element={
             <SuspensedView>
               <AddB2BOrder />
+            </SuspensedView>
+          }
+        />
+        <Route
+          path='b2b_orders/view/:id'
+          element={
+            <SuspensedView>
+              <ViewB2bOrder />
             </SuspensedView>
           }
         />
