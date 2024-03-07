@@ -3,6 +3,7 @@ import { Box, Card, Typography } from '@mui/material';
 import axios from 'axios';
 import { useParams } from 'react-router-dom'; 
 import { Base_url } from '../../Config/BaseUrl';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 export const ViewB2bOrder = () => {
   const { id } = useParams(); 
@@ -30,6 +31,13 @@ export const ViewB2bOrder = () => {
     getOrderById(); 
   }, [id]); 
 
+const handelGoBack = () => {
+  window.history.back();
+};
+
+
+  
+
   return (
     
     <div>
@@ -43,8 +51,16 @@ export const ViewB2bOrder = () => {
           <><div className="card mb-5 mb-xl-10" id="kt_profile_details_view">
                 <div className="card-header cursor-pointer">
                   <div className="card-title m-0">
-                    <h3 className="fw-bolder m-0">{orderData.from.registerAs}  Details</h3>
+
+                  <div onClick={handelGoBack} style={{backgroundColor:"#7265bd",width:"35px",height:"35px",display:"flex",justifyContent:"center",alignItems:"center",borderRadius:"10px"}}>
+                <ArrowBackIosIcon style={{fontSize:"16px",color:"#fff"}}/>
+             </div>
+             <div style={{display:"flex",justifyContent:"center",alignItems:"center",marginLeft:"15px"}}>
+                    <h3 className="fw-bolder " >{orderData.from.registerAs}  Details</h3>
                   </div>
+                  </div>
+
+
                 </div>
                 <div className="card-body p-9">
                   <div className="row mb-6">

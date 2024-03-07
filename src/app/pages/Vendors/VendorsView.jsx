@@ -120,6 +120,7 @@ export const VendorsView = () => {
     textAlign: "center",
     padding: "8px",
   };
+  
 
   const thTdStyle2 = {
     fontSize: "16px",

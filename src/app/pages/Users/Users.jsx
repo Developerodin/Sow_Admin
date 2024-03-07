@@ -139,10 +139,12 @@ const navigate = useNavigate()
     }
   }
 
-  const handelViewUserClick = (data)=>{
-    setSelectedUserData(data);
-    handleOpen()
+  const handelViewUserClick = (userId)=>{
+    navigate(`/users/view/${userId}`);
+    
   }
+
+
 
   useEffect(()=>{
     fetchUser()
@@ -194,7 +196,7 @@ const navigate = useNavigate()
           {
             AllUsersData && AllUsersData.map((el,index)=>{
               return <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
-              <UserCard Data={el} fun={()=>handelViewUserClick(el)}/>
+              <UserCard Data={el} fun={()=>handelViewUserClick(el._id)}/>
               </Grid>
             })
           }
@@ -208,124 +210,7 @@ const navigate = useNavigate()
         </CardContent>
        </Card>
 
-       <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-
-{SelectedUserData && 
-<Box>
-<Box style={{display:"flex",justifyContent:"right",alignItems:"center",marginTop:"20px"}}>
-            <CloseIcon onClick={handleClose} sx={{marginTop:"-20px",fontSize:"23px"}}/>
-          </Box>
-
-
-<Box sx={{marginTop:"20px"}}>
-
-<Box sx={{display:"flex",justifyContent:"left",alignItems:"center"}}>
-      <Box>
-      <Typography sx={{fontSize:"16px",fontWeight:"bold"}}>Status :</Typography>
-      </Box>
-      <Box sx={{marginLeft:"10px"}}>
-        <Typography sx={{fontSize:"15px"}}>{SelectedUserData.status ? "Active" : "In Active"}</Typography>
-      </Box>
-    </Box>
-
-    <Box sx={{display:"flex",justifyContent:"left",alignItems:"center",marginTop:"15px"}}>
-      <Box>
-      <Typography sx={{fontSize:"16px",fontWeight:"bold"}}>Name :</Typography>
-      </Box>
-      <Box sx={{marginLeft:"10px"}}>
-        <Typography sx={{fontSize:"15px"}}>{SelectedUserData.name}</Typography>
-      </Box>
-    </Box>
-
-    <Box sx={{display:"flex",justifyContent:"left",alignItems:"center",marginTop:"15px"}}>
-      <Box>
-      <Typography sx={{fontSize:"16px",fontWeight:"bold"}}>Mobile :</Typography>
-      </Box>
-      <Box sx={{marginLeft:"10px"}}>
-        <Typography sx={{fontSize:"15px"}}>{SelectedUserData.mobile}</Typography>
-      </Box>
-    </Box>
-
-    <Box sx={{display:"flex",justifyContent:"left",alignItems:"center",marginTop:"15px"}}>
-      <Box>
-      <Typography sx={{fontSize:"16px",fontWeight:"bold"}}>Email :</Typography>
-      </Box>
-      <Box sx={{marginLeft:"10px"}}>
-        <Typography sx={{fontSize:"15px"}}>{SelectedUserData.email}</Typography>
-      </Box>
-    </Box>
-
-
-    <Box sx={{display:"flex",justifyContent:"left",alignItems:"center",marginTop:"15px"}}>
-      <Box>
-      <Typography sx={{fontSize:"16px",fontWeight:"bold"}}>Gender :</Typography>
-      </Box>
-      <Box sx={{marginLeft:"10px"}}>
-        <Typography sx={{fontSize:"15px"}}>{SelectedUserData.gender}</Typography>
-      </Box>
-    </Box>
-
-    <Box sx={{display:"flex",justifyContent:"left",alignItems:"center",marginTop:"15px"}}>
-      <Box>
-      <Typography sx={{fontSize:"16px",fontWeight:"bold"}}>Date of birth :</Typography>
-      </Box>
-      <Box sx={{marginLeft:"10px"}}>
-        <Typography sx={{fontSize:"15px"}}>{SelectedUserData.dob}</Typography>
-      </Box>
-    </Box>
-
-    <Box sx={{display:"flex",justifyContent:"left",alignItems:"center",marginTop:"15px"}}>
-      <Box>
-      <Typography sx={{fontSize:"16px",fontWeight:"bold"}}>Address :</Typography>
-      </Box>
-      <Box sx={{marginLeft:"10px"}}>
-        <Typography sx={{fontSize:"15px"}}>{SelectedUserData.Address}</Typography>
-      </Box>
-    </Box>
-
-    <Box sx={{display:"flex",justifyContent:"left",alignItems:"center",marginTop:"15px"}}>
-      <Box>
-      <Typography sx={{fontSize:"16px",fontWeight:"bold"}}>City :</Typography>
-      </Box>
-      <Box sx={{marginLeft:"10px"}}>
-        <Typography sx={{fontSize:"15px"}}>{SelectedUserData.city}</Typography>
-      </Box>
-    </Box>
-
-    <Box sx={{display:"flex",justifyContent:"left",alignItems:"center",marginTop:"15px"}}>
-      <Box>
-      <Typography sx={{fontSize:"16px",fontWeight:"bold"}}>Country :</Typography>
-      </Box>
-      <Box sx={{marginLeft:"10px"}}>
-        <Typography sx={{fontSize:"15px"}}>{SelectedUserData.country}</Typography>
-      </Box>
-    </Box>
-
-    <Box sx={{display:"flex",justifyContent:"left",alignItems:"center",marginTop:"15px"}}>
-      <Box>
-      <Typography sx={{fontSize:"16px",fontWeight:"bold"}}>createdAt :</Typography>
-      </Box>
-      <Box sx={{marginLeft:"10px"}}>
-        <Typography sx={{fontSize:"15px"}}>{SelectedUserData.createdAt}</Typography>
-      </Box>
-    </Box>
-
- 
-</Box>
-
-</Box>
-}
-          
-          
-         
-        </Box>
-      </Modal>
+       
    </Box>
   )
 }

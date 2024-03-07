@@ -8,14 +8,47 @@ import {useThemeMode} from '../../layout/theme-mode/ThemeModeProvider'
 import InventoryIcon from '@mui/icons-material/Inventory';
 import EvStationIcon from '@mui/icons-material/EvStation';
 import { BASE_URL } from '../../../../app/Config/BaseUrl'
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios';
+
 import { Button, Switch } from '@mui/material'
+import { Base_url } from '../../../../app/Config/BaseUrl';
+import { Console } from 'console'
+
 type Props = {
   className: string
   chartColor: string
   strokeColor: string
   chartHeight: string
+  
 }
+interface B2BUser {
+  // Define the properties of your B2B user object
+  // For example:
+  id: number;
+  name: string;
+  registerAs: string;
+  // Add other properties as per your data structure
+}
+
+interface User {
+  
+
+  id: number;
+  status: string;
+  
+  
+}
+interface Category {
+  id: number;
+  
+}
+
+
+
+
+
+
+
 
 const MixedWidget2: React.FC<Props> = ({className, chartColor, chartHeight, strokeColor}) => {
   const token = sessionStorage.getItem("token");
@@ -42,6 +75,12 @@ const MixedWidget2: React.FC<Props> = ({className, chartColor, chartHeight, stro
   const [AcChargers,setAcChargers] = useState([])
   const [ActiveChargers,setActiveChargers] = useState([])
   const [InActiveChargers,setInActiveChargers] = useState([])
+  const [vendorsData, setVendorsData] = useState<B2BUser[]>([]);
+  
+  const [usersData, setUsersData] = useState<User[]>([]);
+  const [activeUser, setActiveUser] = useState<User[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  
 
   useEffect(() => {
     const chart = refreshChart()
@@ -106,25 +145,90 @@ const MixedWidget2: React.FC<Props> = ({className, chartColor, chartHeight, stro
       
     }
   };
+
+
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchB2BUser = async () => {
       try {
-        const response = await axios.get(`${BASE_URL}/cpo/users`, {
-          headers: { Authorization: `${token}` },
+        const response: AxiosResponse<B2BUser[]> = await axios.get(`${Base_url}api/b2b`, {
+          headers: { Authorization: `${token}` }
         });
-        // Assuming the response data is an array of objects with the required properties
-        console.log("response in dashbord wegit", response.data);
-        setCposData(response.data);
         
+        console.log("Response:", response);
+
+        if (response.status === 200) {
+          const fetchedB2BUsers: B2BUser[] = response.data;
+
+          // Set all B2B users
+          setVendorsData(fetchedB2BUsers);
+
+         
+        } else {
+          console.error('Error fetching B2B users:', response.statusText);
+        }
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error('Error:');
       }
     };
 
-    fetchData();
-    fetchChargerData();
+    fetchB2BUser();
+  }, []);
+ 
+ useEffect(() => {
+  const fetchUser = async () => {
+    try {
+      const response: AxiosResponse<User[]> = await axios.get(`${Base_url}api/users`, {
+        headers: { Authorization: `${token}` }
+      });
+
+      console.log("user data:", response);
+
+
+      if (response.status === 200) {
+        const fetchedUsers: User[] = response.data;
+
+        // Set all users
+        setUsersData(fetchedUsers);
+
+        // Categorize users
+        const activeUser: User[] = fetchedUsers.filter((el) => el.status === "active");
+
+        setActiveUser(activeUser);
+      } else {
+        console.error('Error fetching users:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+   fetchUser();
+  }, []); 
+
+  
+
+  useEffect(( ) => {
+    const fetchCategory = async () => { 
+      try {
+        const response: AxiosResponse<Category[]> = await axios.get(`${Base_url}api/category`, {
+          headers: { Authorization: `${token}` }
+        });
+        console.log("category data:", response);
+
+        if (response.status === 200) {
+          const fetchedCategories: Category[] = response.data;
+          setCategories(fetchedCategories);
+        } else {
+          console.error('Error fetching categories:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+    fetchCategory();
   }, []);
 
+ 
+  
   return (
     <div className="card card-flush h-xl-100" >
     {/*begin::Heading*/}
@@ -218,122 +322,6 @@ const MixedWidget2: React.FC<Props> = ({className, chartColor, chartHeight, stro
               {/*begin::Symbol*/}
               <div className="symbol symbol-30px me-5 mb-8">
                 <span className="symbol-label">
-                  {/*begin::Svg Icon | path: icons/duotune/medicine/med005.svg*/}
-                  <span className="svg-icon svg-icon-1 svg-icon-primary">
-                    <svg
-                      width={24}
-                      height={24}
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        opacity="0.3"
-                        d="M17.9061 13H11.2061C11.2061 12.4 10.8061 12 10.2061 12C9.60605 12 9.20605 12.4 9.20605 13H6.50606L9.20605 8.40002V4C8.60605 4 8.20605 3.6 8.20605 3C8.20605 2.4 8.60605 2 9.20605 2H15.2061C15.8061 2 16.2061 2.4 16.2061 3C16.2061 3.6 15.8061 4 15.2061 4V8.40002L17.9061 13ZM13.2061 9C12.6061 9 12.2061 9.4 12.2061 10C12.2061 10.6 12.6061 11 13.2061 11C13.8061 11 14.2061 10.6 14.2061 10C14.2061 9.4 13.8061 9 13.2061 9Z"
-                        fill="currentColor"
-                      />
-                      <path
-                        d="M18.9061 22H5.40605C3.60605 22 2.40606 20 3.30606 18.4L6.40605 13H9.10605C9.10605 13.6 9.50605 14 10.106 14C10.706 14 11.106 13.6 11.106 13H17.8061L20.9061 18.4C21.9061 20 20.8061 22 18.9061 22ZM14.2061 15C13.1061 15 12.2061 15.9 12.2061 17C12.2061 18.1 13.1061 19 14.2061 19C15.3061 19 16.2061 18.1 16.2061 17C16.2061 15.9 15.3061 15 14.2061 15Z"
-                        fill="currentColor"
-                      />
-                    </svg>
-                  </span>
-                  {/*end::Svg Icon*/}
-                </span>
-              </div>
-              {/*end::Symbol*/}
-              {/*begin::Stats*/}
-              <div className="m-0">
-                {/*begin::Number*/}
-                <span className="text-gray-700 fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1">
-                  {CposData !== null && CposData.length}
-                </span>
-                {/*end::Number*/}
-                {/*begin::Desc*/}
-                <span className="text-gray-500 fw-semibold fs-6">Business Profile</span>
-                {/*end::Desc*/}
-              </div>
-              {/*end::Stats*/}
-            </div>
-            {/*end::Items*/}
-          </div>
-          {/*end::Col*/}
-          {/*begin::Col*/}
-          <div className="col-6">
-            {/*begin::Items*/}
-            <div className="bg-gray-100 bg-opacity-70 rounded-2 px-6 py-5">
-              {/*begin::Symbol*/}
-              <div className="symbol symbol-30px me-5 mb-8 d-flex justify-content-between">
-                <span className="symbol-label">
-                  {/*begin::Svg Icon | path: icons/duotune/finance/fin001.svg*/}
-                  <span className="svg-icon svg-icon-1 svg-icon-primary">
-                    <svg
-                      width={24}
-                      height={24}
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M20 19.725V18.725C20 18.125 19.6 17.725 19 17.725H5C4.4 17.725 4 18.125 4 18.725V19.725H3C2.4 19.725 2 20.125 2 20.725V21.725H22V20.725C22 20.125 21.6 19.725 21 19.725H20Z"
-                        fill="currentColor"
-                      />
-                      <path
-                        opacity="0.3"
-                        d="M22 6.725V7.725C22 8.325 21.6 8.725 21 8.725H18C18.6 8.725 19 9.125 19 9.725C19 10.325 18.6 10.725 18 10.725V15.725C18.6 15.725 19 16.125 19 16.725V17.725H15V16.725C15 16.125 15.4 15.725 16 15.725V10.725C15.4 10.725 15 10.325 15 9.725C15 9.125 15.4 8.725 16 8.725H13C13.6 8.725 14 9.125 14 9.725C14 10.325 13.6 10.725 13 10.725V15.725C13.6 15.725 14 16.125 14 16.725V17.725H10V16.725C10 16.125 10.4 15.725 11 15.725V10.725C10.4 10.725 10 10.325 10 9.725C10 9.125 10.4 8.725 11 8.725H8C8.6 8.725 9 9.125 9 9.725C9 10.325 8.6 10.725 8 10.725V15.725C8.6 15.725 9 16.125 9 16.725V17.725H5V16.725C5 16.125 5.4 15.725 6 15.725V10.725C5.4 10.725 5 10.325 5 9.725C5 9.125 5.4 8.725 6 8.725H3C2.4 8.725 2 8.325 2 7.725V6.725L11 2.225C11.6 1.925 12.4 1.925 13.1 2.225L22 6.725ZM12 3.725C11.2 3.725 10.5 4.425 10.5 5.225C10.5 6.025 11.2 6.725 12 6.725C12.8 6.725 13.5 6.025 13.5 5.225C13.5 4.425 12.8 3.725 12 3.725Z"
-                        fill="currentColor"
-                      />
-                    </svg>
-                  </span>
-                  {/*end::Svg Icon*/}
-                </span>
-
-               
-
-              </div>
-              {/*end::Symbol*/}
-              {/*begin::Stats*/}
-              <div className="m-0">
-                {/*begin::Number*/}
-                <div className="d-flex justify-content-between">
-                  
-
-                  <div >
-                  <span className="text-gray-700 fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1">
-                  1789
-                </span>
-                <span className="text-gray-500 fw-semibold fs-6">Active Users</span>
-                  </div>
-
-                  <div >
-                  <span className="text-gray-700 fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1">
-                 23
-                </span>
-                <span className="text-gray-500 fw-semibold fs-6">Inactive Users</span>
-                  </div>
-               
-                
-                
-                </div>
-               
-                {/*end::Number*/}
-                {/*begin::Desc*/}
-               
-                
-                {/*end::Desc*/}
-              </div>
-              {/*end::Stats*/}
-            </div>
-            {/*end::Items*/}
-          </div>
-          {/*end::Col*/}
-          {/*begin::Col*/}
-          <div className="col-6">
-            {/*begin::Items*/}
-            <div className="bg-gray-100 bg-opacity-70 rounded-2 px-6 py-5">
-              {/*begin::Symbol*/}
-              <div className="symbol symbol-30px me-5 mb-8">
-                <span className="symbol-label">
                   {/*begin::Svg Icon | path: icons/duotune/general/gen020.svg*/}
                   <span className="svg-icon svg-icon-1 svg-icon-primary">
                     <svg
@@ -362,12 +350,12 @@ const MixedWidget2: React.FC<Props> = ({className, chartColor, chartHeight, stro
               <div className="m-0">
                 {/*begin::Number*/}
                 <span className="text-gray-700 fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1">
-                  3,214
+                  { vendorsData !== null && vendorsData.length}
                 </span>
                 {/*end::Number*/}
                 {/*begin::Desc*/}
                 <span className="text-gray-500 fw-semibold fs-6">
-                  Total Products Sold
+                  Total Vendors
                 </span>
                 {/*end::Desc*/}
               </div>
@@ -411,12 +399,12 @@ const MixedWidget2: React.FC<Props> = ({className, chartColor, chartHeight, stro
               <div className="m-0">
                 {/*begin::Number*/}
                 <span className="text-gray-700 fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1">
-                  64,280
+                {categories !== null && categories.length}
                 </span>
                 {/*end::Number*/}
                 {/*begin::Desc*/}
                 <span className="text-gray-500 fw-semibold fs-6">
-                  Total Revenue
+                Total Category
                 </span>
                 {/*end::Desc*/}
               </div>
@@ -424,9 +412,10 @@ const MixedWidget2: React.FC<Props> = ({className, chartColor, chartHeight, stro
             </div>
             {/*end::Items*/}
           </div>
-          {/*end::Col*/}
+          
 
-
+          
+          {/*begin::Col*/}
           <div className="col-12">
             {/*begin::Items*/}
             <div className="bg-gray-100 bg-opacity-70 rounded-2 px-6 py-5">
@@ -436,23 +425,7 @@ const MixedWidget2: React.FC<Props> = ({className, chartColor, chartHeight, stro
                   {/*begin::Svg Icon | path: icons/duotune/general/gen020.svg*/}
                   <span className="svg-icon svg-icon-1 svg-icon-primary">
                   <InventoryIcon/>
-                  {/* <svg
-                      width={24}
-                      height={24}
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M20 19.725V18.725C20 18.125 19.6 17.725 19 17.725H5C4.4 17.725 4 18.125 4 18.725V19.725H3C2.4 19.725 2 20.125 2 20.725V21.725H22V20.725C22 20.125 21.6 19.725 21 19.725H20Z"
-                        fill="currentColor"
-                      />
-                      <path
-                        opacity="0.3"
-                        d="M22 6.725V7.725C22 8.325 21.6 8.725 21 8.725H18C18.6 8.725 19 9.125 19 9.725C19 10.325 18.6 10.725 18 10.725V15.725C18.6 15.725 19 16.125 19 16.725V17.725H15V16.725C15 16.125 15.4 15.725 16 15.725V10.725C15.4 10.725 15 10.325 15 9.725C15 9.125 15.4 8.725 16 8.725H13C13.6 8.725 14 9.125 14 9.725C14 10.325 13.6 10.725 13 10.725V15.725C13.6 15.725 14 16.125 14 16.725V17.725H10V16.725C10 16.125 10.4 15.725 11 15.725V10.725C10.4 10.725 10 10.325 10 9.725C10 9.125 10.4 8.725 11 8.725H8C8.6 8.725 9 9.125 9 9.725C9 10.325 8.6 10.725 8 10.725V15.725C8.6 15.725 9 16.125 9 16.725V17.725H5V16.725C5 16.125 5.4 15.725 6 15.725V10.725C5.4 10.725 5 10.325 5 9.725C5 9.125 5.4 8.725 6 8.725H3C2.4 8.725 2 8.325 2 7.725V6.725L11 2.225C11.6 1.925 12.4 1.925 13.1 2.225L22 6.725ZM12 3.725C11.2 3.725 10.5 4.425 10.5 5.225C10.5 6.025 11.2 6.725 12 6.725C12.8 6.725 13.5 6.025 13.5 5.225C13.5 4.425 12.8 3.725 12 3.725Z"
-                        fill="currentColor"
-                      />
-                    </svg> */}
+               
                   </span>
                   {/*end::Svg Icon*/}
                 </span>
@@ -464,24 +437,64 @@ const MixedWidget2: React.FC<Props> = ({className, chartColor, chartHeight, stro
                 <div className="d-flex justify-content-between">
                 <div >
                   <span className="text-gray-700 fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1">
-                  1500
+                  {usersData !== null && usersData.length}
                 </span>
-                <span className="text-gray-500 fw-semibold fs-6">Total Orders</span>
+                <span className="text-gray-500 fw-semibold fs-6">Total Users</span>
                   </div>
 
                   <div >
                   <span className="text-gray-700 fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1">
-                  1450
+                  {activeUser !== null && (usersData.length - activeUser.length)}
+                  
                 </span>
-                <span className="text-gray-500 fw-semibold fs-6">Accept</span>
+                <span className="text-gray-500 fw-semibold fs-6">Active Users</span>
                   </div>
 
-                  <div >
-                  <span className="text-gray-700 fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1">
-                  50
-                </span>
-                <span className="text-gray-500 fw-semibold fs-6">Reject</span>
+                  <div>
+                    <span className="text-gray-700 fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1">
+                    {activeUser !== null && activeUser.length}
+                    </span>
+                    <span className="text-gray-500 fw-semibold fs-6">In Active Users</span>
                   </div>
+               
+                
+                
+                </div>
+                {/*end::Desc*/}
+              </div>
+              {/*end::Stats*/}
+            </div>
+            {/*end::Items*/}
+          </div>
+
+
+          <div className="col-12">
+            {/*begin::Items*/}
+            <div className="bg-gray-100 bg-opacity-70 rounded-2 px-6 py-5">
+              {/*begin::Symbol*/}
+              <div className="symbol symbol-30px me-5 mb-8">
+                <span className="symbol-label">
+                  {/*begin::Svg Icon | path: icons/duotune/general/gen020.svg*/}
+                  <span className="svg-icon svg-icon-1 svg-icon-primary">
+                  <InventoryIcon/>
+               
+                  </span>
+                  {/*end::Svg Icon*/}
+                </span>
+              </div>
+              {/*end::Symbol*/}
+              {/*begin::Stats*/}
+              <div className="m-0">
+                {/*begin::Number*/}
+                <div className="d-flex justify-content-between">
+                <div >
+                  <span className="text-gray-700 fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1">
+                  64,500
+                </span>
+                <span className="text-gray-500 fw-semibold fs-6">Total Revenue</span>
+                  </div>
+
+                  
                
                 
                 

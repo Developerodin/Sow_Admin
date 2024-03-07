@@ -10,6 +10,8 @@ import { InfoCard } from '../../../Components/InfoCard';
 import Grid from "@mui/material/Grid";
 import { OrdersCard } from '../../../Components/OrdersCard';
 import { PlansCard } from '../../../Components/PlansCard';
+import { useNavigate } from 'react-router-dom';
+
 
 const orangeTheme = createTheme({
   palette: {
@@ -52,6 +54,7 @@ function a11yProps(index) {
   };
 }
 export const Plans = () => {
+  const navigate = useNavigate();
 
   const [value, setValue] = React.useState(0);
   const [searchInput, setSearchInput] = React.useState('');
@@ -78,6 +81,12 @@ export const Plans = () => {
     // setFilterRows(rows);
   };
 
+  
+  const handelcreateplanClick = ()=>{
+    navigate("createplan")
+  }
+
+
   return (
     <Box >
 
@@ -95,7 +104,7 @@ export const Plans = () => {
 
             <Box>
               
-              <Button variant="contained" style={{marginLeft:"20px",background:"#FF8604"}} startIcon={<AddIcon />} >Create Plan</Button>
+              <Button variant="contained" style={{marginLeft:"20px",background:"#FF8604"}} startIcon={<AddIcon />} onClick={handelcreateplanClick}>Create Plan</Button>
             </Box>
           </Box>
              

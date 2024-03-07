@@ -19,6 +19,7 @@ import { Sales } from '../pages/Sales/Sales'
 import { Plans } from '../pages/Plans/Plans'
 import { Accounts } from '../pages/Accounts/Accounts'
 import { Users } from '../pages/Users/Users'
+import { ViewUser } from '../pages/Users/ViewUser'
 import { ViewCategories } from '../pages/Categories/ViewCategories'
 import { CreateInvoice } from '../pages/Sales/CreateInvoice'
 import { AddVendors } from '../pages/Vendors/AddVendors'
@@ -27,9 +28,11 @@ import { B2BOrders } from '../pages/Orders/B2BOrders'
 import { AddB2BOrder } from '../pages/Orders/AddB2BOrder'
 import { AddUsers } from '../pages/Users/AddUsers'
 import { AddOrder } from '../pages/Orders/AddOrders'
-
-
 import { ViewB2bOrder } from '../pages/Orders/ViewB2bOrder.jsx'
+import { ProfileDetails } from '../modules/accounts/components/settings/cards/ProfileDetails'
+import { Settings } from '../modules/accounts/components/settings/Settings'
+import {CreatePlan} from '../pages/Plans/CreatePlan'
+
 
 
 
@@ -51,6 +54,22 @@ const PrivateRoutes = () => {
         <Route path='dashboard' element={<DashboardWrapper />} />
       
         <Route path='menu-test' element={<MenuTestPage />} />
+
+        <Route path= 'dashboard/settings/myprofile' element={
+          <SuspensedView>
+            <ProfileDetails />
+          </SuspensedView>
+        } 
+        />
+
+
+        <Route path= 'dashboard/settings/*' element={
+          <SuspensedView>
+            <Settings />
+          </SuspensedView>
+        }
+        />
+        
      
        
         <Route
@@ -172,6 +191,14 @@ const PrivateRoutes = () => {
             </SuspensedView>
           }
         />
+<Route
+         path='plans/createplan/*'
+        element={
+          <SuspensedView>
+            <CreatePlan />  
+          </SuspensedView>
+        }
+        />   
 
 <Route
           path='accounts/*'
@@ -199,6 +226,16 @@ const PrivateRoutes = () => {
             </SuspensedView>
           }
         />
+<Route
+         path='users/view/:id'
+        element={
+           <SuspensedView>
+             <ViewUser />
+            </SuspensedView>
+           }
+           />
+ 
+
   
 
 <Route
