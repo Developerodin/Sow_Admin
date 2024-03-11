@@ -85,11 +85,11 @@ export const UserCard = ({ Data, fun }) => {
               alignItems: "center",
               marginTop: "20px",
               marginLeft: "10px",
-              height: "50px",
+              height: "70px",
             }}
           >
             <HomeIcon sx={{ marginRight: "10px", color: "#2E8760" }} />
-            <Typography sx={{ color: "#2E8760", fontSize: "14px" }}>
+            <Typography sx={{ color: "#2E8760", fontSize: "13px" }}>
               {" "}
               {Data.Address} {Data.pincode},{Data.city},{Data.country}
             </Typography>

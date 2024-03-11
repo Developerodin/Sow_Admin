@@ -60,10 +60,12 @@ export const AddUsers = () => {
     setVendorType(event.target.value);
   };
 
-  const handleInputChange = useCallback((e) => {
-    const { name, value } = e.target;
-    setFormData(prevState => ({ ...prevState, [name]: value }));
-  }, []);
+  const handleInputChange = (e) => {
+      const { name, value } = e.target;
+      setFormData({ ...Formdata, [name]: value });
+    };
+
+
   const handleFileChange1 = (e) => {
     setPanImageFile1(e.target.files[0]);
   };
@@ -236,7 +238,7 @@ export const AddUsers = () => {
   
   const StyledTextField = styled(TextField)`
   .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input {
-    height: 0.5em !important; 
+    height: 0.5rem !important; 
     border: 1px solid #e4e6ef !important;
     opacity: 0.8 !important;
     border-radius: 8px ;
@@ -258,7 +260,7 @@ export const AddUsers = () => {
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                 <label className='form-label fw-bolder text-dark fs-6'>Name</label>
-                  <StyledTextField
+                  <TextField
                     
                     name="name"
                     value={Formdata.name}
@@ -273,7 +275,7 @@ export const AddUsers = () => {
                 </Grid>
                 <Grid item xs={12}>
                 <label className='form-label fw-bolder text-dark fs-6'>Gender</label>
-                  <StyledTextField
+                  <TextField
                     
                     name="gender"
                     value={Formdata.gender}
@@ -285,7 +287,7 @@ export const AddUsers = () => {
                 </Grid>
                 <Grid item xs={12}>
                 <label className='form-label fw-bolder text-dark fs-6'>Email</label>
-                  <StyledTextField
+                  <TextField
                   
                     name="email"
                     value={Formdata.email}
@@ -297,7 +299,7 @@ export const AddUsers = () => {
                 </Grid>
                 <Grid item xs={12}>
                 <label className='form-label fw-bolder text-dark fs-6'>Mobile</label>
-                  <StyledTextField
+                  <TextField
                     
                     name="mobile"
                     value={Formdata.mobile}
@@ -309,7 +311,7 @@ export const AddUsers = () => {
                 </Grid>
                 <Grid item xs={12}>
                 <label className='form-label fw-bolder text-dark fs-6'>Password</label>
-                  <StyledTextField
+                  <TextField
                   
                     name="password"
                     value={Formdata.password}
@@ -321,7 +323,7 @@ export const AddUsers = () => {
                 </Grid>
                 <Grid item xs={12}>
                 <label className='form-label fw-bolder text-dark fs-6'>Confirm Password</label>
-                  <StyledTextField
+                  <TextField
                   
                     name="confirmPassword"
                     value={Formdata.confirmPassword}
@@ -333,7 +335,7 @@ export const AddUsers = () => {
                 </Grid>
                 <Grid item xs={12}>
                 <label className='form-label fw-bolder text-dark fs-6'>D O B</label>
-                  <StyledTextField
+                  <TextField
                   
                     name="dob"
                     value={Formdata.dob}
@@ -345,10 +347,10 @@ export const AddUsers = () => {
                 </Grid>
                 <Grid item xs={12}>
                 <label className='form-label fw-bolder text-dark fs-6'>Address</label>
-                  <StyledTextField
+                  <TextField
                     
-                    name="address"
-                    value={Formdata.address}
+                    name="Address"
+                    value={Formdata.Address}
                     onChange={handleInputChange}
                     fullWidth
                     required
@@ -357,7 +359,7 @@ export const AddUsers = () => {
                 </Grid>
                 <Grid item xs={12}>
                 <label className='form-label fw-bolder text-dark fs-6'>City</label>
-                  <StyledTextField
+                  <TextField
                   
                     name="city"
                     value={Formdata.city}
@@ -369,7 +371,7 @@ export const AddUsers = () => {
                 </Grid>
                 <Grid item xs={12}>
                 <label className='form-label fw-bolder text-dark fs-6'>Pincode</label>
-                  <StyledTextField
+                  <TextField
                     
                     name="pincode"
                     value={Formdata.pincode}
@@ -381,7 +383,7 @@ export const AddUsers = () => {
                 </Grid>
                 <Grid item xs={12}>
                 <label className='form-label fw-bolder text-dark fs-6'>Country</label>
-                  <StyledTextField
+                  <TextField
                     
                     name="country"
                     value={Formdata.country}
