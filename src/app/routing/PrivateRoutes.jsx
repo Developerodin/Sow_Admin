@@ -17,6 +17,7 @@ import { Orders } from '../pages/Orders/Orders'
 import { Categories } from '../pages/Categories/Categories'
 import { Sales } from '../pages/Sales/Sales'
 import { Plans } from '../pages/Plans/Plans'
+import {CreatePlan} from '../pages/Plans/CreatePlan'
 import { Accounts } from '../pages/Accounts/Accounts'
 import { Users } from '../pages/Users/Users'
 import { ViewUser } from '../pages/Users/ViewUser'
@@ -31,7 +32,6 @@ import { AddOrder } from '../pages/Orders/AddOrders'
 import { ViewB2bOrder } from '../pages/Orders/ViewB2bOrder.jsx'
 import { ProfileDetails } from '../modules/accounts/components/settings/cards/ProfileDetails'
 import { Settings } from '../modules/accounts/components/settings/Settings'
-import {CreatePlan} from '../pages/Plans/CreatePlan'
 
 
 

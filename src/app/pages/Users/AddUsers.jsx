@@ -14,7 +14,7 @@ import {
   Checkbox,
   ListItemText,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { ThemColor } from "../../Them/ThemColor";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router-dom";
@@ -60,10 +60,10 @@ export const AddUsers = () => {
     setVendorType(event.target.value);
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = useCallback((e) => {
     const { name, value } = e.target;
-    setFormData({ ...Formdata, [name]: value });
-  };
+    setFormData(prevState => ({ ...prevState, [name]: value }));
+  }, []);
   const handleFileChange1 = (e) => {
     setPanImageFile1(e.target.files[0]);
   };
@@ -276,7 +276,7 @@ export const AddUsers = () => {
                   <StyledTextField
                     
                     name="gender"
-                    value={FormData.gender}
+                    value={Formdata.gender}
                     onChange={handleInputChange}
                     fullWidth
                     required
@@ -288,7 +288,7 @@ export const AddUsers = () => {
                   <StyledTextField
                   
                     name="email"
-                    value={FormData.email}
+                    value={Formdata.email}
                     onChange={handleInputChange}
                     fullWidth
                     required
@@ -300,7 +300,7 @@ export const AddUsers = () => {
                   <StyledTextField
                     
                     name="mobile"
-                    value={FormData.mobile}
+                    value={Formdata.mobile}
                     onChange={handleInputChange}
                     fullWidth
                     required
@@ -312,7 +312,7 @@ export const AddUsers = () => {
                   <StyledTextField
                   
                     name="password"
-                    value={FormData.password}
+                    value={Formdata.password}
                     onChange={handleInputChange}
                     fullWidth
                     required
@@ -324,7 +324,7 @@ export const AddUsers = () => {
                   <StyledTextField
                   
                     name="confirmPassword"
-                    value={FormData.confirmPassword}
+                    value={Formdata.confirmPassword}
                     onChange={handleInputChange}
                     fullWidth
                     required
@@ -336,7 +336,7 @@ export const AddUsers = () => {
                   <StyledTextField
                   
                     name="dob"
-                    value={FormData.dob}
+                    value={Formdata.dob}
                     onChange={handleInputChange}
                     fullWidth
                     required
@@ -348,7 +348,7 @@ export const AddUsers = () => {
                   <StyledTextField
                     
                     name="address"
-                    value={FormData.address}
+                    value={Formdata.address}
                     onChange={handleInputChange}
                     fullWidth
                     required
@@ -360,7 +360,7 @@ export const AddUsers = () => {
                   <StyledTextField
                   
                     name="city"
-                    value={FormData.city}
+                    value={Formdata.city}
                     onChange={handleInputChange}
                     fullWidth
                     required
@@ -372,7 +372,7 @@ export const AddUsers = () => {
                   <StyledTextField
                     
                     name="pincode"
-                    value={FormData.pincode}
+                    value={Formdata.pincode}
                     onChange={handleInputChange}
                     fullWidth
                     required
@@ -384,7 +384,7 @@ export const AddUsers = () => {
                   <StyledTextField
                     
                     name="country"
-                    value={FormData.country}
+                    value={Formdata.country}
                     onChange={handleInputChange}
                     fullWidth
                     required

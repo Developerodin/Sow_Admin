@@ -208,10 +208,7 @@ export const AddB2BOrder = () => {
             </Box>
            
 
-            {/* <Box>
-              
-              <Button variant="contained" style={{marginLeft:"20px",background:"#FF8604"}} startIcon={<AddIcon />} onClick={handelOrderClick} >Add Order</Button>
-            </Box> */}
+            
           </Box>
              
           <Grid container spacing={2} sx={{marginTop:"20px"}}>

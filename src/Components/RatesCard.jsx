@@ -2,11 +2,11 @@ import React from 'react'
 import { Box, Button, Typography } from '@mui/material';
 export const RatesCard = ({Data}) => {
   return (
-    <Box sx={{border:"0.5px solid grey",borderRadius:"5px",padding:"20px",height:"100px"}}>
+    <Box sx={{border:"0.5px dashed grey",borderRadius:"5px",padding:"20px",height:"100px"}}>
         
     <Box>
         <Box>
-            <Typography sx={{fontSize:"25px"}}>{Data.name}: ₹ {Data.price} {Data.unit} </Typography>
+            <Typography sx={{fontSize:"23px"}}>{Data.name}: ₹ {Data.price} {Data.unit} </Typography>
         </Box>
 
        

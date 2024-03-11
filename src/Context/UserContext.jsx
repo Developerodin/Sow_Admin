@@ -41,7 +41,7 @@ export const UserContextProvider = ({ children }) => {
     
     const fetchuserRole=async()=>{
       const token =sessionStorage.getItem('token');
-        // console.log("ROle id",userData.role,userToken)
+      
         try {
             const response = await axios.get(`${BASE_URL}/roles/${userData.role}`, { headers: { Authorization: token } });
             

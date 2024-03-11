@@ -34,7 +34,7 @@ export const InfoCard = ({Data}) => {
       <Box>
         <FmdGoodIcon sx={{fontSize:"30px"}}/>
       </Box>
-      <Box sx={{marginLeft:"10px"}}>
+      <Box sx={{marginLeft:"10px",height:"50px"}}>
         <Typography sx={{fontSize:"17px"}}>{Data.Address},{Data.pincode},{Data.city} {Data.country}</Typography>
       </Box>
     </Box>

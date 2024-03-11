@@ -149,7 +149,7 @@ const DashboardWrapper = () => {
       }
     };
   
-    // console.log("UserData", userData);
+    
     fetchData();
   },[])
 

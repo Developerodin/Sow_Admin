@@ -80,9 +80,7 @@ export const B2BUsers = () => {
        <Card>
         <CardContent>
           <Box style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-            {/* <Box>
-            <Typography variant='h6' style={{fontWeight:400,letterSpacing:2}}>Categories</Typography>
-            </Box> */}
+          
 
             <Box style={{width:"30%",hieght:"50px"}}>
             <Autocomplete

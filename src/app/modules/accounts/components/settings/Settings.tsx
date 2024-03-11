@@ -15,6 +15,7 @@ export function Settings() {
       <EmailPreferences />
       <Notifications />
       <DeactivateAccount />
+      
     </>
   )
 }

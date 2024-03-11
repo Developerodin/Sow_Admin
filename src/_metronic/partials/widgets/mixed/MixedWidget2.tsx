@@ -22,12 +22,11 @@ type Props = {
   
 }
 interface B2BUser {
-  // Define the properties of your B2B user object
-  // For example:
+  
   id: number;
   name: string;
   registerAs: string;
-  // Add other properties as per your data structure
+  
 }
 
 interface User {
@@ -69,12 +68,7 @@ const MixedWidget2: React.FC<Props> = ({className, chartColor, chartHeight, stro
 
     return chart
   }
-  const [CposData,setCposData]=useState<any>(null)
-  const [ChargersfilterRows,setChargersfilterRows] = useState<any>([])
-  const [DcChargers,setDcChargers] = useState([])
-  const [AcChargers,setAcChargers] = useState([])
-  const [ActiveChargers,setActiveChargers] = useState([])
-  const [InActiveChargers,setInActiveChargers] = useState([])
+ 
   const [vendorsData, setVendorsData] = useState<B2BUser[]>([]);
   
   const [usersData, setUsersData] = useState<User[]>([]);
@@ -91,60 +85,7 @@ const MixedWidget2: React.FC<Props> = ({className, chartColor, chartHeight, stro
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chartRef, mode])
-  const fetchChargerData = async () => {
-    try {
-      const response = await axios.get(`${BASE_URL}/chargers/`, {
-        headers: { Authorization: `${token}` },
-      });
-      // Assuming the response data is an array of objects with the required properties
-      
-      const data = response.data;
-      const ChargerData=data.data.chargers;
-      console.log("response chargers==>", data);
-      if(data && data.status === 'success'){
-           const formattedData = ChargerData.map((item:any) => ({
-          "Name":item.ChargerName,
-          "Station Name":item.ChargerStation,
-          "Location":<span>{item.Latitude},{item.Longitude}</span>,
-          "OCPP ID":item.OCPP_ID,
-          "Address":<span>{item.street},{item.area},{item.city},{item.Pincode},{item.state}</span>,
-          "Status":item.functional,
-          "City":item.city,
-          "ChargerType":item.ChargerType,
-          "Power Rating":"60.00KW",
-          "Connectors":"CCS / GBT/ TYPE 2",
-      }));
-
-      const ChargersDcData = formattedData.filter((item:any) => {
-        return item.ChargerType.toLowerCase() === "dc"
-      });
-
-      const ChargersAcData = formattedData.filter((item:any) => {
-        return item.ChargerType.toLowerCase() === "ac"
-      });
-
-      const ChargersActiveData = formattedData.filter((item:any) => {
-        return item.Status === true
-      });
-
-      const ChargersInActiveData = formattedData.filter((item:any) => {
-        return item.Status === false
-      });
-
-     
-      setChargersfilterRows(formattedData);
-      setDcChargers(ChargersDcData);
-      setAcChargers(ChargersAcData)
-      setActiveChargers(ChargersActiveData)
-      setInActiveChargers(ChargersInActiveData)
-      }
-     
-      
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      
-    }
-  };
+ 
 
 
   useEffect(() => {

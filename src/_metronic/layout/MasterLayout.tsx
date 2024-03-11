@@ -8,7 +8,7 @@ import {FooterWrapper} from './components/footer'
 import {Sidebar} from './components/sidebar'
 import {
   DrawerMessenger,
-  ActivityDrawer,
+  
   InviteUsers,
   UpgradePlan,
   ThemeModeProvider,
@@ -45,7 +45,7 @@ const MasterLayout = () => {
         </div>
 
         {/* begin:: Drawers */}
-        <ActivityDrawer />
+        
         <DrawerMessenger />
         {/* end:: Drawers */}
 
