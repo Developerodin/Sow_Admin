@@ -1,5 +1,5 @@
 import { Box, Button, Card, CardContent, Tab,InputAdornment, Tabs, Typography, TextField } from '@mui/material'
-import React from 'react'
+import React, { useEffect , useState} from 'react'
 import AddIcon from '@mui/icons-material/Add';
 import PropTypes from 'prop-types';
 import { createTheme } from "@mui/material/styles";
@@ -11,6 +11,8 @@ import Grid from "@mui/material/Grid";
 import { OrdersCard } from '../../../Components/OrdersCard';
 import { PlansCard } from '../../../Components/PlansCard';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { Base_url } from '../../Config/BaseUrl'; 
 
 
 const orangeTheme = createTheme({
@@ -21,8 +23,15 @@ const orangeTheme = createTheme({
   },
 });
 
+
+
+
+
+
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
+  
+  
 
   return (
     <div
@@ -65,6 +74,27 @@ export const Plans = () => {
   const handleChangetabs = (event, newValue) => {
     setValue(newValue);
   };
+
+  const [plans, setPlans] = useState([]);
+
+
+  useEffect(() => {
+    
+    const fetchPlans = async () => {
+      try {
+        const response = await axios.get(`${Base_url}api/plans`); 
+        console.log('Fetched plans:', response.data);
+        setPlans(response.data);
+      } catch (error) {
+        console.error('Error fetching plans:', error);
+      }
+    };
+
+    fetchPlans(); // Call the fetchPlans function when the component mounts
+  }, []);
+
+
+
 
   const handleSearch = () => {
     // const filteredData = rows.filter((row) =>
@@ -136,14 +166,16 @@ export const Plans = () => {
           <Box sx={{ width: '100%',marginTop:"20px",height:"70vh",overflow:"auto" }}>
       
           <Grid container spacing={2} >
+          {plans.map((plan) => (
+      <Grid item xs={3} >
+        <PlansCard plan={plan} />
+      </Grid>
+    ))}
+{/* 
                 <Grid item xs={3}>
                 <PlansCard />
                 </Grid>
 
-                <Grid item xs={3}>
-                <PlansCard />
-                </Grid>
-
 
                 <Grid item xs={3}>
                 <PlansCard />
@@ -152,7 +184,8 @@ export const Plans = () => {
 
                 <Grid item xs={3}>
                 <PlansCard />
-                </Grid>
+                
+                </Grid> */}
 
               </Grid>
 

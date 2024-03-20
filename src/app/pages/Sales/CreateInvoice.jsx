@@ -1,8 +1,14 @@
 import { Box, Button, Card, CardContent, TextField, TextareaAutosize, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import CloseIcon from '@mui/icons-material/Close';
+import { Base_url } from '../../Config/BaseUrl';
+import axios from 'axios';
+
 
 export const CreateInvoice = () => {
+
+
+
     const [formData, setFormData] = useState({
         customerName: '',
         gstNumber: '',
@@ -13,6 +19,7 @@ export const CreateInvoice = () => {
         productDescription: '',
         pricePerUnit: '',
         quantity: '',
+        totalAmount: 0,
     });
     
     const [totalAmount, setTotalAmount] = useState(0);
@@ -23,19 +30,45 @@ export const CreateInvoice = () => {
             ...prevState,
             [name]: value,
         }));
+        if (name === 'pricePerUnit' || name === 'quantity') {
+            calculateTotalAmount();
+        }
     };
 
     
 
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Form data submitted:", formData);
+        try {
+            const response = await axios.post(`${Base_url}api/invoices`, formData);
+            console.log('Form data successfully submitted:', response.data);
+            
+            setFormData({
+                
+            });
+        } catch (error) {
+            console.error('Error submitting form data:', error);
+        }
     };
+    
 
     const handleGoBack = () => {
         window.history.back();
     };
+
+    
+
+    const calculateTotalAmount = () => {
+        const pricePerUnit = parseFloat(formData.pricePerUnit);
+        const quantity = parseFloat(formData.quantity);
+        const totalAmount = isNaN(pricePerUnit) || isNaN(quantity) ? 0 : pricePerUnit * quantity;
+        setFormData(prevState => ({
+            ...prevState,
+            totalAmount: totalAmount
+        }));
+    };
+    
 
     return (
         <Card>
@@ -150,11 +183,11 @@ export const CreateInvoice = () => {
                         <Box sx={{ marginTop: "30px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                             <Box sx={{ width: "293px", height: "96px", border: "1px solid #BFBFBF", textAlign: "center" }}>
                                 <Typography sx={{ fontSize: "22px" }}>Total Amount</Typography>
-                                <Typography sx={{ fontSize: "25px", fontWeight: "bold", marginTop: "10px" }}>₹ 120000</Typography>
+                                <Typography sx={{ fontSize: "25px", fontWeight: "bold", marginTop: "10px" }}>₹{formData.totalAmount}</Typography>
                             </Box>
 
                             <Box>
-                                <Button type="submit" size='large' sx={{ backgroundColor: "#FF8604", color: "#fff" }}>Setup payment</Button>
+                                <Button type="submit" size='large' sx={{ backgroundColor: "#FF8604", color: "#fff" }} onClick={handleSubmit}>Setup payment</Button>
                             </Box>
                         </Box>
                     </form>

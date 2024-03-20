@@ -1,5 +1,5 @@
 
-import * as React from 'react';
+import React,{useState} from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -63,11 +63,17 @@ const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 // ]
 
 
-
 export const GenralTabel = (props) => {
-const {rows,column}=props;
-const [page, setPage] = React.useState(0);
+  const { rows, column } = props;
+
+  // Initialize state unconditionally
+  const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+  // Check if rows are available before rendering
+  if (!rows) {
+    return null; // or return a placeholder, error message, or loading indicator
+  }
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -77,91 +83,55 @@ const [page, setPage] = React.useState(0);
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-  return (
-    <div>
-    
-   
-
-       <TableContainer component={Paper} >
-      <Table sx={{ minWidth: 650 }} stickyHeader aria-label="sticky table">
-        <TableHead>
-        <TableRow>
-            {column.map((el,index)=>{
-               return(
-                  
-                    <TableCell key={index+123} align="center" sx={{fontWeight:"bold"}}>{el.name}</TableCell>
-                    
-               )
-               })}
-               </TableRow>
-            
-          
-        </TableHead>
-        <TableBody>
-        {rows .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((el,index)=>{
-         let data={};
-         let data2=[];
-         for(let i=0;i<Object.keys(el).length;i++)
-         {
-            data = Object.keys(el)[i];
-            data2[i]=el[data]
-            // console.log("value",el[data])
-            // console.log(data2);
-
-         }
-         
-         
-               return(
-                  <>
-                  <TableRow key={index+1234} tabIndex={-1}>
-                     {data2.map((els,index)=>{
-                        return <TableCell key={index+13} align="center">{els}</TableCell>;
-                     })}
-                  </TableRow>
-                  
-                  </>
-                    
-                    
-               )
-               })}
-         
-        </TableBody>
-      </Table>
-      
-    </TableContainer>
-    <div>
-    <TablePagination
-        rowsPerPageOptions={[10, 20, 30]}
-        component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-        
-      />
-    </div>
-    
-
-    {/* <hr/>
-    { valid ?   Data.map((el)=>{
-      return(
-        <div key={el.id}>
-              <h3>{el.title}</h3>
+  
+    return (
+      <div>
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} stickyHeader aria-label="sticky table">
+            <TableHead>
+              <TableRow>
+                {column.map((el, index) => (
+                  <TableCell key={index + 123} align="center" sx={{ fontWeight: "bold" }}>
+                    {el.name}
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rows
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((el, index) => {
+                  let data = {};
+                  let data2 = [];
+                  for (let i = 0; i < Object.keys(el).length; i++) {
+                    data = Object.keys(el)[i];
+                    data2[i] = el[data];
+                  }
+                  return (
+                    <TableRow key={index + 1234} tabIndex={-1}>
+                      {data2.map((els, index) => (
+                        <TableCell key={index + 13} align="center">
+                          {els}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  );
+                })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <div>
+          <TablePagination
+            rowsPerPageOptions={[10, 20, 30]}
+            component="div"
+            count={rows.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
         </div>
-      )
-    })
-    :
-    <Box sx={{ width: '100%' }}>
-      <LinearProgress />
-    </Box>
-    
-    } */}
       </div>
-  )
-}
-
-
-
-
-
+    );
+  };
+  

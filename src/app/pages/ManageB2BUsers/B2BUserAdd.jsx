@@ -347,7 +347,7 @@ export const B2BUserAdd = () => {
 
                 <Grid item xs={4}>
                   <TextField
-                    type="Eamil"
+                    type="Email"
                     label="email"
                     name="email"
                     value={Formdata.email}
@@ -508,7 +508,7 @@ export const B2BUserAdd = () => {
 
                 <Grid item xs={12}>
                    <Box>
-                    <Typography>Uplode Addhar Card Images</Typography>
+                    <Typography>Upload Addhar Card Images</Typography>
                    </Box>
                </Grid>
 

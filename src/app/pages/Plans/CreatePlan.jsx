@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
-import { AppBar, Box, Button, Card, CardContent, FormControl, FormControlLabel, IconButton, Radio, RadioGroup, TextField, Toolbar, Typography } from '@mui/material';
+import axios from 'axios'; // Import axios for making HTTP requests
+import { Button, TextField, FormControl, RadioGroup, Card,CardContent,FormControlLabel, Radio, Box } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { Base_url } from '../../Config/BaseUrl'; 
+
 
 export const CreatePlan = () => {
   const [planDetails, setPlanDetails] = useState({
@@ -18,9 +21,17 @@ export const CreatePlan = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Plan details submitted:", planDetails);
+    try {
+      // Send a POST request to the backend API endpoint
+      const response = await axios.post(`${Base_url}api/plans`, planDetails);
+      console.log('Response:', response.data);
+      // Optionally, you can redirect the user or show a success message here
+    } catch (error) {
+      console.error('Error submitting plan details:', error);
+      // Optionally, you can show an error message to the user
+    }
   };
 
   const handleBackButton = () => {
@@ -28,8 +39,8 @@ export const CreatePlan = () => {
   };
 
   return (
-    <div className="card mb-5 mb-xl-10" id="kt_profile_details_view">
-      <div className="card-header cursor-pointer">
+    <Card>
+      <CardContent>
         <Box sx={{ flexGrow: 1 }}>
           <div className="card-title m-0">
             <div
@@ -42,6 +53,7 @@ export const CreatePlan = () => {
                 justifyContent: "center",
                 alignItems: "center",
                 borderRadius: "10px",
+                cursor: "pointer"
               }}
             >
               <ArrowBackIcon style={{ fontSize: "16px", color: "#fff" }} />
@@ -59,100 +71,100 @@ export const CreatePlan = () => {
           </div>
         </Box>
 
-          <Box
-            sx={{
-              width: "100%",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              marginTop: "20px",
-            }}
-          >
-            <form onSubmit={handleSubmit}>
+        <Box
+          sx={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: "20px",
+          }}
+        >
+          <form onSubmit={handleSubmit}>
+            <Box
+              sx={{
+                width: "400px",
+                padding: "20px",
+                border: "1px solid #ccc",
+                borderRadius: "5px",
+              }}
+            >
+              <TextField
+                fullWidth
+                margin="normal"
+                label="Plan Name"
+                name="name"
+                value={planDetails.name}
+                onChange={handleInputChange}
+              />
+              <TextField
+                fullWidth
+                margin="normal"
+                label="Price"
+                name="price"
+                value={planDetails.price}
+                onChange={handleInputChange}
+              />
+              <FormControl component="fieldset" sx={{ marginTop: "20px" }}>
+                <RadioGroup
+                  aria-label="features"
+                  name="features"
+                  value={planDetails.features}
+                  onChange={handleInputChange}
+                >
+                  <FormControlLabel
+                    value="basic"
+                    control={<Radio />}
+                    label="Basic Features"
+                  />
+                  <FormControlLabel
+                    value="standard"
+                    control={<Radio />}
+                    label="Standard Features"
+                  />
+                  <FormControlLabel
+                    value="premium"
+                    control={<Radio />}
+                    label="Premium Features"
+                  />
+                </RadioGroup>
+              </FormControl>
+              <FormControl component="fieldset" sx={{ marginTop: "20px" }}>
+                <RadioGroup
+                  aria-label="priceType"
+                  name="priceType"
+                  value={planDetails.priceType}
+                  onChange={handleInputChange}
+                >
+                  <FormControlLabel
+                    value="monthly"
+                    control={<Radio />}
+                    label="Price Per Month"
+                  />
+                  <FormControlLabel
+                    value="yearly"
+                    control={<Radio />}
+                    label="Price Per Year"
+                  />
+                </RadioGroup>
+              </FormControl>
               <Box
                 sx={{
-                  width: "400px",
-                  padding: "20px",
-                  border: "1px solid #ccc",
-                  borderRadius: "5px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginTop: "20px",
                 }}
               >
-                <TextField
-                  fullWidth
-                  margin="normal"
-                  label="Plan Name"
-                  name="name"
-                  value={planDetails.name}
-                  onChange={handleInputChange}
-                />
-                <TextField
-                  fullWidth
-                  margin="normal"
-                  label="Price"
-                  name="price"
-                  value={planDetails.price}
-                  onChange={handleInputChange}
-                />
-                <FormControl component="fieldset" sx={{ marginTop: "20px" }}>
-                  <RadioGroup
-                    aria-label="features"
-                    name="features"
-                    value={planDetails.features}
-                    onChange={handleInputChange}
-                  >
-                    <FormControlLabel
-                      value="basic"
-                      control={<Radio />}
-                      label="Basic Features"
-                    />
-                    <FormControlLabel
-                      value="standard"
-                      control={<Radio />}
-                      label="Standard Features"
-                    />
-                    <FormControlLabel
-                      value="premium"
-                      control={<Radio />}
-                      label="Premium Features"
-                    />
-                  </RadioGroup>
-                </FormControl>
-                <FormControl component="fieldset" sx={{ marginTop: "20px" }}>
-                  <RadioGroup
-                    aria-label="priceType"
-                    name="priceType"
-                    value={planDetails.priceType}
-                    onChange={handleInputChange}
-                  >
-                    <FormControlLabel
-                      value="monthly"
-                      control={<Radio />}
-                      label="Price Per Month"
-                    />
-                    <FormControlLabel
-                      value="yearly"
-                      control={<Radio />}
-                      label="Price Per Year"
-                    />
-                  </RadioGroup>
-                </FormControl>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    marginTop: "20px",
-                  }}
-                >
-                  <Button type="submit" variant="contained" color="primary">
-                    Submit
-                  </Button>
-                </Box>
+                <Button type="submit" variant="contained" color="primary">
+                  Submit
+                </Button>
               </Box>
-            </form>
-          </Box>
-        
-      </div>
-    </div>
+            </Box>
+          </form>
+        </Box>
+
+      </CardContent>
+    </Card>
   );
 };

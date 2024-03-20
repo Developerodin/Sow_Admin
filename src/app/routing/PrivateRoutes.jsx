@@ -32,6 +32,8 @@ import { AddOrder } from '../pages/Orders/AddOrders'
 import { ViewB2bOrder } from '../pages/Orders/ViewB2bOrder.jsx'
 import { ProfileDetails } from '../modules/accounts/components/settings/cards/ProfileDetails'
 import { Settings } from '../modules/accounts/components/settings/Settings'
+import { Invoices }  from '../pages/Sales/Invoices'
+import { SalesView } from '../pages/Sales/SalesView'
 
 
 
@@ -182,6 +184,24 @@ const PrivateRoutes = () => {
             </SuspensedView>
           }
         />
+      
+        <Route
+          path='sales/sales-view/*'
+          element={
+            <SuspensedView>
+              <SalesView />
+            </SuspensedView>
+          }
+          />
+          <Route
+          path='sales/sales-view/view/:id'
+          element={
+            <SuspensedView>
+              <Invoices />
+            </SuspensedView>
+          }
+          />
+
 
 <Route
           path='plans/*'
